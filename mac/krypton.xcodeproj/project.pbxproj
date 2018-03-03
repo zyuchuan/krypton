@@ -6,6 +6,10 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		04ABAB80204AF10F00AEDC31 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04ABAB7F204AF10F00AEDC31 /* main.cpp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		0418C45A204ADEE300DA2A37 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -20,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		0418C45C204ADEE300DA2A37 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
+		04ABAB7F204AF10F00AEDC31 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +41,7 @@
 		0418C453204ADEE300DA2A37 = {
 			isa = PBXGroup;
 			children = (
-				041AD092204AEB5F00F9334A /* src */,
+				04ABAB7C204AF0E100AEDC31 /* src */,
 				0418C45D204ADEE300DA2A37 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,11 +54,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		041AD092204AEB5F00F9334A /* src */ = {
+		04ABAB7C204AF0E100AEDC31 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				04ABAB7F204AF10F00AEDC31 /* main.cpp */,
 			);
-			path = src;
+			name = src;
+			path = ../src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,6 +120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04ABAB80204AF10F00AEDC31 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,18 +233,30 @@
 		0418C464204ADEE300DA2A37 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5597W4KY69;
+				HEADER_SEARCH_PATHS = ../../boost/1_66_0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = (
+					"-Wno-documentation",
+					"-Wno-comma",
+				);
 			};
 			name = Debug;
 		};
 		0418C465204ADEE300DA2A37 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5597W4KY69;
+				HEADER_SEARCH_PATHS = ../../boost/1_66_0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = (
+					"-Wno-documentation",
+					"-Wno-comma",
+				);
 			};
 			name = Release;
 		};
