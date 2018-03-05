@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:krypto.xcodeproj">
+      location = "self:/Users/jack/Work/krypton/krypto/krypton.xcodeproj">
    </FileRef>
 </Workspace>
