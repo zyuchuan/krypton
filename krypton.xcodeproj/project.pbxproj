@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047AC6B5204D5B8B00A882E9 /* test_sequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047AC6B4204D5B8B00A882E9 /* test_sequence.cpp */; };
+		047AC6B5204D5B8B00A882E9 /* test_sequence.h in Sources */ = {isa = PBXBuildFile; fileRef = 047AC6B4204D5B8B00A882E9 /* test_sequence.h */; };
+		047AC6B9204D6E0A00A882E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047AC6B8204D6E0A00A882E9 /* main.cpp */; };
 		04965D01204B98DE00604F28 /* poc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04965D00204B98DE00604F28 /* poc.cpp */; };
 		04965D03204BFBAD00604F28 /* dimension_arithmetic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04965D02204BFBAD00604F28 /* dimension_arithmetic.cpp */; };
-		04965D07204C0F5A00604F28 /* test_integers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04965D06204C0F5A00604F28 /* test_integers.cpp */; };
+		04965D07204C0F5A00604F28 /* test_integers.h in Sources */ = {isa = PBXBuildFile; fileRef = 04965D06204C0F5A00604F28 /* test_integers.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,15 +27,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		047AC6B4204D5B8B00A882E9 /* test_sequence.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test_sequence.cpp; sourceTree = "<group>"; };
+		047AC6B4204D5B8B00A882E9 /* test_sequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_sequence.h; sourceTree = "<group>"; };
 		047AC6B6204D632700A882E9 /* sequence.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sequence.hpp; sourceTree = "<group>"; };
 		047AC6B7204D638700A882E9 /* krypton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = krypton.hpp; sourceTree = "<group>"; };
+		047AC6B8204D6E0A00A882E9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		04965CF4204B979600604F28 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
 		04965D00204B98DE00604F28 /* poc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poc.cpp; sourceTree = "<group>"; };
 		04965D02204BFBAD00604F28 /* dimension_arithmetic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dimension_arithmetic.cpp; sourceTree = "<group>"; };
 		04965D04204C0B2A00604F28 /* dimensions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dimensions.hpp; sourceTree = "<group>"; };
 		04965D05204C0E3B00604F28 /* integers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integers.hpp; sourceTree = "<group>"; };
-		04965D06204C0F5A00604F28 /* test_integers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test_integers.cpp; sourceTree = "<group>"; };
+		04965D06204C0F5A00604F28 /* test_integers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_integers.h; sourceTree = "<group>"; };
 		04965D08204C110700604F28 /* arithmetic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = arithmetic.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,8 +85,9 @@
 			children = (
 				04965D00204B98DE00604F28 /* poc.cpp */,
 				04965D02204BFBAD00604F28 /* dimension_arithmetic.cpp */,
-				04965D06204C0F5A00604F28 /* test_integers.cpp */,
-				047AC6B4204D5B8B00A882E9 /* test_sequence.cpp */,
+				04965D06204C0F5A00604F28 /* test_integers.h */,
+				047AC6B4204D5B8B00A882E9 /* test_sequence.h */,
+				047AC6B8204D6E0A00A882E9 /* main.cpp */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -146,10 +149,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				047AC6B5204D5B8B00A882E9 /* test_sequence.cpp in Sources */,
+				047AC6B5204D5B8B00A882E9 /* test_sequence.h in Sources */,
 				04965D03204BFBAD00604F28 /* dimension_arithmetic.cpp in Sources */,
 				04965D01204B98DE00604F28 /* poc.cpp in Sources */,
-				04965D07204C0F5A00604F28 /* test_integers.cpp in Sources */,
+				047AC6B9204D6E0A00A882E9 /* main.cpp in Sources */,
+				04965D07204C0F5A00604F28 /* test_integers.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

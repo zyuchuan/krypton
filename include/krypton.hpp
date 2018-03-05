@@ -24,6 +24,9 @@ using kr_int_t = int;
 // to specific types
 template<class... T>
 struct plus;
+
+template<class A, class B>
+struct equals : public std::false_type {};
     
 END_KR_NAMESPACE
 

@@ -9,7 +9,7 @@
 #include <iostream>
 #include "integers.hpp"
 
-int main() {
+void test_integers() {
     static_assert(kr::__8::value == -8, "kr::__8 must represent value -8");
     static_assert(kr::__6::value == -6, "kr::__6 must represent value -6");
     static_assert(kr::__4::value == -4, "kr::__4 must represent value -4");
@@ -29,4 +29,7 @@ int main() {
     //static_assert(kr::plus<int, int>::value, "kr::plus<int, int> should not compile");
     //static_assert(kr::plus<kr::_1, int>::value, "kr::plus<kr::_1, int> should not compile");
     //static_assert(kr::plus<int, kr::_1>::value, "kr::plus<kr::_1, int> should not compile");
+    
+    static_assert(kr::equals<kr::_1, std::integral_constant<int, 1>>::value, "they are equal");
+    //static_assert(kr::equals<kr::_1, kr::__1>::value, "they are not equal");
 }

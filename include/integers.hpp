@@ -38,11 +38,15 @@ struct is_integral_constant : public std::false_type {};
 
 template<class T, T v>
 struct is_integral_constant<std::integral_constant<T, v>> : public std::true_type {};
+
+template<class T, T v1, T v2>
+struct equals<std::integral_constant<T, v1>, std::integral_constant<T, v2>>  : public std::integral_constant<T, v1==v2> {};
     
 // Specialization for std::integral_constant
 template<class T, T v1, T v2>
 struct plus<std::integral_constant<T, v1>,
             std::integral_constant<T, v2>> : std::integral_constant<T, v1 + v2>{};
+
 
     
 END_KR_NAMESPACE
