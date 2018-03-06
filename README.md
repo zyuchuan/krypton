@@ -21,18 +21,16 @@ In krypton, you should be able to do this:
 ```c++
 velocity<double> v{5.0}   // v's type is double, vlaue is 5.0, and dimension is velocity, or "merter/second"
 second<int> t{5}          // t's type is int, value is 5, dimension is second
+
 kilogram k = v * t        // this won't compile, because k's dimension is kilogram,
                           // but dimension of v * t is meter, becasue distance = velocity * time
+                          
+meter<double> m = v * t   // this is OK becasue distance = velocity * time                           
+feet f = v * t            // this is OK because feet and meter share are actually in same dimension
+kilometer km = v * t     // automatically convert meter to kilometer
 ```
 
 This is what I call it "dimension calculation".
-
-We can do more:
-
-```c++
-feet f = v * t          // automatically convert meter to feet
-kilometer km = v * t    // automatically convert meter to kilometer
-```
 
 This is possible, because there are only **seven** dimensions in this world: *meter*, *kilogram*, *second*, *ampere*, *kelvins*...
 
