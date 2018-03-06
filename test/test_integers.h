@@ -30,6 +30,7 @@ void test_integers() {
     //static_assert(kr::plus<kr::_1, int>::value, "kr::plus<kr::_1, int> should not compile");
     //static_assert(kr::plus<int, kr::_1>::value, "kr::plus<kr::_1, int> should not compile");
     
-    static_assert(kr::equals<kr::_1, std::integral_constant<int, 1>>::value, "they are equal");
-    //static_assert(kr::equals<kr::_1, kr::__1>::value, "they are not equal");
+    static_assert(kr::equals<kr::_1, std::integral_constant<int, 1>>::value, "should be equal");
+    //static_assert(kr::equals<kr::_1, kr::__1>::value, "should not be equal");
+    static_assert(kr::equals<kr::plus<kr::_1, kr::_2>::type, kr::_3>::value, "should be equal");
 }

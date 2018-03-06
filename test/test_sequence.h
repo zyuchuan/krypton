@@ -26,15 +26,23 @@ void test_sequence() {
     static_assert(std::is_same<seq1, kr::sequence<kr::_1, kr::_1, kr::_1>>::value, "is same type");
     //static_assert(std::is_same<seq2, seq1>::value, "is not same type");
     
-    //static_assert(std::is_same<kr::plus<seq1, seq2>::type, seq3>::value, "is same type");
+    static_assert(std::is_same<kr::plus<seq1, seq2>::type, seq3>::value, "is same type");
+    
+    //static_assert(kr::equals<seq1, seq2>::value, "they are not equal");
     
     using seq = kr::plus<seq1, seq2>::type;
-    std::cout << brigand::at<seq, kr::_0>::value << std::endl;
-    std::cout << brigand::at<seq, kr::_1>::value << std::endl;
-    std::cout << brigand::at<seq, kr::_2>::value << std::endl;
-    //std::cout << brigand::at<seq, kr::_3>::value << std::endl;
+    static_assert(kr::equals<seq, seq3>::value, "should be equal");
     
-    std::cout << brigand::at<seq3, kr::_0>::value << std::endl;
-    std::cout << brigand::at<seq3, kr::_1>::value << std::endl;
-    std::cout << brigand::at<seq3, kr::_2>::value << std::endl;
+//    std::cout << typeid(seq).name() << std::endl;
+//    std::cout << typeid(seq3).name() << std::endl;
+
+//    std::cout << brigand::at<seq, kr::_0>::value << std::endl;
+//    std::cout << brigand::at<seq, kr::_1>::value << std::endl;
+//    std::cout << brigand::at<seq, kr::_2>::value << std::endl;
+//      //std::cout << brigand::at<seq, kr::_3>::value << std::endl;
+//
+//    std::cout << brigand::at<seq3, kr::_0>::value << std::endl;
+//    std::cout << brigand::at<seq3, kr::_1>::value << std::endl;
+//    std::cout << brigand::at<seq3, kr::_2>::value << std::endl;
+      //std::cout << brigand::at<seq3, kr::_3>::value << std::endl;
 }

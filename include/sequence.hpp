@@ -23,10 +23,19 @@ struct is_sequence : public std::false_type {};
 template<class... Args>
 struct is_sequence<sequence<Args...>> : public std::true_type {};
 
+template<class E1, class... Args1, class E2, class... Args2>
+struct equals<sequence<E1, Args1...>, sequence<E2, Args2...>> {
+    static constexpr int value = equals<E1, E2>::value && equals<sequence<Args1...>, sequence<Args2...>>::value;
+};
+
+template<class Arg1, class Arg2>
+struct equals<sequence<Arg1>, sequence<Arg2>> {
+    static constexpr int value = equals<Arg1, Arg2>::value;
+};
 
 template<class...Args1, class...Args2>
 struct plus<sequence<Args1...>, sequence<Args2...>> {
-    using type = sequence<plus<Args1, Args2>...>;
+    using type = sequence<typename plus<Args1, Args2>::type ...>;
 };
 
 
