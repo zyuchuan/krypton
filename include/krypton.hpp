@@ -25,6 +25,9 @@ using kr_int_t = int;
 template<class... T>
 struct plus;
 
+template<class... T>
+struct minus;
+
 template<class A, class B>
 struct equals : public std::false_type {};
     

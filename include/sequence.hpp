@@ -38,6 +38,11 @@ struct plus<sequence<Args1...>, sequence<Args2...>> {
     using type = sequence<typename plus<Args1, Args2>::type ...>;
 };
 
+template<class...Args1, class...Args2>
+struct minus<sequence<Args1...>, sequence<Args2...>> {
+    using type = sequence<typename minus<Args1, Args2>::type ...>;
+};
+
 
 END_KR_NAMESPACE
 

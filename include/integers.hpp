@@ -45,7 +45,11 @@ struct equals<std::integral_constant<T, v1>, std::integral_constant<T, v2>>  : p
 // Specialization for std::integral_constant
 template<class T, T v1, T v2>
 struct plus<std::integral_constant<T, v1>,
-            std::integral_constant<T, v2>> : std::integral_constant<T, v1 + v2>{};
+            std::integral_constant<T, v2>> : public std::integral_constant<T, v1 + v2>{};
+
+template<class T, T v1, T v2>
+struct minus<std::integral_constant<T, v1>,
+             std::integral_constant<T, v2>> : public std::integral_constant<T, v1 - v2>{};
 
 
     
