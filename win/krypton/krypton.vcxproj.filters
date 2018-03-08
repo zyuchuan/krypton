@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{193e9c89-a9cb-4130-bd12-d75084368b84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\test">
+      <UniqueIdentifier>{c95f358d-f9a7-43fa-8c78-31569b277b5d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\dimensions.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\integers.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\krypton.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\quantity.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ratio.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sequence.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\test\dimension_arithmetic.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\test\test_dimension.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\test\test_integers.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\test\test_ratio.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\test\main.cpp">
+      <Filter>Source Files\test</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
