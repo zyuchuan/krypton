@@ -28,7 +28,7 @@
     <ClInclude Include="..\..\test\dimension_arithmetic.h" />
     <ClInclude Include="..\..\test\test_dimension.h" />
     <ClInclude Include="..\..\test\test_integers.h" />
-    <ClInclude Include="..\..\test\test_ratio.h" />
+    <ClInclude Include="..\..\test\test_quantity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\test\main.cpp">

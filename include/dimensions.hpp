@@ -32,5 +32,9 @@ using force = sequence<_1, _1, __2, _0, _0, _0, _0>;          // ml/t^2
 template<class T> using meter = quantity<T, length>;
 template<class T> using kilometer = quantity<T, length, std::kilo>;
 
+template<class T> using second = quantity<T, time>;
+template<class T> using hour = quantity<T, time, std::ratio<3600>>;
+
+
 END_KR_NAMESPACE
 #endif /* dimensions_h */

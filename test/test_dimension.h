@@ -12,6 +12,4 @@
 void test_dimension() {
     kr::meter<double> m(5.0);
     kr::meter<int> m1;
-    
-    std::cout << m.value << ", " << m1.value << std::endl;
 }
