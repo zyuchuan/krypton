@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047FAB8820515C780077F24B /* test_quantity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047FAB8420515C780077F24B /* test_quantity.cpp */; };
+		047FAB8820515C780077F24B /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047FAB8420515C780077F24B /* test.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,10 +31,11 @@
 		047FAB7D20515C590077F24B /* integers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integers.hpp; path = ../include/integers.hpp; sourceTree = "<group>"; };
 		047FAB7F20515C780077F24B /* sequence_static_checks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sequence_static_checks.h; path = ../test/sequence_static_checks.h; sourceTree = "<group>"; };
 		047FAB8020515C780077F24B /* integers_static_checks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = integers_static_checks.h; path = ../test/integers_static_checks.h; sourceTree = "<group>"; };
-		047FAB8420515C780077F24B /* test_quantity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_quantity.cpp; path = ../test/test_quantity.cpp; sourceTree = "<group>"; };
+		047FAB8420515C780077F24B /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test.cpp; path = ../test/test.cpp; sourceTree = "<group>"; };
 		047FAB8A20515E3B0077F24B /* gtest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gtest.framework; path = ../../googletest/googletest/lib/gtest.framework; sourceTree = "<group>"; };
 		04965CF4204B979600604F28 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
+		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +65,10 @@
 		047FAB7E20515C640077F24B /* test */ = {
 			isa = PBXGroup;
 			children = (
-				047FAB8420515C780077F24B /* test_quantity.cpp */,
+				047FAB8420515C780077F24B /* test.cpp */,
 				047FAB8020515C780077F24B /* integers_static_checks.h */,
 				047FAB7F20515C780077F24B /* sequence_static_checks.h */,
+				04C77F3420516826001C27F4 /* test_quantity.h */,
 			);
 			name = test;
 			sourceTree = "<group>";
@@ -155,7 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				047FAB8820515C780077F24B /* test_quantity.cpp in Sources */,
+				047FAB8820515C780077F24B /* test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

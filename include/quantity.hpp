@@ -10,6 +10,7 @@
 #define quantity_h
 
 #include <ratio>
+#include "krypton.hpp"
 
 BEGIN_KR_NAMESPACE
 
@@ -27,7 +28,7 @@ public:
     using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
     using reference = quantity&;
     
-private:
+public:
     value_type  value;
     
     inline value_type normalized_value() {
@@ -40,8 +41,10 @@ public:
     quantity() : value(T{}) {}
     explicit quantity(T val) : value(val) {}
     
-    reference operator=(const quantity& other) {
-        this->value = other.value;
+    template<class Ratio2>
+    quantity(const quantity<T, Dim, Ratio2, Traits>& other) {
+        T val = other.normalize().value;
+        
     }
 	
     normalized_type normalize() {
