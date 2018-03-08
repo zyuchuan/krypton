@@ -7,10 +7,9 @@
 //
 
 #include <iostream>
-#include "sequence.hpp"
 #include "integers.hpp"
-//#include <brigand/sequences/at.hpp>
-#include <iostream>
+#include "sequence.hpp"
+
 
 void test_sequence() {
     using seq0 = kr::sequence<int, int, int>;
@@ -32,17 +31,4 @@ void test_sequence() {
     
     using seq = kr::plus<seq1, seq2>::type;
     static_assert(kr::equals<seq, seq3>::value, "should be equal");
-    
-//    std::cout << typeid(seq).name() << std::endl;
-//    std::cout << typeid(seq3).name() << std::endl;
-
-//    std::cout << brigand::at<seq, kr::_0>::value << std::endl;
-//    std::cout << brigand::at<seq, kr::_1>::value << std::endl;
-//    std::cout << brigand::at<seq, kr::_2>::value << std::endl;
-//      //std::cout << brigand::at<seq, kr::_3>::value << std::endl;
-//
-//    std::cout << brigand::at<seq3, kr::_0>::value << std::endl;
-//    std::cout << brigand::at<seq3, kr::_1>::value << std::endl;
-//    std::cout << brigand::at<seq3, kr::_2>::value << std::endl;
-      //std::cout << brigand::at<seq3, kr::_3>::value << std::endl;
 }

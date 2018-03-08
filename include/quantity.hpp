@@ -24,21 +24,29 @@ public:
     using value_type = typename Traits::value_type;
     using dim_type = Dim;
     using ration_type = Ratio;
+    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
+    using reference = quantity&;
     
 private:
     value_type  value;
     
+    inline value_type normalized_value() {
+        return static_cast<value_type>(value *
+               static_cast<double>(ration_type::type::num) /
+               static_cast<double>(ration_type::type::den));
+    }
+    
 public:
     quantity() : value(T{}) {}
     explicit quantity(T val) : value(val) {}
-
-	// nominal() returns the value that defines this quantity
-	inline value_type nominal() { return value; }
-
-	// actual() returns the actual value that considers both nominal value and ratio
-	inline value_type actual() {
-		return static_cast<value_type>(nominal() * static_cast<double>(ration_type::type::num) / static_cast<double>(ration_type::type::den));
-	}
+    
+    reference operator=(const quantity& other) {
+        this->value = other.value;
+    }
+	
+    normalized_type normalize() {
+        return normalized_type{normalized_value()};
+    };
 };
 
 

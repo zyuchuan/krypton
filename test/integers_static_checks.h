@@ -6,7 +6,6 @@
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#include <iostream>
 #include "integers.hpp"
 
 void test_integers() {
