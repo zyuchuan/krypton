@@ -21,39 +21,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\dimensions.hpp">
+    <ClInclude Include="..\include\dimensions.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\integers.hpp">
+    <ClInclude Include="..\include\integers.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\krypton.hpp">
+    <ClInclude Include="..\include\krypton.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\quantity.hpp">
+    <ClInclude Include="..\include\quantity.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\ratio.hpp">
+    <ClInclude Include="..\include\ratio.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\sequence.hpp">
+    <ClInclude Include="..\include\sequence.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\test\dimension_arithmetic.h">
+    <ClInclude Include="..\test\integers_static_checks.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\test\test_dimension.h">
+    <ClInclude Include="..\test\sequence_static_checks.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\test\test_integers.h">
-      <Filter>Source Files\test</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\test\test_quantity.h">
+    <ClInclude Include="..\test\test_quantity.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\test\main.cpp">
+    <ClCompile Include="..\test\test.cpp">
       <Filter>Source Files\test</Filter>
     </ClCompile>
   </ItemGroup>
