@@ -14,11 +14,15 @@
 #define BEGIN_KR_NAMESPACE namespace kr {
 #define END_KR_NAMESPACE }
 
+#define NUM_FUNDAMENTAL_DIM     7
+
 //********************************
 
 BEGIN_KR_NAMESPACE
 
+
 using kr_int_t = int;
+
 
 // No defination here, leave it
 // to specific types

@@ -19,5 +19,17 @@ TEST(test_quantity, test_normalize) {
     EXPECT_EQ(km_per_h.normalize().value, 1.0);
 }
 
+TEST(test_quantity, test_construct) {
+    kr::quantity<int, kr::length> q1(3);
+    EXPECT_EQ(q1.value, 3);
+    
+    // this should not compile
+    //kr::quantity<int, kr::mass> q2(3.0);
+    //EXPECT_EQ(q1.value, 3.0);
+    
+    kr::quantity<double, kr::length> q3(3);
+    EXPECT_EQ(q3.value, 3.0);
+}
+
 
 #endif /* test_quantity_h */
