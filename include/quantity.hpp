@@ -11,7 +11,7 @@
 
 #include <ratio>
 #include "krypton.hpp"
-#include "dimensions.hpp"
+#include "dimension.hpp"
 
 BEGIN_KR_NAMESPACE
 
@@ -20,6 +20,7 @@ struct iso_traits {
     using value_type = T;
 };
 
+// forward declare
 template<class T, class Dim, class Ratio = std::ratio<1>, class Traits = iso_traits<T>>
 class quantity;
 
@@ -41,12 +42,11 @@ struct is_quantity<const volatile quantity<T, Dim, Ratio, Traits>> : public std:
 template<class T1, class T2>
 struct common_type : public std::false_type {};
 
-template<class T1, class Dim, class Ratio1, class T2, class Ratio2, class Traits>
-struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, Traits>> {
+template<class T1, class Dim, class Ratio1, class T2, class Ratio2>
+struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
     using type = quantity<typename std::common_type<T1, T2>::type,
                           Dim,
-                          typename std::__ratio_gcd<Ratio1, Ratio2>::type,
-                          Traits>;
+                          typename std::__ratio_gcd<Ratio1, Ratio2>::type>;
 };
 
 namespace detail {
@@ -71,6 +71,29 @@ namespace detail {
                       static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
         }
     };
+    
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, false, true> {
+        inline constexpr To operator()(const From& from) const {
+            using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+            return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
+        }
+    };
+    
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, false, false> {
+        inline constexpr To operator()(const From& from) const {
+            using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+            return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
+                                                  static_cast<type>(Ratio::den)));
+        }
+    };
+}
+
+template<class To, class U, class Ratio>
+inline constexpr typename std::enable_if<is_quantity<To>::value, To>::type
+quantity_cast(const quantity<U, Ratio>& other) {
+    return detail::quantity_cast_impl<quantity<U, Ratio>, To>()(other);
 }
 
 template<class T, class Dim, class Ratio, class Traits>
@@ -79,7 +102,7 @@ class quantity {
     static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
     static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
     static_assert(Ratio::num > 0, "Quantity ratio must be positive");
-    
+
     template<class R1, class R2>
     struct no_overflow {
     private:
@@ -90,41 +113,41 @@ class quantity {
         static const constexpr intmax_t n2 = R2::num / gcd_d1_d2;
         static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
         static const intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * __CHAR_BIT__ - 1)) + 1);
-        
+
         template<intmax_t X, intmax_t Y, bool overflow>
         struct mul {
             static const constexpr intmax_t value = X * Y;
         };
-        
+
         template<intmax_t X, intmax_t Y>
         struct mul<X, Y, true> {
             static const constexpr intmax_t value = 1;
         };
-        
+
     public:
         static const constexpr bool value = (n1 <= max / d2) && (n2 << max / d1);
         using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
     };
-    
+
 public:
     using value_type = typename Traits::value_type;
     using dim_type = Dim;
-    using ration_type = Ratio;
+    using ratio_type = Ratio;
     using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
     using reference = quantity&;
-    
+
     const value_type  value;
-    
+
 public:
-    
+
     //value_type value() {return _value;}
-    
+
     inline value_type normalized_value() {
         return static_cast<value_type>(value *
-               static_cast<double>(ration_type::type::num) /
-               static_cast<double>(ration_type::type::den));
+               static_cast<double>(ratio_type::type::num) /
+               static_cast<double>(ratio_type::type::den));
     }
-    
+
 public:
     template<class U>
     explicit quantity(const U& u,
@@ -132,7 +155,7 @@ public:
                       <
                         std::is_convertible<U, T>::value &&
                        (std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0) : value(u){}
-    
+
     template<class U, class Ratio2>
     quantity(const quantity<U, Ratio2>& other,
              typename std::enable_if
@@ -141,9 +164,9 @@ public:
                 (std::is_floating_point<T>::value ||
                 (no_overflow<Ratio2, Ratio>::type::den == 1 && !std::is_floating_point<U>::value))
              >::type* = 0) {
-        
+
     }
-	
+
     normalized_type normalize() {
         return normalized_type{normalized_value()};
     };

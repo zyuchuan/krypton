@@ -6,8 +6,8 @@
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#ifndef integers_h
-#define integers_h
+#ifndef integer_h
+#define integer_h
 
 #include "krypton.hpp"
 
@@ -56,4 +56,4 @@ struct minus<std::integral_constant<T, v1>,
 END_KR_NAMESPACE
 
 
-#endif /* integers_h */
+#endif /* integer_h */

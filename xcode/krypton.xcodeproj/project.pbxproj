@@ -24,16 +24,17 @@
 
 /* Begin PBXFileReference section */
 		047FAB7820515C590077F24B /* quantity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = quantity.hpp; path = ../include/quantity.hpp; sourceTree = "<group>"; };
-		047FAB7920515C590077F24B /* ratio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ratio.hpp; path = ../include/ratio.hpp; sourceTree = "<group>"; };
 		047FAB7A20515C590077F24B /* sequence.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = sequence.hpp; path = ../include/sequence.hpp; sourceTree = "<group>"; };
 		047FAB7B20515C590077F24B /* krypton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = krypton.hpp; path = ../include/krypton.hpp; sourceTree = "<group>"; };
-		047FAB7C20515C590077F24B /* dimensions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = dimensions.hpp; path = ../include/dimensions.hpp; sourceTree = "<group>"; };
-		047FAB7D20515C590077F24B /* integers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integers.hpp; path = ../include/integers.hpp; sourceTree = "<group>"; };
+		047FAB7C20515C590077F24B /* dimension.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = dimension.hpp; path = ../include/dimension.hpp; sourceTree = "<group>"; };
+		047FAB7D20515C590077F24B /* integer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integer.hpp; path = ../include/integer.hpp; sourceTree = "<group>"; };
 		047FAB7F20515C780077F24B /* sequence_static_checks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sequence_static_checks.h; path = ../test/sequence_static_checks.h; sourceTree = "<group>"; };
 		047FAB8020515C780077F24B /* integers_static_checks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = integers_static_checks.h; path = ../test/integers_static_checks.h; sourceTree = "<group>"; };
 		047FAB8420515C780077F24B /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test.cpp; path = ../test/test.cpp; sourceTree = "<group>"; };
 		047FAB8A20515E3B0077F24B /* gtest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gtest.framework; path = ../../googletest/googletest/lib/gtest.framework; sourceTree = "<group>"; };
 		04965CF4204B979600604F28 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
+		04C38EFC20555DF40082E262 /* ratio_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ratio_static_check.h; path = ../test/ratio_static_check.h; sourceTree = "<group>"; };
+		04C38EFD205567CF0082E262 /* traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = traits.hpp; path = ../include/traits.hpp; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
 		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,12 +53,12 @@
 		047FAB7720515C440077F24B /* include */ = {
 			isa = PBXGroup;
 			children = (
-				047FAB7C20515C590077F24B /* dimensions.hpp */,
-				047FAB7D20515C590077F24B /* integers.hpp */,
 				047FAB7B20515C590077F24B /* krypton.hpp */,
-				047FAB7820515C590077F24B /* quantity.hpp */,
-				047FAB7920515C590077F24B /* ratio.hpp */,
+				047FAB7D20515C590077F24B /* integer.hpp */,
 				047FAB7A20515C590077F24B /* sequence.hpp */,
+				047FAB7C20515C590077F24B /* dimension.hpp */,
+				04C38EFD205567CF0082E262 /* traits.hpp */,
+				047FAB7820515C590077F24B /* quantity.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -65,10 +66,11 @@
 		047FAB7E20515C640077F24B /* test */ = {
 			isa = PBXGroup;
 			children = (
+				04C77F3420516826001C27F4 /* test_quantity.h */,
 				047FAB8420515C780077F24B /* test.cpp */,
 				047FAB8020515C780077F24B /* integers_static_checks.h */,
 				047FAB7F20515C780077F24B /* sequence_static_checks.h */,
-				04C77F3420516826001C27F4 /* test_quantity.h */,
+				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
 			);
 			name = test;
 			sourceTree = "<group>";

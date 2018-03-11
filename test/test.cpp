@@ -8,6 +8,7 @@
 
 #include <gtest/gtest.h>
 #include "test_quantity.h"
+#include "ratio_static_check.h"
 
 int main(int argc, char* argv[]) {
     testing::InitGoogleTest(&argc, argv);

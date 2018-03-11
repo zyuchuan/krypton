@@ -6,11 +6,11 @@
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#ifndef dimensions_h
-#define dimensions_h
+#ifndef dimension_h
+#define dimension_h
 
+#include "integer.hpp"
 #include "sequence.hpp"
-#include "integers.hpp"
 
 BEGIN_KR_NAMESPACE
 
@@ -42,4 +42,4 @@ using force = sequence<_1, _1, __2, _0, _0, _0, _0>;          // ml/t^2
 
 
 END_KR_NAMESPACE
-#endif /* dimensions_h */
+#endif /* dimension_h */
