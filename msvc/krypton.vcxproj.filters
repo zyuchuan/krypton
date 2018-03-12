@@ -27,9 +27,6 @@
     <ClInclude Include="..\include\quantity.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\ratio.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\sequence.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
@@ -46,6 +43,9 @@
       <Filter>Header Files\include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\integer.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\traits.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>

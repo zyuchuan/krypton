@@ -49,7 +49,7 @@ struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
                           Dim,
                           typename std::__ratio_gcd<Ratio1, Ratio2>::type>;
 };
-#elif defined(__MSC_VER)
+#elif defined(_MSC_VER)
 template<class T1, class Dim, class Ratio1, class T2, class Ratio2>
 struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
 	using type = quantity<typename std::common_type<T1, T2>::type,
@@ -113,7 +113,7 @@ class quantity {
 
 #if defined(__clang__)
 	static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
-#elif defined(_MSC_VER_)
+#elif defined(_MSC_VER)
 	static_assert(std::_Is_ratio_v<Ratio>, "Third template parameter of quantity must be a std::ratio");
 #endif // defined(__clang__)
 
@@ -126,7 +126,7 @@ class quantity {
 #if defined(__clang__)
 		static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
 		static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
-#elif defined(_MSC_VER_)
+#elif defined(_MSC_VER)
 		static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
 		static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
 #endif // defined(__clang__)
