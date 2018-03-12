@@ -9,8 +9,10 @@
 #include <gtest/gtest.h>
 #include "test_quantity.h"
 #include "ratio_static_check.h"
+#include "traits_static_check.h"
 
 int main(int argc, char* argv[]) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    
+    //testing::InitGoogleTest(&argc, argv);
+    //return RUN_ALL_TESTS();
 }

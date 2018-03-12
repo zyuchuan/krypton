@@ -12,16 +12,12 @@
 #include <ratio>
 #include "krypton.hpp"
 #include "dimension.hpp"
+#include "traits.hpp"
 
 BEGIN_KR_NAMESPACE
 
-template<class T>
-struct iso_traits {
-    using value_type = T;
-};
-
 // forward declare
-template<class T, class Dim, class Ratio = std::ratio<1>, class Traits = iso_traits<T>>
+template<class T, class Dim, class Ratio = std::ratio<1>, class Traits = iso_traits<Dim>>
 class quantity;
 
 template<class T>
@@ -43,18 +39,20 @@ template<class T1, class T2>
 struct common_type : public std::false_type {};
 
 #if defined(__clang__)
-template<class T1, class Dim, class Ratio1, class T2, class Ratio2>
-struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
+template<class T1, class Dim, class Ratio1, class T2, class Ratio2, class Traits>
+struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, Traits>> {
     using type = quantity<typename std::common_type<T1, T2>::type,
                           Dim,
-                          typename std::__ratio_gcd<Ratio1, Ratio2>::type>;
+                          typename std::__ratio_gcd<Ratio1, Ratio2>::type,
+                          Traits>;
 };
 #elif defined(_MSC_VER)
-template<class T1, class Dim, class Ratio1, class T2, class Ratio2>
-struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
+template<class T1, class Dim, class Ratio1, class T2, class Ratio2, Traits>
+struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, Traits>> {
 	using type = quantity<typename std::common_type<T1, T2>::type,
-		Dim,
-		typename std::_Gcd<Ratio1, Ratio2>::type>;
+                          Dim,
+                          typename std::_Gcd<Ratio1, Ratio2>::type,
+                          Traits>;
 };
 #endif
 
@@ -62,19 +60,20 @@ struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
 namespace detail {
     template<class From, class To,
              class Ratio = typename std::ratio_divide<typename From::Ratio, typename To::Ratio>::type,
+             bool TraitsEqual = kr::equals<typename From::Traits, typename To::Traits>::value,
              bool = Ratio::num == 1,
              bool = Ratio::den == 1>
     struct quantity_cast_impl;
     
     template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, true, true> {
+    struct quantity_cast_impl<From, To, Ratio, true, true, true> {
         inline constexpr To operator()(const From& from) const {
             return To(static_cast<typename To::T>(from.value));
         }
     };
     
     template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, true, false> {
+    struct quantity_cast_impl<From, To, Ratio, true, true, false> {
         inline constexpr To operator()(const From& from) const {
             using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
             return To(static_cast<typename To::Ratio>(
@@ -83,7 +82,7 @@ namespace detail {
     };
     
     template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, false, true> {
+    struct quantity_cast_impl<From, To, Ratio, true, false, true> {
         inline constexpr To operator()(const From& from) const {
             using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
             return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
@@ -91,7 +90,7 @@ namespace detail {
     };
     
     template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, false, false> {
+    struct quantity_cast_impl<From, To, Ratio, true, false, false> {
         inline constexpr To operator()(const From& from) const {
             using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
             return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
@@ -153,9 +152,11 @@ class quantity {
     };
 
 public:
-    using value_type = typename Traits::value_type;
+    using value_type = T;
     using dim_type = Dim;
     using ratio_type = Ratio;
+    using traits_type = Traits;
+    
     using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
     using reference = quantity&;
 
@@ -182,7 +183,7 @@ public:
     template<class U, class Ratio2>
     quantity(const quantity<U, Ratio2>& other,
              typename std::enable_if
-             <
+            <
                 no_overflow<Ratio2, Ratio>::value &&
                 (std::is_floating_point<T>::value ||
                 (no_overflow<Ratio2, Ratio>::type::den == 1 && !std::is_floating_point<U>::value))
@@ -195,6 +196,14 @@ public:
     };
 };
 
+template<class T> using meter = quantity<T, length>;
+template<class T> using kilometer = quantity<T, length, std::kilo>;
+
+template<class T> using feet = quantity<T, length, std::ratio<1>, eng_traits<length>>;
+template<class T> using inch = quantity<T, length, std::ratio<1, 12>, eng_traits<length>>;
+
+//template<class T> using second = quantity<T, time>;
+//template<class T> using hour = quantity<T, time, std::ratio<3600>>;
 
 
 END_KR_NAMESPACE

@@ -37,6 +37,7 @@
 		04C38EFD205567CF0082E262 /* traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = traits.hpp; path = ../include/traits.hpp; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
 		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
+		04E33FCD2056A7EB003701F7 /* traits_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = traits_static_check.h; path = ../test/traits_static_check.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +72,7 @@
 				047FAB8020515C780077F24B /* integers_static_checks.h */,
 				047FAB7F20515C780077F24B /* sequence_static_checks.h */,
 				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
+				04E33FCD2056A7EB003701F7 /* traits_static_check.h */,
 			);
 			name = test;
 			sourceTree = "<group>";
