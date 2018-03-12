@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\dimensions.hpp" />
-    <ClInclude Include="..\include\integers.hpp" />
+    <ClInclude Include="..\include\dimension.hpp" />
+    <ClInclude Include="..\include\integer.hpp" />
     <ClInclude Include="..\include\krypton.hpp" />
     <ClInclude Include="..\include\quantity.hpp" />
     <ClInclude Include="..\include\ratio.hpp" />

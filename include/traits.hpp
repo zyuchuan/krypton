@@ -21,7 +21,10 @@ enum class metrics : unsigned int {
 };
 
 template<class T>
-struct traits;
+struct iso_traits;
+
+template<class T>
+struct eng_traits;
 
 template<>
 struct iso_traits<length> {
@@ -35,7 +38,7 @@ struct eng_traits<length> {
     static const constexpr metrics metric = metrics::eng;
     
     using factor_type = std::ratio<120, 19>;
-}
+};
 
 END_KR_NAMESPACE
 

@@ -42,12 +42,22 @@ struct is_quantity<const volatile quantity<T, Dim, Ratio, Traits>> : public std:
 template<class T1, class T2>
 struct common_type : public std::false_type {};
 
+#if defined(__clang__)
 template<class T1, class Dim, class Ratio1, class T2, class Ratio2>
 struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
     using type = quantity<typename std::common_type<T1, T2>::type,
                           Dim,
                           typename std::__ratio_gcd<Ratio1, Ratio2>::type>;
 };
+#elif defined(__MSC_VER)
+template<class T1, class Dim, class Ratio1, class T2, class Ratio2>
+struct common_type<quantity<T1, Dim, Ratio1>, quantity<T2, Dim, Ratio2>> {
+	using type = quantity<typename std::common_type<T1, T2>::type,
+		Dim,
+		typename std::_Gcd<Ratio1, Ratio2>::type>;
+};
+#endif
+
 
 namespace detail {
     template<class From, class To,
@@ -100,14 +110,27 @@ template<class T, class Dim, class Ratio, class Traits>
 class quantity {
     static_assert(!is_quantity<T>::value, "A quantity can not be value type of another quantity");
     static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
-    static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
+
+#if defined(__clang__)
+	static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
+#elif defined(_MSC_VER_)
+	static_assert(std::_Is_ratio_v<Ratio>, "Third template parameter of quantity must be a std::ratio");
+#endif // defined(__clang__)
+
+    
     static_assert(Ratio::num > 0, "Quantity ratio must be positive");
 
     template<class R1, class R2>
     struct no_overflow {
     private:
-        static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
-        static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
+#if defined(__clang__)
+		static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
+		static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
+#elif defined(_MSC_VER_)
+		static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
+		static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
+#endif // defined(__clang__)
+
         static const constexpr intmax_t n1 = R1::num / gcd_d1_d2;
         static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
         static const constexpr intmax_t n2 = R2::num / gcd_d1_d2;
