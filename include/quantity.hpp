@@ -13,6 +13,7 @@
 #include "krypton.hpp"
 #include "dimension.hpp"
 #include "traits.hpp"
+#include "utility.hpp"
 
 BEGIN_KR_NAMESPACE
 
@@ -38,26 +39,17 @@ struct is_quantity<const volatile quantity<T, Dim, Ratio, Traits>> : public std:
 template<class T1, class T2>
 struct common_type : public std::false_type {};
 
-#if defined(__clang__)
+
 template<class T1, class Dim, class Ratio1, class T2, class Ratio2, class Traits>
 struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, Traits>> {
     using type = quantity<typename std::common_type<T1, T2>::type,
                           Dim,
-                          typename std::__ratio_gcd<Ratio1, Ratio2>::type,
+                          typename ratio_gcd<Ratio1, Ratio2>::type,
                           Traits>;
 };
-#elif defined(_MSC_VER)
-template<class T1, class Dim, class Ratio1, class T2, class Ratio2, Traits>
-struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, Traits>> {
-	using type = quantity<typename std::common_type<T1, T2>::type,
-                          Dim,
-                          typename std::_Gcd<Ratio1, Ratio2>::type,
-                          Traits>;
-};
-#endif
-
 
 namespace detail {
+
     template<class From, class To,
              class Ratio = typename std::ratio_divide<typename From::Ratio, typename To::Ratio>::type,
              bool TraitsEqual = kr::equals<typename From::Traits, typename To::Traits>::value,
@@ -65,38 +57,82 @@ namespace detail {
              bool = Ratio::den == 1>
     struct quantity_cast_impl;
     
+	// same traits, same ratio
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, true, true> {
         inline constexpr To operator()(const From& from) const {
             return To(static_cast<typename To::T>(from.value));
         }
     };
+
+	// different tratis, same ratio
+	template<class From, class To, class Ratio>
+	struct quantity_cast_impl<From, To, Ratio, false, true, true> {
+		inline constexpr To operator()(const From& from) const {
+			using convert_factor = From::Traits::convert_factor;
+			return To(static_cast<typename To::T>(static_cast<double>(from.value * convert_factor::num) / static_cast<double>(convert_factor::den));
+		}
+	};
     
-    template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, true, true, false> {
-        inline constexpr To operator()(const From& from) const {
-            using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-            return To(static_cast<typename To::Ratio>(
-                      static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
-        }
-    };
-    
-    template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, true, false, true> {
-        inline constexpr To operator()(const From& from) const {
-            using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-            return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
-        }
-    };
-    
-    template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, true, false, false> {
-        inline constexpr To operator()(const From& from) const {
-            using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-            return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
-                                                  static_cast<type>(Ratio::den)));
-        }
-    };
+	
+	//// same traits
+ //   template<class From, class To, class Ratio>
+ //   struct quantity_cast_impl<From, To, Ratio, true, true, false> {
+ //       inline constexpr To operator()(const From& from) const {
+ //           using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+ //           return To(static_cast<typename To::Ratio>(
+ //                     static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
+ //       }
+ //   };
+
+	//// different traits
+	//template<class From, class To, class Ratio>
+	//struct quantity_cast_impl<From, To, Ratio, false, true, false> {
+	//	inline constexpr To operator()(const From& from) const {
+	//		using type = typename std::common_type<typename To::T, typename From::T, intmax_t, double>::type;
+	//		//using convert_factor = From::Traits::convert_factor;
+
+	//		return To(static_cast<typename To::Ratio>(static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
+	//	}
+	//};
+ //   
+	//// same traits
+ //   template<class From, class To, class Ratio>
+ //   struct quantity_cast_impl<From, To, Ratio, true, false, true> {
+ //       inline constexpr To operator()(const From& from) const {
+ //           using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+ //           return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
+ //       }
+ //   };
+
+	//// different traits
+	//template<class From, class To, class Ratio>
+	//struct quantity_cast_impl<From, To, Ratio, false , false, true > {
+	//	inline constexpr To operator()(const From& from) const {
+	//		using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+	//		return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
+	//	}
+	//};
+ //   
+	//// same traits
+ //   template<class From, class To, class Ratio>
+ //   struct quantity_cast_impl<From, To, Ratio, true, false, false> {
+ //       inline constexpr To operator()(const From& from) const {
+ //           using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+ //           return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
+ //                                                 static_cast<type>(Ratio::den)));
+ //       }
+ //   };
+
+	//// different traits
+	//template<class From, class To, class Ratio>
+	//struct quantity_cast_impl<From, To, Ratio, false, false, false> {
+	//	inline constexpr To operator()(const From& from) const {
+	//		using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+	//		return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
+	//			static_cast<type>(Ratio::den)));
+	//	}
+	//};
 }
 
 template<class To, class U, class Ratio>

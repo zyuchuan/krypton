@@ -48,6 +48,9 @@
     <ClInclude Include="..\include\traits.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\utility.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test.cpp">
