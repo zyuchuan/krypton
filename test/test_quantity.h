@@ -52,13 +52,25 @@ void quantity_static_check() {
     using common_type_4 = kr::common_type<Q7, Q8>::type;
 }
 
-
-TEST(test_quantity, test_normalize) {
-    //kr::quantity<double, kr::length, std::ratio<1000, 3600>> km_per_h{3.6};
-    //EXPECT_EQ(km_per_h.normalize().value, 1.0);
+TEST(test_quantity, test_quantity_cast) {
+    using from_type = kr::quantity<int, kr::length, std::ratio<1>>;
+    using to_type = kr::quantity<double, kr::length, std::ratio<1>>;
+    
+    //static_assert(kr::is_quantity<to_type>::value, "type is not quantity");
+    //static_assert(kr::equals<from_type::dim_type, to_type::dim_type>::value, "dimension not equal");
+    
+    from_type from{1};
+    to_type to = kr::quantity_cast<to_type>(from);
+    EXPECT_EQ(to.value, 1.0);
 }
 
-TEST(test_quantity, test_construct) {
+
+//TEST(test_quantity, test_normalize) {
+    //kr::quantity<double, kr::length, std::ratio<1000, 3600>> km_per_h{3.6};
+    //EXPECT_EQ(km_per_h.normalize().value, 1.0);
+//}
+
+//TEST(test_quantity, test_construct) {
     //kr::quantity<int, kr::length> q1(3);
     //EXPECT_EQ(q1.value, 3);
     
@@ -68,7 +80,7 @@ TEST(test_quantity, test_construct) {
     
     //kr::quantity<double, kr::length> q3(3);
     //EXPECT_EQ(q3.value, 3.0);
-}
+//}
 
 
 #endif /* test_quantity_h */

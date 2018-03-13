@@ -1,4 +1,4 @@
-﻿//
+//
 //  traits.hpp
 //  krypton
 //
@@ -21,7 +21,7 @@ BEGIN_KR_NAMESPACE
 // gcd
 template<intmax_t X, intmax_t Y>
 struct gcd {
-	static const constexpr intmax_t value = static_gcd<Y, X % Y>::value;
+	static const constexpr intmax_t value = gcd<Y, X % Y>::value;
 };
 
 template<intmax_t X>

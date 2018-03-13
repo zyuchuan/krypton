@@ -51,26 +51,27 @@ struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, 
 namespace detail {
 
     template<class From, class To,
-             class Ratio = typename std::ratio_divide<typename From::Ratio, typename To::Ratio>::type,
-             bool TraitsEqual = kr::equals<typename From::Traits, typename To::Traits>::value,
-             bool = Ratio::num == 1,
-             bool = Ratio::den == 1>
+             class Ratio = typename std::ratio_divide<typename From::ratio_type, typename To::ratio_type>::type,
+             bool DimEqual = kr::equals<typename From::dim_type, typename To::dim_type>::value,
+             bool TraitsEqual = kr::equals<typename From::traits_type, typename To::traits_type>::value,
+             bool = (Ratio::num == 1),
+             bool = (Ratio::den == 1)>
     struct quantity_cast_impl;
     
-	// same traits, same ratio
+	// same dimension, same ratio, same traits
     template<class From, class To, class Ratio>
-    struct quantity_cast_impl<From, To, Ratio, true, true, true> {
+    struct quantity_cast_impl<From, To, Ratio, true, true, true, true> {
         inline constexpr To operator()(const From& from) const {
-            return To(static_cast<typename To::T>(from.value));
+            return To(static_cast<typename To::value_type>(from.value));
         }
     };
 
-	// different tratis, same ratio
+	// different tratis, same ratio, same dimension
 	template<class From, class To, class Ratio>
-	struct quantity_cast_impl<From, To, Ratio, false, true, true> {
+	struct quantity_cast_impl<From, To, Ratio, true, false, true, true> {
 		inline constexpr To operator()(const From& from) const {
-			using convert_factor = From::Traits::convert_factor;
-			return To(static_cast<typename To::T>(static_cast<double>(from.value * convert_factor::num) / static_cast<double>(convert_factor::den));
+			using convert_factor = typename From::Traits::convert_factor;
+			return To(static_cast<typename To::T>(static_cast<double>(from.value * convert_factor::num) / static_cast<double>(convert_factor::den)));
 		}
 	};
     
@@ -135,10 +136,13 @@ namespace detail {
 	//};
 }
 
-template<class To, class U, class Ratio>
-inline constexpr typename std::enable_if<is_quantity<To>::value, To>::type
-quantity_cast(const quantity<U, Ratio>& other) {
-    return detail::quantity_cast_impl<quantity<U, Ratio>, To>()(other);
+template<class To, class U, class Dim, class Ratio>
+inline constexpr typename std::enable_if
+<
+    is_quantity<To>::value && equals<Dim, typename To::dim_type>::value, To
+>::type
+quantity_cast(const quantity<U, Dim, Ratio>& other) {
+    return detail::quantity_cast_impl<quantity<U, Dim, Ratio>, To>()(other);
 }
 
 template<class T, class Dim, class Ratio, class Traits>
@@ -170,7 +174,7 @@ class quantity {
         static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
         static const constexpr intmax_t n2 = R2::num / gcd_d1_d2;
         static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
-        static const intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * __CHAR_BIT__ - 1)) + 1);
+        static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
 
         template<intmax_t X, intmax_t Y, bool overflow>
         struct mul {
@@ -183,7 +187,7 @@ class quantity {
         };
 
     public:
-        static const constexpr bool value = (n1 <= max / d2) && (n2 << max / d1);
+        static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
         using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
     };
 
@@ -217,7 +221,7 @@ public:
                        (std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0) : value(u){}
 
     template<class U, class Ratio2>
-    quantity(const quantity<U, Ratio2>& other,
+    quantity(const quantity<U, Dim, Ratio2>& other,
              typename std::enable_if
             <
                 no_overflow<Ratio2, Ratio>::value &&
