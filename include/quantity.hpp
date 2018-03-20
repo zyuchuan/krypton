@@ -48,6 +48,9 @@ struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, 
                           Traits>;
 };
 
+// quantity cast, one quantity can be converted to another,
+// if and only if two quantities have same dimension.
+
 namespace detail {
 
     template<class From, class To,
@@ -58,7 +61,7 @@ namespace detail {
              bool = (Ratio::den == 1)>
     struct quantity_cast_impl;
     
-	// same dimension, same ratio, same traits
+    // Ratio::num == 1, Ratio::den == 1, same traits
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, true, true, true> {
         inline constexpr To operator()(const From& from) const {
@@ -66,84 +69,124 @@ namespace detail {
         }
     };
 
-	// different tratis, same ratio, same dimension
+	// Ratio::num == 1, Ratio::den == 1, different tratis
 	template<class From, class To, class Ratio>
 	struct quantity_cast_impl<From, To, Ratio, true, false, true, true> {
 		inline constexpr To operator()(const From& from) const {
-			using convert_factor = typename From::Traits::convert_factor;
-			return To(static_cast<typename To::T>(static_cast<double>(from.value * convert_factor::num) / static_cast<double>(convert_factor::den)));
+			using convert_factor = typename From::traits_type::convert_factor;
+			return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num)
+                                                           / static_cast<double>(convert_factor::den)));
 		}
 	};
     
 	
-	//// same traits
- //   template<class From, class To, class Ratio>
- //   struct quantity_cast_impl<From, To, Ratio, true, true, false> {
- //       inline constexpr To operator()(const From& from) const {
- //           using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
- //           return To(static_cast<typename To::Ratio>(
- //                     static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
- //       }
- //   };
+    // Ratio::num == 1, Ratio::den <> 1, same traits
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, true, true, false> {
+        inline constexpr To operator()(const From& from) const {
+            using type = typename std::common_type<typename To::value_type, typename From::value_type, intmax_t>::type;
+            return To(static_cast<typename To::value_type>(
+                      static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
+        }
+    };
 
-	//// different traits
-	//template<class From, class To, class Ratio>
-	//struct quantity_cast_impl<From, To, Ratio, false, true, false> {
-	//	inline constexpr To operator()(const From& from) const {
-	//		using type = typename std::common_type<typename To::T, typename From::T, intmax_t, double>::type;
-	//		//using convert_factor = From::Traits::convert_factor;
+    // Ratio::num == 1, Ratio::den <> 1,  different traits
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, false, true, false> {
+        inline constexpr To operator()(const From& from) const {
+            //using type = typename std::common_type<typename To::T, typename From::T, intmax_t, double>::type;
+            using convert_factor = typename From::traits_type::convert_factor;
+            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num) /
+                                                           static_cast<double>(Ratio::den * convert_factor::den)));
+        }
+    };
+    
+    // Ratio::num <> 1, Ration::den == 1, same traits
+    // e.g. convert kilometer to meter
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, true, false, true> {
+        inline constexpr To operator()(const From& from) const {
+            using type = typename std::common_type<typename To::value_type, typename From::value_type, intmax_t>::type;
+            return To(static_cast<typename To::value_type>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
+        }
+    };
 
-	//		return To(static_cast<typename To::Ratio>(static_cast<type>(from.value) / static_cast<type>(Ratio::den)));
-	//	}
-	//};
- //   
-	//// same traits
- //   template<class From, class To, class Ratio>
- //   struct quantity_cast_impl<From, To, Ratio, true, false, true> {
- //       inline constexpr To operator()(const From& from) const {
- //           using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
- //           return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
- //       }
- //   };
+    // Ratio::num <> 1, Ration::den == 1, different traits
+    // e.g. convert kilometer to feet
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, false, false, true > {
+        inline constexpr To operator()(const From& from) const {
+            //using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
+            using convert_factor = typename From::traits_type::convert_factor;
+            return To(static_cast<typename To::value_type>(
+                            static_cast<double>(from.value * convert_factor::num * Ratio::num) /
+                                                static_cast<double>(convert_factor::den)));
+        }
+    };
+    
+    // Ratio::num <> 1, Ration::den <> 1, same traits
+    // e.g. convert kilometer to centimeter
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, true, false, false> {
+        inline constexpr To operator()(const From& from) const {
+            using type = typename std::common_type<typename To::value_type, typename From::value_type, intmax_t>::type;
+            return To(static_cast<typename To::value_type>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
+                                                  static_cast<type>(Ratio::den)));
+        }
+    };
 
-	//// different traits
-	//template<class From, class To, class Ratio>
-	//struct quantity_cast_impl<From, To, Ratio, false , false, true > {
-	//	inline constexpr To operator()(const From& from) const {
-	//		using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-	//		return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num)));
-	//	}
-	//};
- //   
-	//// same traits
- //   template<class From, class To, class Ratio>
- //   struct quantity_cast_impl<From, To, Ratio, true, false, false> {
- //       inline constexpr To operator()(const From& from) const {
- //           using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
- //           return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
- //                                                 static_cast<type>(Ratio::den)));
- //       }
- //   };
-
-	//// different traits
-	//template<class From, class To, class Ratio>
-	//struct quantity_cast_impl<From, To, Ratio, false, false, false> {
-	//	inline constexpr To operator()(const From& from) const {
-	//		using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-	//		return To(static_cast<typename To::T>(static_cast<type>(from.value) * static_cast<type>(Ratio::num) /
-	//			static_cast<type>(Ratio::den)));
-	//	}
-	//};
+    // Ratio::num <> 1, Ration::den <> 1, different traits
+    // e.g. convert kilometer to inch
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, false, false, false> {
+        inline constexpr To operator()(const From& from) const {
+            using convert_factor = typename From::traits_type::convert_factor;
+            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num * Ratio::num) /
+                                                           static_cast<double>(Ratio::den * convert_factor::den)));
+        }
+    };
 }
 
-template<class To, class U, class Dim, class Ratio>
+template<class To, class U, class Dim, class Ratio, class Traits>
 inline constexpr typename std::enable_if
 <
     is_quantity<To>::value && equals<Dim, typename To::dim_type>::value, To
 >::type
-quantity_cast(const quantity<U, Dim, Ratio>& other) {
-    return detail::quantity_cast_impl<quantity<U, Dim, Ratio>, To>()(other);
+quantity_cast(const quantity<U, Dim, Ratio, Traits>& other) {
+    return detail::quantity_cast_impl<quantity<U, Dim, Ratio, Traits>, To>()(other);
 }
+
+template<class R1, class R2>
+struct no_overflow {
+private:
+#if defined(__clang__)
+    static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
+    static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
+#elif defined(_MSC_VER)
+    static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
+    static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
+#endif // defined(__clang__)
+    
+    static const constexpr intmax_t n1 = R1::num / gcd_d1_d2;
+    static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
+    static const constexpr intmax_t n2 = R2::num / gcd_d1_d2;
+    static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
+    static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
+    
+    template<intmax_t X, intmax_t Y, bool overflow>
+    struct mul {
+        static const constexpr intmax_t value = X * Y;
+    };
+    
+    template<intmax_t X, intmax_t Y>
+    struct mul<X, Y, true> {
+        static const constexpr intmax_t value = 1;
+    };
+    
+public:
+    static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
+    using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
+};
 
 template<class T, class Dim, class Ratio, class Traits>
 class quantity {
@@ -170,9 +213,9 @@ class quantity {
 		static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
 #endif // defined(__clang__)
 
-        static const constexpr intmax_t n1 = R1::num / gcd_d1_d2;
+        static const constexpr intmax_t n1 = R1::num / gcd_n1_n2;
         static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
-        static const constexpr intmax_t n2 = R2::num / gcd_d1_d2;
+        static const constexpr intmax_t n2 = R2::num / gcd_n1_n2;
         static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
         static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
 
@@ -227,7 +270,7 @@ public:
                 no_overflow<Ratio2, Ratio>::value &&
                 (std::is_floating_point<T>::value ||
                 (no_overflow<Ratio2, Ratio>::type::den == 1 && !std::is_floating_point<U>::value))
-             >::type* = 0) {
+             >::type* = 0) : value(other.value) {
 
     }
 
@@ -236,6 +279,8 @@ public:
     };
 };
 
+template<class T> using millimeter = quantity<T, length, std::milli>;
+template<class T> using centimeter = quantity<T, length, std::centi>;
 template<class T> using meter = quantity<T, length>;
 template<class T> using kilometer = quantity<T, length, std::kilo>;
 

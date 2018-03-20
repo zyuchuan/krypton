@@ -9,6 +9,7 @@
 #ifndef test_quantity_h
 #define test_quantity_h
 
+#include <cmath>
 #include <gtest/gtest.h>
 #include "dimension.hpp"
 #include "quantity.hpp"
@@ -56,12 +57,73 @@ TEST(test_quantity, test_quantity_cast) {
     using from_type = kr::quantity<int, kr::length, std::ratio<1>>;
     using to_type = kr::quantity<double, kr::length, std::ratio<1>>;
     
-    //static_assert(kr::is_quantity<to_type>::value, "type is not quantity");
-    //static_assert(kr::equals<from_type::dim_type, to_type::dim_type>::value, "dimension not equal");
+    static_assert(kr::is_quantity<to_type>::value, "type is not quantity");
+    static_assert(kr::equals<from_type::dim_type, to_type::dim_type>::value, "dimension not equal");
     
     from_type from{1};
     to_type to = kr::quantity_cast<to_type>(from);
     EXPECT_EQ(to.value, 1.0);
+
+    // convert feet to meter
+    kr::meter<double> m1{1.0};
+    kr::feet<double> f1 = kr::quantity_cast<kr::feet<double>>(m1);
+    double diff = std::abs(f1.value - 3.28);
+    EXPECT_LE(diff,0.01);
+    
+    // convert meter to feet
+    kr::feet<double> f2{1.0};
+    kr::meter<double> m2 = kr::quantity_cast<kr::meter<double>>(f2);
+    diff = std::abs(m2.value - 1.0 / 3.28);
+    EXPECT_LE(diff, 0.01);
+    
+    // convert meter to kilometer
+    kr::meter<double> m3{1.0};
+    kr::kilometer<double> km3 = kr::quantity_cast<kr::kilometer<double>>(m3);
+    EXPECT_EQ(km3.value, 0.001);
+    
+    kr::meter<int> m4{1};
+    kr::kilometer<int> km4 = kr::quantity_cast<kr::kilometer<int>>(m4);
+    EXPECT_EQ(km4.value, 0);
+    
+    // convert kilometer to meter
+    kr::kilometer<int> km5{1};
+    kr::meter<int> m5 = kr::quantity_cast<kr::meter<int>>(km5);
+    EXPECT_EQ(m5.value, 1000);
+    
+    // convert feet to kilometer
+    kr::feet<double> f6{1.0};
+    kr::kilometer<double> km6 = kr::quantity_cast<kr::kilometer<double>>(f6);
+    diff = std::abs(km6.value - 0.0003048);
+    EXPECT_LE(diff, 0.00000001);
+    
+    // convert kilometer to feet
+    kr::kilometer<double> km7{1.0};
+    kr::feet<double> f7 = kr::quantity_cast<kr::feet<double>>(km7);
+    diff = std::abs(f7.value - 3280.8399);
+    EXPECT_LE(diff, 0.00001);
+    
+    // convert kilometer to centimeter
+    kr::kilometer<int> km8{1};
+    kr::centimeter<int> cm8 = kr::quantity_cast<kr::centimeter<int>>(km8);
+    EXPECT_EQ(cm8.value, 100000);
+    
+    // convert centimeter to kilometer
+    kr::centimeter<double> cm9{10000.0};
+    kr::kilometer<double> km9 = kr::quantity_cast<kr::kilometer<double>>(cm9);
+    diff = std::abs(km9.value - 0.1);
+    EXPECT_EQ(diff, 0.0);
+    
+    // convert kilometer to inch
+    kr::kilometer<double> km10{1.0};
+    kr::inch<double> inch9 = kr::quantity_cast<kr::inch<double>>(km10);
+    diff = std::abs(inch9.value - 39370.0788);
+    EXPECT_LE(diff, 0.00001);
+    
+    // convert inch to kilometer
+    kr::inch<double> inch10{10000.0};
+    kr::kilometer<double> km11 = kr::quantity_cast<kr::kilometer<double>>(inch10);
+    diff = std::abs(km11.value - 0.254);
+    EXPECT_LE(diff, 0.0001);
 }
 
 
