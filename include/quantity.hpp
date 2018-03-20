@@ -275,6 +275,16 @@ public:
 //    normalized_type normalize() {
 //        return normalized_type{normalized_value()};
 //    };
+    
+    // arithmetic
+    inline constexpr quantity  operator+() const {return *this;}
+    inline constexpr quantity  operator-() const {return quantity(-value);}
+    inline constexpr quantity& operator++()      {++value; return *this;}
+    inline constexpr quantity  operator++(int)   {return quantity(value++);}
+    inline constexpr quantity& operator--()      {--value; return *this;}
+    inline constexpr quantity  operator--(int)   {return quantity(value--);}
+    
+    //inline constexpr quantity& operator+=(const quantity& other) {value += other.value; return *this;}
 };
 
 template<class T> using millimeter = quantity<T, length, std::milli>;

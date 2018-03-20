@@ -170,5 +170,8 @@ TEST(test_quantity, test_construct) {
     //kr::second<double> sec9{m8};
 }
 
+TEST(test_quantity, test_arithmetic) {
+    
+}
 
 #endif /* test_quantity_h */
