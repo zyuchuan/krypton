@@ -240,8 +240,8 @@ public:
     using ratio_type = Ratio;
     using traits_type = Traits;
     
-    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
-    using reference = quantity&;
+//    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
+//    using reference = quantity&;
 
     const value_type  value;
 
@@ -249,13 +249,15 @@ public:
 
     //value_type value() {return _value;}
 
-    inline value_type normalized_value() {
-        return static_cast<value_type>(value *
-               static_cast<double>(ratio_type::type::num) /
-               static_cast<double>(ratio_type::type::den));
-    }
+//    inline value_type normalized_value() {
+//        return static_cast<value_type>(value *
+//               static_cast<double>(ratio_type::type::num) /
+//               static_cast<double>(ratio_type::type::den));
+//    }
 
 public:
+    
+    // construct with a scalar value
     template<class U>
     explicit quantity(const U& u,
                       typename std::enable_if
@@ -263,20 +265,16 @@ public:
                         std::is_convertible<U, T>::value &&
                        (std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0) : value(u){}
 
-    template<class U, class Ratio2>
-    quantity(const quantity<U, Dim, Ratio2>& other,
-             typename std::enable_if
-            <
-                no_overflow<Ratio2, Ratio>::value &&
-                (std::is_floating_point<T>::value ||
-                (no_overflow<Ratio2, Ratio>::type::den == 1 && !std::is_floating_point<U>::value))
-             >::type* = 0) : value(other.value) {
-
+    // you can construct a quantity from another quantity, as long as
+    // two quantities share common dimension
+    template<class U, class Ratio2, class Traits2>
+    quantity(const quantity<U, Dim, Ratio2, Traits2>& other) :
+        value(quantity_cast<quantity>(other).value) {
     }
 
-    normalized_type normalize() {
-        return normalized_type{normalized_value()};
-    };
+//    normalized_type normalize() {
+//        return normalized_type{normalized_value()};
+//    };
 };
 
 template<class T> using millimeter = quantity<T, length, std::milli>;
@@ -287,7 +285,7 @@ template<class T> using kilometer = quantity<T, length, std::kilo>;
 template<class T> using feet = quantity<T, length, std::ratio<1>, eng_traits<length>>;
 template<class T> using inch = quantity<T, length, std::ratio<1, 12>, eng_traits<length>>;
 
-//template<class T> using second = quantity<T, time>;
+template<class T> using second = quantity<T, time>;
 //template<class T> using hour = quantity<T, time, std::ratio<3600>>;
 
 

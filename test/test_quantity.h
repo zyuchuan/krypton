@@ -132,17 +132,43 @@ TEST(test_quantity, test_quantity_cast) {
     //EXPECT_EQ(km_per_h.normalize().value, 1.0);
 //}
 
-//TEST(test_quantity, test_construct) {
-    //kr::quantity<int, kr::length> q1(3);
-    //EXPECT_EQ(q1.value, 3);
+TEST(test_quantity, test_construct) {
+    kr::quantity<int, kr::length> q1(3);
+    EXPECT_EQ(q1.value, 3);
     
     // this should not compile
     //kr::quantity<int, kr::mass> q2(3.0);
     //EXPECT_EQ(q1.value, 3.0);
     
-    //kr::quantity<double, kr::length> q3(3);
-    //EXPECT_EQ(q3.value, 3.0);
-//}
+    kr::quantity<double, kr::length> q3(3);
+    EXPECT_EQ(q3.value, 3.0);
+    
+    // construct kilometer from meter
+    kr::meter<double> m4{1000.0};
+    kr::kilometer<double> km4(m4);
+    EXPECT_EQ(km4.value, 1.0);
+    
+    // construct meter from kilometer
+    kr::kilometer<double> km5{1.0};
+    kr::meter<double> m5 = km5;
+    EXPECT_EQ(m5.value, 1000.0);
+    
+    // construct feet from meter
+    kr::meter<double> m6{1.0};
+    kr::feet<double> feet6{m6};
+    double diff = std::abs(feet6.value - 3.2808399);
+    EXPECT_LE(diff, 0.00000001);
+    
+    // construct meeter from feet
+    kr::feet<double> feet7{1.0};
+    kr::meter<double> m7 = feet7;
+    diff = std::abs(m7.value - 0.3048);
+    EXPECT_LE(diff, 0.0001);
+    
+    // this should not compile
+    //kr::meter<double> m8{1.0};
+    //kr::second<double> sec9{m8};
+}
 
 
 #endif /* test_quantity_h */
