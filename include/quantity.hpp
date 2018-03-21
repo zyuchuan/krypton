@@ -9,6 +9,11 @@
 #ifndef quantity_h
 #define quantity_h
 
+#if defined (_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable: 4244) // possible loss of data 
+#endif
+
 #include <ratio>
 #include "krypton.hpp"
 #include "dimension.hpp"
@@ -301,5 +306,8 @@ template<class T> using second = quantity<T, time>;
 
 END_KR_NAMESPACE
 
+#if defined (_MSC_VER)
+#pragma warning(pop)
+#endif
 
 #endif /* quantity_h */
