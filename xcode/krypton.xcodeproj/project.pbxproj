@@ -34,7 +34,7 @@
 		047FAB8A20515E3B0077F24B /* gtest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gtest.framework; path = ../../googletest/googletest/lib/gtest.framework; sourceTree = "<group>"; };
 		04965CF4204B979600604F28 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C38EFC20555DF40082E262 /* ratio_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ratio_static_check.h; path = ../test/ratio_static_check.h; sourceTree = "<group>"; };
-		04C38EFD205567CF0082E262 /* traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = traits.hpp; path = ../include/traits.hpp; sourceTree = "<group>"; };
+		04C38EFD205567CF0082E262 /* unit.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = unit.hpp; path = ../include/unit.hpp; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
 		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
 		04E33FCD2056A7EB003701F7 /* traits_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = traits_static_check.h; path = ../test/traits_static_check.h; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 				047FAB7D20515C590077F24B /* integer.hpp */,
 				047FAB7A20515C590077F24B /* sequence.hpp */,
 				047FAB7C20515C590077F24B /* dimension.hpp */,
-				04C38EFD205567CF0082E262 /* traits.hpp */,
+				04C38EFD205567CF0082E262 /* unit.hpp */,
 				047FAB7820515C590077F24B /* quantity.hpp */,
 			);
 			name = include;

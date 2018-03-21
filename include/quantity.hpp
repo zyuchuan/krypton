@@ -17,40 +17,40 @@
 #include <ratio>
 #include "krypton.hpp"
 #include "dimension.hpp"
-#include "traits.hpp"
+#include "unit.hpp"
 #include "utility.hpp"
 
 BEGIN_KR_NAMESPACE
 
 // forward declare
-template<class T, class Dim, class Ratio = std::ratio<1>, class Traits = iso_traits<Dim>>
+template<class T, class Dim, class Ratio = std::ratio<1>, class Unit = metric_system<Dim>>
 class quantity;
 
 template<class T>
 struct is_quantity : public std::false_type {};
 
-template<class T, class Dim, class Ratio, class Traits>
-struct is_quantity<quantity<T, Dim, Ratio, Traits>> : public std::true_type{};
+template<class T, class Dim, class Ratio, class Unit>
+struct is_quantity<quantity<T, Dim, Ratio, Unit>> : public std::true_type{};
 
-template<class T, class Dim, class Ratio, class Traits>
-struct is_quantity<const quantity<T, Dim, Ratio, Traits>> : public std::true_type{};
+template<class T, class Dim, class Ratio, class Unit>
+struct is_quantity<const quantity<T, Dim, Ratio, Unit>> : public std::true_type{};
 
-template<class T, class Dim, class Ratio, class Traits>
-struct is_quantity<volatile quantity<T, Dim, Ratio, Traits>> : public std::true_type{};
+template<class T, class Dim, class Ratio, class Unit>
+struct is_quantity<volatile quantity<T, Dim, Ratio, Unit>> : public std::true_type{};
 
-template<class T, class Dim, class Ratio, class Traits>
-struct is_quantity<const volatile quantity<T, Dim, Ratio, Traits>> : public std::true_type{};
+template<class T, class Dim, class Ratio, class Unit>
+struct is_quantity<const volatile quantity<T, Dim, Ratio, Unit>> : public std::true_type{};
 
 template<class T1, class T2>
 struct common_type : public std::false_type {};
 
 
-template<class T1, class Dim, class Ratio1, class T2, class Ratio2, class Traits>
-struct common_type<quantity<T1, Dim, Ratio1, Traits>, quantity<T2, Dim, Ratio2, Traits>> {
+template<class T1, class Dim, class Ratio1, class T2, class Ratio2, class Unit>
+struct common_type<quantity<T1, Dim, Ratio1, Unit>, quantity<T2, Dim, Ratio2, Unit>> {
     using type = quantity<typename std::common_type<T1, T2>::type,
                           Dim,
                           typename ratio_gcd<Ratio1, Ratio2>::type,
-                          Traits>;
+                          Unit>;
 };
 
 // quantity cast, one quantity can be converted to another,
@@ -61,7 +61,7 @@ namespace detail {
     template<class From, class To,
              class Ratio = typename std::ratio_divide<typename From::ratio_type, typename To::ratio_type>::type,
              bool DimEqual = kr::equals<typename From::dim_type, typename To::dim_type>::value,
-             bool TraitsEqual = kr::equals<typename From::traits_type, typename To::traits_type>::value,
+             bool UnitEqual = kr::equals<typename From::unit_type, typename To::unit_type>::value,
              bool = (Ratio::num == 1),
              bool = (Ratio::den == 1)>
     struct quantity_cast_impl;
@@ -78,7 +78,7 @@ namespace detail {
 	template<class From, class To, class Ratio>
 	struct quantity_cast_impl<From, To, Ratio, true, false, true, true> {
 		inline constexpr To operator()(const From& from) const {
-			using convert_factor = typename From::traits_type::convert_factor;
+			using convert_factor = typename From::unit_type::convert_factor;
 			return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num)
                                                            / static_cast<double>(convert_factor::den)));
 		}
@@ -100,7 +100,7 @@ namespace detail {
     struct quantity_cast_impl<From, To, Ratio, true, false, true, false> {
         inline constexpr To operator()(const From& from) const {
             //using type = typename std::common_type<typename To::T, typename From::T, intmax_t, double>::type;
-            using convert_factor = typename From::traits_type::convert_factor;
+            using convert_factor = typename From::unit_type::convert_factor;
             return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num) /
                                                            static_cast<double>(Ratio::den * convert_factor::den)));
         }
@@ -122,7 +122,7 @@ namespace detail {
     struct quantity_cast_impl<From, To, Ratio, true, false, false, true > {
         inline constexpr To operator()(const From& from) const {
             //using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-            using convert_factor = typename From::traits_type::convert_factor;
+            using convert_factor = typename From::unit_type::convert_factor;
             return To(static_cast<typename To::value_type>(
                             static_cast<double>(from.value * convert_factor::num * Ratio::num) /
                                                 static_cast<double>(convert_factor::den)));
@@ -193,7 +193,7 @@ public:
     using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
 };
 
-template<class T, class Dim, class Ratio, class Traits>
+template<class T, class Dim, class Ratio, class Unit>
 class quantity {
     static_assert(!is_quantity<T>::value, "A quantity can not be value type of another quantity");
     static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
@@ -243,7 +243,7 @@ public:
     using value_type = T;
     using dim_type = Dim;
     using ratio_type = Ratio;
-    using traits_type = Traits;
+    using unit_type = Unit;
     
 //    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
 //    using reference = quantity&;
@@ -272,8 +272,8 @@ public:
 
     // you can construct a quantity from another quantity, as long as
     // two quantities share common dimension
-    template<class U, class Ratio2, class Traits2>
-    quantity(const quantity<U, Dim, Ratio2, Traits2>& other) :
+    template<class U, class Ratio2, class Unit2>
+    quantity(const quantity<U, Dim, Ratio2, Unit2>& other) :
         value(quantity_cast<quantity>(other).value) {
     }
 
@@ -297,8 +297,8 @@ template<class T> using centimeter = quantity<T, length, std::centi>;
 template<class T> using meter = quantity<T, length>;
 template<class T> using kilometer = quantity<T, length, std::kilo>;
 
-template<class T> using feet = quantity<T, length, std::ratio<1>, eng_traits<length>>;
-template<class T> using inch = quantity<T, length, std::ratio<1, 12>, eng_traits<length>>;
+template<class T> using feet = quantity<T, length, std::ratio<1>, british_system<length>>;
+template<class T> using inch = quantity<T, length, std::ratio<1, 12>, british_system<length>>;
 
 template<class T> using second = quantity<T, time>;
 //template<class T> using hour = quantity<T, time, std::ratio<3600>>;

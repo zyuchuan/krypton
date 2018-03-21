@@ -48,8 +48,8 @@ void quantity_static_check() {
     static_assert(ratio_type_3::num == 50, "there are errors in kr::common_type implementation");
     static_assert(ratio_type_3::den == 99, "there are errors in kr::common_type implementation");
     
-    using Q7 = kr::quantity<int, kr::length, std::ratio<100, 66>, kr::iso_traits<kr::length>>;
-    using Q8 = kr::quantity<int, kr::length, std::ratio<100, 99>, kr::eng_traits<kr::length>>;
+    using Q7 = kr::quantity<int, kr::length, std::ratio<100, 66>, kr::metric_system<kr::length>>;
+    using Q8 = kr::quantity<int, kr::length, std::ratio<100, 99>, kr::british_system<kr::length>>;
     using common_type_4 = kr::common_type<Q7, Q8>::type;
 }
 
