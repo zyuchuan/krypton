@@ -31,7 +31,7 @@ using time = sequence<_0, _0, _1, _0, _0, _0, _0>;
 
 // Compound dimensions
 using velocity = sequence<_0, _1, __1, _0, _0, _0, _0>;       // l/t
-using acceleration = sequence<_0, _1, __2, _0, _0, _0, _0>;   // l/t^2
+using acceleration_d = sequence<_0, _1, __2, _0, _0, _0, _0>;   // l/t^2
 using force = sequence<_1, _1, __2, _0, _0, _0, _0>;          // ml/t^2
 
 

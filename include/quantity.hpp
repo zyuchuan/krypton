@@ -150,6 +150,19 @@ namespace detail {
                                                            static_cast<double>(Ratio::den * convert_factor::den)));
         }
     };
+    
+    template<class Multiplicand, class Multiplier,
+             bool UnitEqual = kr::equals<typename Multiplicand::unit_type, typename Multiplier::unit_type>::value>
+    struct quantity_multiply;
+    
+    template<class Multiplicand, class Multiplier>
+    struct quantity_multiply<Multiplicand, Multiplier, true> {
+        using dim_type = typename plus<typename Multiplicand::dim_type, typename Multiplier::dim_type>::type;
+        using ret_type = quantity<typename Multiplicand::value_type, dim_type, std::ratio<1>, typename Multiplicand::unit_type>;
+        inline ret_type operator()(const Multiplicand& q1, const Multiplier& q2) {
+            return ret_type{q1.value * q2.value};
+        }
+    };
 }
 
 template<class To, class U, class Dim, class Ratio, class Traits>
@@ -250,17 +263,11 @@ public:
 
     const value_type  value;
 
-public:
-
-    //value_type value() {return _value;}
-
-//    inline value_type normalized_value() {
-//        return static_cast<value_type>(value *
-//               static_cast<double>(ratio_type::type::num) /
-//               static_cast<double>(ratio_type::type::den));
-//    }
-
-public:
+    using normal_type = quantity<T, Dim, std::ratio<1>, Unit>;
+    
+    inline normal_type normalized() {
+        return normal_type{*this};
+    }
     
     // construct with a scalar value
     template<class U>
@@ -277,10 +284,6 @@ public:
         value(quantity_cast<quantity>(other).value) {
     }
 
-//    normalized_type normalize() {
-//        return normalized_type{normalized_value()};
-//    };
-
 	template<class U, class Ratio2, class Unit2>
 	inline quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) {
 		quantity temp{ other};
@@ -288,10 +291,15 @@ public:
 	}
 
 	template<class U, class Ratio2, class Unit2>
-	inline quantity substract(const quantity<U, Dim, Ratio2, Unit2>& other) {
+	inline quantity sub(const quantity<U, Dim, Ratio2, Unit2>& other) {
 		quantity temp{ other };
 		return quantity(this->value - temp.value);
 	}
+    
+//    template<class Multipiler>
+//    inline auto multiple(const Multipiler& other) {
+//        return detail::quantity_multiply
+//    }
     
     // arithmetic
     inline constexpr quantity  operator+() const {return *this;}
@@ -313,7 +321,9 @@ template<class T> using feet = quantity<T, length, std::ratio<1>, british_system
 template<class T> using inch = quantity<T, length, std::ratio<1, 12>, british_system<length>>;
 
 template<class T> using second = quantity<T, time>;
-//template<class T> using hour = quantity<T, time, std::ratio<3600>>;
+template<class T> using hour = quantity<T, time, std::ratio<3600>>;
+
+template<class T> using m_per_s = quantity<T, velocity>;
 
 
 END_KR_NAMESPACE
