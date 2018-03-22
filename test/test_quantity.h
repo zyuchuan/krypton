@@ -170,8 +170,34 @@ TEST(test_quantity, test_construct) {
     //kr::second<double> sec9{m8};
 }
 
-TEST(test_quantity, test_arithmetic) {
-    
+TEST(test_quantity, test_add) {
+	kr::meter<int> m1{ 1 };
+	kr::meter<int> m2{ 2 };
+	kr::meter<int> m3 = m1.add(m2);
+	EXPECT_EQ(m3.value, 3);
+
+	kr::kilometer<int> m4{ 1 };
+	kr::meter<int> m5 = m1.add(m4);
+	EXPECT_EQ(m5.value, 1001);
+
+	kr::centimeter<double> cm5{ 1.0 };
+	kr::kilometer<double> km6{ 1.0 };
+	EXPECT_EQ(cm5.add(km6).value, 100001);
+
+	kr::meter<double> m7{ 1.0 };
+	kr::feet<double> feet8{ 1.0 };
+	double diff = std::abs(m7.add(feet8).value - 1.3048);
+	EXPECT_LE(diff, 0.00001);
+
+	kr::centimeter<double> cm8{ 1.0 };
+	kr::inch<double> inch9{ 1.0 };
+	diff = std::abs(inch9.add(cm8).value - 1.3937);
+	EXPECT_LE(diff, 0.00001);
+
+	// this should not compile
+	//kr::meter<int> m10{ 10 };
+	//kr::second<int> s10{ 10 };
+	//m10.add(s10);
 }
 
 #endif /* test_quantity_h */

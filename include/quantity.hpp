@@ -145,7 +145,7 @@ namespace detail {
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, false, false> {
         inline constexpr To operator()(const From& from) const {
-            using convert_factor = typename From::traits_type::convert_factor;
+            using convert_factor = typename From::unit_type::convert_factor;
             return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num * Ratio::num) /
                                                            static_cast<double>(Ratio::den * convert_factor::den)));
         }
@@ -280,6 +280,18 @@ public:
 //    normalized_type normalize() {
 //        return normalized_type{normalized_value()};
 //    };
+
+	template<class U, class Ratio2, class Unit2>
+	inline quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) {
+		quantity temp{ other};
+		return quantity(this->value + temp.value);
+	}
+
+	template<class U, class Ratio2, class Unit2>
+	inline quantity substract(const quantity<U, Dim, Ratio2, Unit2>& other) {
+		quantity temp{ other };
+		return quantity(this->value - temp.value);
+	}
     
     // arithmetic
     inline constexpr quantity  operator+() const {return *this;}

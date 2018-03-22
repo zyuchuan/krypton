@@ -45,10 +45,10 @@
     <ClInclude Include="..\include\integer.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\traits.hpp">
+    <ClInclude Include="..\include\utility.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\utility.hpp">
+    <ClInclude Include="..\include\unit.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>

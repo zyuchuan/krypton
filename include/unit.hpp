@@ -1,5 +1,5 @@
 //
-//  traits.hpp
+//  unit.hpp
 //  krypton
 //
 //  Created by Jack Zou on 2018/3/11.
