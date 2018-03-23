@@ -200,12 +200,21 @@ TEST(test_quantity, test_add) {
 	//m10.add(s10);
 }
 
+TEST(test_quantity, test_normalized) {
+	kr::kilometer<int> km1{ 1 };
+	using normal_type = kr::kilometer<int>::normal_type;
+	normal_type normal = km1.normalized();
+	EXPECT_EQ(normal.value, 1000);
+}
+
 TEST(test_quantity, test_multiply) {
     kr::m_per_s<double> v1{5.0};
     kr::second<double> sec1{1.0};
     
-	v1.multiply(sec1);
-    //EXPECT_EQ(m1.value, 5.0);
+	using mul = kr::detail::quantity_multiply<kr::m_per_s<double>, kr::second<double>, true>;
+	auto r = mul()(v1, sec1);
+
+    EXPECT_EQ(r.value, 5.0);
 }
 
 #endif /* test_quantity_h */

@@ -151,15 +151,16 @@ namespace detail {
         }
     };
     
-    template<class Multiplicand, class Multiplier,
-             bool UnitEqual = kr::equals<typename Multiplicand::unit_type, typename Multiplier::unit_type>::value>
+    template<class Q1, class Q2,
+             bool UnitEqual = kr::equals<typename Q1::unit_type, typename Q2::unit_type>::value>
     struct quantity_multiply;
     
-    template<class Multiplicand, class Multiplier>
-    struct quantity_multiply<Multiplicand, Multiplier, false> {
-        using dim_type = typename plus<typename Multiplicand::dim_type, typename Multiplier::dim_type>::type;
-        using ret_type = quantity<typename Multiplicand::value_type, dim_type, std::ratio<1>, typename Multiplicand::unit_type>;
-        inline ret_type operator()(Multiplicand& q1, const Multiplier& q2) {
+    template<class Q1, class Q2>
+    struct quantity_multiply<Q1, Q2, true> {
+        using dim_type = typename kr::plus<typename Q1::dim_type, typename Q2::dim_type>::type;
+        using ret_type = quantity<typename Q1::value_type, dim_type, std::ratio<1>, typename Q1::unit_type>;
+
+        inline ret_type operator()(const Q1& q1, const Q2& q2) {
             return ret_type{q1.normalized().value * q2.normalized().value};
         }
     };
@@ -258,14 +259,13 @@ public:
     using ratio_type = Ratio;
     using unit_type = Unit;
 	using this_type = quantity;
+	using normal_type = quantity<T, Dim, std::ratio<1>, Unit>;
 
 //    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
 //    using reference = quantity&;
 
     const value_type  value;
 
-    using normal_type = quantity<T, Dim, std::ratio<1>, Unit>;
-    
     inline normal_type normalized() {
         return normal_type{*this};
     }
@@ -297,10 +297,10 @@ public:
 		return quantity(this->value - temp.value);
 	}
     
-    template<class Multipiler>
-    inline void multiply(const Multipiler& other) {
-		detail::quantity_multiply<this_type, Multipiler>()(*this, other);
-    }
+  //  template<class Multipiler>
+  //  inline void multiply(const Multipiler& other) {
+		//detail::quantity_multiply<this_type, Multipiler>()(*this, other);
+  //  }
     
     // arithmetic
     inline constexpr quantity  operator+() const {return *this;}
