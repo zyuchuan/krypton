@@ -1,12 +1,15 @@
 //
-//  test_integers.cpp
+//  integer_static_check.h
 //  krypto
 //
 //  Created by Jack Zou on 2018/3/4.
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#include "integers.hpp"
+#ifndef integer_static_check_h
+#define integer_static_check_h
+
+#include "integer.hpp"
 
 void test_integers() {
     static_assert(kr::__8::value == -8, "kr::__8 must represent value -8");
@@ -33,3 +36,5 @@ void test_integers() {
     //static_assert(kr::equals<kr::_1, kr::__1>::value, "should not be equal");
     static_assert(kr::equals<kr::plus<kr::_1, kr::_2>::type, kr::_3>::value, "should be equal");
 }
+
+#endif // integer_static_check_h

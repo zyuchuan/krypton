@@ -26,9 +26,10 @@
     <ClInclude Include="..\include\sequence.hpp" />
     <ClInclude Include="..\include\unit.hpp" />
     <ClInclude Include="..\include\utility.hpp" />
-    <ClInclude Include="..\test\integers_static_checks.h" />
-    <ClInclude Include="..\test\sequence_static_checks.h" />
+    <ClInclude Include="..\test\integer_static_check.h" />
+    <ClInclude Include="..\test\sequence_static_check.h" />
     <ClInclude Include="..\test\test_quantity.h" />
+    <ClInclude Include="..\test\unit_static_check.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test.cpp" />

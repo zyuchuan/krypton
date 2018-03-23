@@ -204,7 +204,7 @@ TEST(test_quantity, test_multiply) {
     kr::m_per_s<double> v1{5.0};
     kr::second<double> sec1{1.0};
     
-    //kr::meter<double> m1 = v1.multiply(sec1);
+	v1.multiply(sec1);
     //EXPECT_EQ(m1.value, 5.0);
 }
 

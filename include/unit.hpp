@@ -23,7 +23,7 @@ enum class metrology : int {
 
 template<int N>
 struct metrology_base {
-    static const constexpr metrology metric{static_cast<metrology>(N)};
+    static constexpr metrology metric{static_cast<metrology>(N)};
 };
     
 using metric_system_base = metrology_base<static_cast<int>(metrology::metric)>;

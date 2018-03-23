@@ -1,15 +1,16 @@
 //
-//  test_dimensions.cpp
+//  sequence_static_check.h
 //  krypton
 //
 //  Created by Jack Zou on 2018/3/5.
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#include <iostream>
-#include "integers.hpp"
-#include "sequence.hpp"
+#ifndef sequence_static_check_h
+#define sequence_static_check_h
 
+#include "integer.hpp"
+#include "sequence.hpp"
 
 void test_sequence() {
     using seq0 = kr::sequence<int, int, int>;
@@ -32,3 +33,5 @@ void test_sequence() {
     using seq = kr::plus<seq1, seq2>::type;
     static_assert(kr::equals<seq, seq3>::value, "should be equal");
 }
+
+#endif // sequence_static_check_h

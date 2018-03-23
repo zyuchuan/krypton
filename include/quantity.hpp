@@ -156,11 +156,11 @@ namespace detail {
     struct quantity_multiply;
     
     template<class Multiplicand, class Multiplier>
-    struct quantity_multiply<Multiplicand, Multiplier, true> {
+    struct quantity_multiply<Multiplicand, Multiplier, false> {
         using dim_type = typename plus<typename Multiplicand::dim_type, typename Multiplier::dim_type>::type;
         using ret_type = quantity<typename Multiplicand::value_type, dim_type, std::ratio<1>, typename Multiplicand::unit_type>;
-        inline ret_type operator()(const Multiplicand& q1, const Multiplier& q2) {
-            return ret_type{q1.value * q2.value};
+        inline ret_type operator()(Multiplicand& q1, const Multiplier& q2) {
+            return ret_type{q1.normalized().value * q2.normalized().value};
         }
     };
 }
@@ -257,7 +257,8 @@ public:
     using dim_type = Dim;
     using ratio_type = Ratio;
     using unit_type = Unit;
-    
+	using this_type = quantity;
+
 //    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
 //    using reference = quantity&;
 
@@ -296,10 +297,10 @@ public:
 		return quantity(this->value - temp.value);
 	}
     
-//    template<class Multipiler>
-//    inline auto multiple(const Multipiler& other) {
-//        return detail::quantity_multiply
-//    }
+    template<class Multipiler>
+    inline void multiply(const Multipiler& other) {
+		detail::quantity_multiply<this_type, Multipiler>()(*this, other);
+    }
     
     // arithmetic
     inline constexpr quantity  operator+() const {return *this;}

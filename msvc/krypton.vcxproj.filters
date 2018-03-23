@@ -30,12 +30,6 @@
     <ClInclude Include="..\include\sequence.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\test\integers_static_checks.h">
-      <Filter>Source Files\test</Filter>
-    </ClInclude>
-    <ClInclude Include="..\test\sequence_static_checks.h">
-      <Filter>Source Files\test</Filter>
-    </ClInclude>
     <ClInclude Include="..\test\test_quantity.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
@@ -50,6 +44,15 @@
     </ClInclude>
     <ClInclude Include="..\include\unit.hpp">
       <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test\integer_static_check.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test\sequence_static_check.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test\unit_static_check.h">
+      <Filter>Source Files\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
