@@ -153,15 +153,33 @@ namespace detail {
     
     template<class Q1, class Q2,
              bool UnitEqual = kr::equals<typename Q1::unit_type, typename Q2::unit_type>::value>
-    struct quantity_multiply;
+    struct quantity_multiply_impl;
     
     template<class Q1, class Q2>
-    struct quantity_multiply<Q1, Q2, true> {
+    struct quantity_multiply_impl<Q1, Q2, true> {
+        using value_type = typename std::common_type<typename Q1::value_type, typename Q2::value_type>::type;
         using dim_type = typename kr::plus<typename Q1::dim_type, typename Q2::dim_type>::type;
-        using ret_type = quantity<typename Q1::value_type, dim_type, std::ratio<1>, typename Q1::unit_type>;
+        using ratio_type = std::ratio<1>;
+        using unit_type = typename Q1::unit_type;
+        using ret_type = quantity<value_type, dim_type, ratio_type, unit_type>;
 
         inline ret_type operator()(const Q1& q1, const Q2& q2) {
             return ret_type{q1.normalized().value * q2.normalized().value};
+        }
+    };
+    
+    template<class Q1, class Q2>
+    struct quantity_multiply_impl<Q1, Q2, false> {
+        using value_type = typename std::common_type<typename Q1::value_type, typename Q2::value_type>::type;
+        using dim_type = typename kr::plus<typename Q1::dim_type, typename Q2::dim_type>::type;
+        using ratio_type = std::ratio<1>;
+        using unit_type = typename Q1::unit_type;
+        using rebind_type = quantity<typename Q2::value_type, typename Q2::dim_type, typename Q2::ratio_type, unit_type>;
+        using ret_type = quantity<value_type, dim_type, ratio_type, unit_type>;
+        
+        inline ret_type operator()(const Q1& q1, const Q2& q2) {
+            rebind_type temp{q2};
+            return ret_type{q1.normalized().value * temp.normalized().value};
         }
     };
 }
@@ -174,6 +192,38 @@ inline constexpr typename std::enable_if
 quantity_cast(const quantity<U, Dim, Ratio, Traits>& other) {
     return detail::quantity_cast_impl<quantity<U, Dim, Ratio, Traits>, To>()(other);
 }
+
+template<class Q1, class Q2
+        /*typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value>::type* = 0*/>
+struct quantity_arithmetic_traits {
+    using value_type_1      = typename Q1::value_type;
+    using value_type_2      = typename Q2::value_type;
+    using dim_type_1        = typename Q1::dim_type;
+    using dim_type_2        = typename Q2::dim_type;
+    using ratio_type_1      = typename Q1::ratio_type;
+    using ratio_type_2      = typename Q2::ratio_type;
+    using unit_type_1       = typename Q1::unit_type;
+    using unit_type_2       = typename Q2::unit_type;
+    using normalized_type_1 = typename Q1::normalized_type;
+    using normalized_type_2 = typename Q2::normalized_type;
+    
+    struct multiply {
+        using value_type = typename std::common_type<value_type_1, value_type_2>::type;
+        using dim_type = typename plus<dim_type_1, dim_type_2>::type;
+        using ratio_type = std::ratio<1>;
+        using unit_type = unit_type_1;
+        using result_type = quantity<value_type, dim_type, ratio_type, unit_type>;
+    };
+};
+
+template<class Q1, class Q2, class Traits = quantity_arithmetic_traits<Q1, Q2>>
+inline constexpr
+typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value,
+                        typename Traits::multiply::result_type>::type
+quantity_multiply(const Q1& q1, const Q2& q2) {
+    return detail::quantity_multiply_impl<Q1, Q2>()(q1, q2);
+}
+
 
 template<class R1, class R2>
 struct no_overflow {
@@ -259,15 +309,15 @@ public:
     using ratio_type = Ratio;
     using unit_type = Unit;
 	using this_type = quantity;
-	using normal_type = quantity<T, Dim, std::ratio<1>, Unit>;
+	using normalized_type = quantity<T, Dim, std::ratio<1>, Unit>;
 
 //    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
 //    using reference = quantity&;
 
     const value_type  value;
 
-    inline normal_type normalized() {
-        return normal_type{*this};
+    inline normalized_type normalized() const {
+        return normalized_type{*this};
     }
     
     // construct with a scalar value

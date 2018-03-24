@@ -202,19 +202,23 @@ TEST(test_quantity, test_add) {
 
 TEST(test_quantity, test_normalized) {
 	kr::kilometer<int> km1{ 1 };
-	using normal_type = kr::kilometer<int>::normal_type;
+	using normal_type = kr::kilometer<int>::normalized_type;
 	normal_type normal = km1.normalized();
 	EXPECT_EQ(normal.value, 1000);
 }
 
 TEST(test_quantity, test_multiply) {
-    kr::m_per_s<double> v1{5.0};
-    kr::second<double> sec1{1.0};
+    using velocity = kr::m_per_s<double>;
+    using second = kr::second<int>;
     
-	using mul = kr::detail::quantity_multiply<kr::m_per_s<double>, kr::second<double>, true>;
-	auto r = mul()(v1, sec1);
-
-    EXPECT_EQ(r.value, 5.0);
+    velocity v1{5.0};
+    second s{1};
+    
+    static_assert(kr::is_quantity<velocity>::value, "It is a quantity type");
+    static_assert(kr::is_quantity<second>::value, "It is a quantity type");
+    
+    kr::meter<double> m1 = kr::quantity_multiply<velocity, second>(v1, s);
+    EXPECT_EQ(m1.value, 5.0);
 }
 
 #endif /* test_quantity_h */

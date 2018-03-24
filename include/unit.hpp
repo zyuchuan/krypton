@@ -30,10 +30,14 @@ using metric_system_base = metrology_base<static_cast<int>(metrology::metric)>;
 using british_system_base = metrology_base<static_cast<int>(metrology::british)>;
     
 template<class T>
-struct metric_system;
+struct metric_system : public metric_system_base {
+    using convert_factor = std::ratio<1>;
+};
 
 template<class T>
-struct british_system;
+struct british_system : public british_system_base {
+    using convert_factor = std::ratio<1>;
+};
 
 template<>
 struct metric_system<length> : public metric_system_base {

@@ -23,13 +23,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04464BE52066391F00481CE3 /* sequence_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sequence_static_check.h; path = ../test/sequence_static_check.h; sourceTree = "<group>"; };
+		04464BE62066391F00481CE3 /* integer_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = integer_static_check.h; path = ../test/integer_static_check.h; sourceTree = "<group>"; };
+		04464BE72066391F00481CE3 /* unit_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unit_static_check.h; path = ../test/unit_static_check.h; sourceTree = "<group>"; };
 		047FAB7820515C590077F24B /* quantity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = quantity.hpp; path = ../include/quantity.hpp; sourceTree = "<group>"; };
 		047FAB7A20515C590077F24B /* sequence.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = sequence.hpp; path = ../include/sequence.hpp; sourceTree = "<group>"; };
 		047FAB7B20515C590077F24B /* krypton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = krypton.hpp; path = ../include/krypton.hpp; sourceTree = "<group>"; };
 		047FAB7C20515C590077F24B /* dimension.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = dimension.hpp; path = ../include/dimension.hpp; sourceTree = "<group>"; };
 		047FAB7D20515C590077F24B /* integer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = integer.hpp; path = ../include/integer.hpp; sourceTree = "<group>"; };
-		047FAB7F20515C780077F24B /* sequence_static_checks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sequence_static_checks.h; path = ../test/sequence_static_checks.h; sourceTree = "<group>"; };
-		047FAB8020515C780077F24B /* integers_static_checks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = integers_static_checks.h; path = ../test/integers_static_checks.h; sourceTree = "<group>"; };
 		047FAB8420515C780077F24B /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test.cpp; path = ../test/test.cpp; sourceTree = "<group>"; };
 		047FAB8A20515E3B0077F24B /* gtest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gtest.framework; path = ../../googletest/googletest/lib/gtest.framework; sourceTree = "<group>"; };
 		04965CF4204B979600604F28 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,7 +38,6 @@
 		04C38EFD205567CF0082E262 /* unit.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = unit.hpp; path = ../include/unit.hpp; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
 		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
-		04E33FCD2056A7EB003701F7 /* traits_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = traits_static_check.h; path = ../test/traits_static_check.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,12 +67,12 @@
 		047FAB7E20515C640077F24B /* test */ = {
 			isa = PBXGroup;
 			children = (
+				04464BE62066391F00481CE3 /* integer_static_check.h */,
+				04464BE52066391F00481CE3 /* sequence_static_check.h */,
+				04464BE72066391F00481CE3 /* unit_static_check.h */,
+				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
 				04C77F3420516826001C27F4 /* test_quantity.h */,
 				047FAB8420515C780077F24B /* test.cpp */,
-				047FAB8020515C780077F24B /* integers_static_checks.h */,
-				047FAB7F20515C780077F24B /* sequence_static_checks.h */,
-				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
-				04E33FCD2056A7EB003701F7 /* traits_static_check.h */,
 			);
 			name = test;
 			sourceTree = "<group>";
