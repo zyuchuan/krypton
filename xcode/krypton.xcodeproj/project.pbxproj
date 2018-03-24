@@ -26,6 +26,7 @@
 		04464BE52066391F00481CE3 /* sequence_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sequence_static_check.h; path = ../test/sequence_static_check.h; sourceTree = "<group>"; };
 		04464BE62066391F00481CE3 /* integer_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = integer_static_check.h; path = ../test/integer_static_check.h; sourceTree = "<group>"; };
 		04464BE72066391F00481CE3 /* unit_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unit_static_check.h; path = ../test/unit_static_check.h; sourceTree = "<group>"; };
+		04464BE82066545F00481CE3 /* traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = traits.hpp; path = ../include/traits.hpp; sourceTree = "<group>"; };
 		047FAB7820515C590077F24B /* quantity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = quantity.hpp; path = ../include/quantity.hpp; sourceTree = "<group>"; };
 		047FAB7A20515C590077F24B /* sequence.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = sequence.hpp; path = ../include/sequence.hpp; sourceTree = "<group>"; };
 		047FAB7B20515C590077F24B /* krypton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = krypton.hpp; path = ../include/krypton.hpp; sourceTree = "<group>"; };
@@ -60,6 +61,7 @@
 				047FAB7C20515C590077F24B /* dimension.hpp */,
 				04C38EFD205567CF0082E262 /* unit.hpp */,
 				047FAB7820515C590077F24B /* quantity.hpp */,
+				04464BE82066545F00481CE3 /* traits.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
