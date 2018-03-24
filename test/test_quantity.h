@@ -216,6 +216,7 @@ TEST(test_quantity, test_multiply) {
     
     static_assert(kr::is_quantity<velocity>::value, "It is a quantity type");
     static_assert(kr::is_quantity<second>::value, "It is a quantity type");
+    static_assert(kr::metric_equals<typename velocity::unit_type, typename second::unit_type>::value, "They are same system");
     
     kr::meter<double> m1 = kr::quantity_multiply<velocity, second>(v1, s);
     EXPECT_EQ(m1.value, 5.0);

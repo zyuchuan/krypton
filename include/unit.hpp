@@ -56,7 +56,8 @@ struct metric_system<mass> : public metric_system_base {
 template<>
 struct british_system<mass> : public british_system_base {
 };
-    
+
+// equals test if two metric as same
 template<int N, int M>
 struct equals<metrology_base<N>, metrology_base<M>> : public std::integral_constant<bool, N==M>{};
     
@@ -65,6 +66,22 @@ struct equals<metric_system<Dim1>, metric_system<Dim2>> : public std::integral_c
 
 template<class Dim1, class Dim2>
 struct equals<british_system<Dim1>, british_system<Dim2>> : public std::integral_constant<bool, equals<Dim1, Dim2>::value>{};
+
+// equal_metric tests if two metrics belong to same system
+template<class M1, class M2>
+struct metric_equals : public std::false_type {};
+    
+template<>
+struct metric_equals<metric_system_base, metric_system_base> : public std::true_type {};
+
+template<class Dim1, class Dim2>
+struct metric_equals<metric_system<Dim1>, metric_system<Dim2>> : public std::true_type {};
+
+template<>
+struct metric_equals<british_system_base, british_system_base> : public std::true_type {};
+
+template<class Dim1, class Dim2>
+struct metric_equals<british_system<Dim1>, british_system<Dim2>> : public std::true_type {};
 
 END_KR_NAMESPACE
 

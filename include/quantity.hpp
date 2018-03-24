@@ -123,11 +123,11 @@ namespace detail {
     // quantity multiplication
     
     template<class Q1, class Q2,
-             bool UnitEqual = kr::equals<typename Q1::unit_type, typename Q2::unit_type>::value>
+             bool SameSystem = metric_equals<typename Q1::unit_type, typename Q2::unit_type>::value>
     struct quantity_multiply_impl;
     
     // quantity multiplication
-    // same unit
+    // same system
     template<class Q1, class Q2>
     struct quantity_multiply_impl<Q1, Q2, true> {
         using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiply::result_type;
@@ -137,19 +137,19 @@ namespace detail {
     };
     
     // quantity multiplication
-    // different unit
+    // different system
     template<class Q1, class Q2>
     struct quantity_multiply_impl<Q1, Q2, false> {
-        using value_type = typename std::common_type<typename Q1::value_type, typename Q2::value_type>::type;
-        using dim_type = typename kr::plus<typename Q1::dim_type, typename Q2::dim_type>::type;
-        using ratio_type = std::ratio<1>;
-        using unit_type = typename Q1::unit_type;
-        using rebind_type = quantity<typename Q2::value_type, typename Q2::dim_type, typename Q2::ratio_type, unit_type>;
-        using ret_type = quantity<value_type, dim_type, ratio_type, unit_type>;
-        
-        inline ret_type operator()(const Q1& q1, const Q2& q2) {
+        using traits_type = quantity_arithmetic_traits<Q1, Q2>;
+        using rebind_type = quantity<typename traits_type::value_type_2,
+                                     typename traits_type::dim_type_2,
+                                     typename traits_type::ratio_type_2,
+                                     typename traits_type::unit_type_1>;
+        using result_type = typename traits_type::result_type;
+
+        inline result_type operator()(const Q1& q1, const Q2& q2) {
             rebind_type temp{q2};
-            return ret_type{q1.normalized().value * temp.normalized().value};
+            return result_type{q1.normalized().value * temp.normalized().value};
         }
     };
 }
@@ -163,12 +163,12 @@ quantity_cast(const quantity<U, Dim, Ratio, Traits>& other) {
     return detail::quantity_cast_impl<quantity<U, Dim, Ratio, Traits>, To>()(other);
 }
 
-template<class Q1, class Q2, class Traits = quantity_arithmetic_traits<Q1, Q2>>
+template<class Q1, class Q2>
 inline constexpr
 typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value,
-                        typename Traits::multiply::result_type>::type
-quantity_multiply(Q1&& q1, Q2&& q2) {
-    return detail::quantity_multiply_impl<Q1, Q2>()(std::forward<Q1>(q1), std::forward<Q2>(q2));
+                        typename quantity_arithmetic_traits<Q1, Q2>::multiply::result_type>::type
+quantity_multiply(const Q1& q1, const Q2& q2) {
+    return detail::quantity_multiply_impl<Q1, Q2>()(q1, q2);
 }
 
 
@@ -269,11 +269,12 @@ public:
     
     // construct with a scalar value
     template<class U>
-    explicit quantity(const U& u,
+    explicit quantity(U&& u,
                       typename std::enable_if
                       <
                         std::is_convertible<U, T>::value &&
-                       (std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0) : value(u){}
+                       (std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0)
+        : value(std::forward<U>(u)){}
 
     // you can construct a quantity from another quantity, as long as
     // two quantities share common dimension
