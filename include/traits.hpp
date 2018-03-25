@@ -64,7 +64,7 @@ struct quantity_arithmetic_traits {
         using value_type = typename std::common_type<value_type_1, value_type_2>::type;
         using dim_type = typename plus<dim_type_1, dim_type_2>::type;
         using ratio_type = std::ratio<1>;
-        using unit_type = unit_type_1;
+        using unit_type = typename unit_type_1::template rebind<dim_type>::other;
         using result_type = quantity<value_type, dim_type, ratio_type, unit_type>;
     };
 };
