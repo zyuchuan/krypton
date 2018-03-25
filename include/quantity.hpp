@@ -35,7 +35,7 @@ namespace detail {
              bool = (Ratio::den == 1)>
     struct quantity_cast_impl;
     
-    // Ratio::num == 1, Ratio::den == 1, same traits
+    // Ratio::num == 1, Ratio::den == 1, same unit
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, true, true, true> {
         inline constexpr To operator()(const From& from) const {
@@ -43,18 +43,17 @@ namespace detail {
         }
     };
 
-	// Ratio::num == 1, Ratio::den == 1, different tratis
-	template<class From, class To, class Ratio>
-	struct quantity_cast_impl<From, To, Ratio, true, false, true, true> {
-		inline constexpr To operator()(const From& from) const {
-			using convert_factor = typename From::unit_type::convert_factor;
-			return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num)
+	// Ratio::num == 1, Ratio::den == 1, different unit
+    template<class From, class To, class Ratio>
+    struct quantity_cast_impl<From, To, Ratio, true, false, true, true> {
+        inline constexpr To operator()(const From& from) const {
+            using convert_factor = typename From::unit_type::convert_factor;
+            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num)
                                                            / static_cast<double>(convert_factor::den)));
-		}
-	};
-    
+        }
+    };
 	
-    // Ratio::num == 1, Ratio::den <> 1, same traits
+    // Ratio::num == 1, Ratio::den <> 1, same unit
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, true, true, false> {
         inline constexpr To operator()(const From& from) const {
@@ -64,7 +63,7 @@ namespace detail {
         }
     };
 
-    // Ratio::num == 1, Ratio::den <> 1,  different traits
+    // Ratio::num == 1, Ratio::den <> 1,  different unit
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, true, false> {
         inline constexpr To operator()(const From& from) const {
@@ -74,8 +73,8 @@ namespace detail {
                                                            static_cast<double>(Ratio::den * convert_factor::den)));
         }
     };
-    
-    // Ratio::num <> 1, Ration::den == 1, same traits
+
+    // Ratio::num <> 1, Ration::den == 1, same unit
     // e.g. convert kilometer to meter
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, true, false, true> {
@@ -85,7 +84,7 @@ namespace detail {
         }
     };
 
-    // Ratio::num <> 1, Ration::den == 1, different traits
+    // Ratio::num <> 1, Ration::den == 1, different unit
     // e.g. convert kilometer to feet
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, false, true > {
@@ -97,8 +96,8 @@ namespace detail {
                                                 static_cast<double>(convert_factor::den)));
         }
     };
-    
-    // Ratio::num <> 1, Ration::den <> 1, same traits
+
+    // Ratio::num <> 1, Ration::den <> 1, same unit
     // e.g. convert kilometer to centimeter
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, true, false, false> {
@@ -109,7 +108,7 @@ namespace detail {
         }
     };
 
-    // Ratio::num <> 1, Ration::den <> 1, different traits
+    // Ratio::num <> 1, Ration::den <> 1, different unit
     // e.g. convert kilometer to inch
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, false, false> {
@@ -138,20 +137,20 @@ namespace detail {
     
     // quantity multiplication
     // different system
-    template<class Q1, class Q2>
-    struct quantity_multiply_impl<Q1, Q2, false> {
-        using traits_type = quantity_arithmetic_traits<Q1, Q2>;
-        using rebind_type = quantity<typename traits_type::value_type_2,
-                                     typename traits_type::dim_type_2,
-                                     typename traits_type::ratio_type_2,
-                                     typename traits_type::unit_type_1>;
-        using result_type = typename traits_type::result_type;
-
-        inline result_type operator()(const Q1& q1, const Q2& q2) {
-            rebind_type temp{q2};
-            return result_type{q1.normalized().value * temp.normalized().value};
-        }
-    };
+//    template<class Q1, class Q2>
+//    struct quantity_multiply_impl<Q1, Q2, false> {
+//        using traits_type = quantity_arithmetic_traits<Q1, Q2>;
+//        using rebind_type = quantity<typename traits_type::value_type_2,
+//                                     typename traits_type::dim_type_2,
+//                                     typename traits_type::ratio_type_2,
+//                                     typename traits_type::unit_type_1>;
+//        using result_type = typename traits_type::result_type;
+//
+//        inline result_type operator()(const Q1& q1, const Q2& q2) {
+//            rebind_type temp{q2};
+//            return result_type{q1.normalized().value * temp.normalized().value};
+//        }
+//    };
 }
 
 template<class To, class U, class Dim, class Ratio, class Traits>
@@ -311,6 +310,9 @@ public:
     //inline constexpr quantity& operator+=(const quantity& other) {value += other.value; return *this;}
 };
 
+template<class T> using kilogram = quantity<T, mass>;
+template<class T> using gram = quantity<T, mass, std::milli>;
+
 template<class T> using millimeter = quantity<T, length, std::milli>;
 template<class T> using centimeter = quantity<T, length, std::centi>;
 template<class T> using meter = quantity<T, length>;
@@ -323,7 +325,7 @@ template<class T> using second = quantity<T, time>;
 template<class T> using hour = quantity<T, time, std::ratio<3600>>;
 
 template<class T> using m_per_s = quantity<T, velocity>;
-
+template<class T> using km_per_h = quantity<T, velocity, std::ratio<1000, 3600>>;
 
 END_KR_NAMESPACE
 

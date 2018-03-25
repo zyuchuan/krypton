@@ -56,6 +56,16 @@ struct metric_system<mass> : public metric_system_base {
 template<>
 struct british_system<mass> : public british_system_base {
 };
+    
+template<>
+struct metric_system<velocity> : public metric_system_base {
+    using convert_factor = std::ratio<32808399, 10000000>;
+};
+    
+template<>
+struct british_system<velocity> : public british_system_base {
+    using convert_factor = std::ratio<10000000, 32808399>;
+};
 
 // equals test if two metric as same
 template<int N, int M>
