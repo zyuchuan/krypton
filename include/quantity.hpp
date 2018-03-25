@@ -47,9 +47,9 @@ namespace detail {
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, true, true> {
         inline constexpr To operator()(const From& from) const {
-            using convert_factor = typename From::unit_type::convert_factor;
-            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num)
-                                                           / static_cast<double>(convert_factor::den)));
+            using converter = unit_converter<typename From::unit_type, typename To::unit_type>;
+            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * converter::ratio::num)
+                                                           / static_cast<double>(converter::ratio::den)));
         }
     };
 	
@@ -67,10 +67,10 @@ namespace detail {
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, true, false> {
         inline constexpr To operator()(const From& from) const {
-            //using type = typename std::common_type<typename To::T, typename From::T, intmax_t, double>::type;
-            using convert_factor = typename From::unit_type::convert_factor;
-            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num) /
-                                                           static_cast<double>(Ratio::den * convert_factor::den)));
+            
+            using converter = unit_converter<typename From::unit_type, typename To::unit_type>;
+            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * converter::ratio::num) /
+                                                           static_cast<double>(Ratio::den * converter::ratio::den)));
         }
     };
 
@@ -89,11 +89,10 @@ namespace detail {
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, false, true > {
         inline constexpr To operator()(const From& from) const {
-            //using type = typename std::common_type<typename To::T, typename From::T, intmax_t>::type;
-            using convert_factor = typename From::unit_type::convert_factor;
+            using converter = unit_converter<typename From::unit_type, typename To::unit_type>;
             return To(static_cast<typename To::value_type>(
-                            static_cast<double>(from.value * convert_factor::num * Ratio::num) /
-                                                static_cast<double>(convert_factor::den)));
+                                                static_cast<double>(from.value * converter::ratio::num * Ratio::num) /
+                                                static_cast<double>(converter::ratio::den)));
         }
     };
 
@@ -113,16 +112,16 @@ namespace detail {
     template<class From, class To, class Ratio>
     struct quantity_cast_impl<From, To, Ratio, true, false, false, false> {
         inline constexpr To operator()(const From& from) const {
-            using convert_factor = typename From::unit_type::convert_factor;
-            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * convert_factor::num * Ratio::num) /
-                                                           static_cast<double>(Ratio::den * convert_factor::den)));
+            using converter = unit_converter<typename From::unit_type, typename To::unit_type>;
+            return To(static_cast<typename To::value_type>(static_cast<double>(from.value * converter::ratio::num * Ratio::num) /
+                                                           static_cast<double>(Ratio::den * converter::ratio::den)));
         }
     };
     
     // quantity multiplication
     
     template<class Q1, class Q2,
-             bool SameSystem = metric_equals<typename Q1::unit_type, typename Q2::unit_type>::value>
+             bool SameSystem = system_equals<typename Q1::unit_type, typename Q2::unit_type>::value>
     struct quantity_multiply_impl;
     
     // quantity multiplication
