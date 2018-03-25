@@ -136,20 +136,18 @@ namespace detail {
     
     // quantity multiplication
     // different system
-//    template<class Q1, class Q2>
-//    struct quantity_multiply_impl<Q1, Q2, false> {
-//        using traits_type = quantity_arithmetic_traits<Q1, Q2>;
-//        using rebind_type = quantity<typename traits_type::value_type_2,
-//                                     typename traits_type::dim_type_2,
-//                                     typename traits_type::ratio_type_2,
-//                                     typename traits_type::unit_type_1>;
-//        using result_type = typename traits_type::result_type;
-//
-//        inline result_type operator()(const Q1& q1, const Q2& q2) {
-//            rebind_type temp{q2};
-//            return result_type{q1.normalized().value * temp.normalized().value};
-//        }
-//    };
+    template<class Q1, class Q2>
+    struct quantity_multiply_impl<Q1, Q2, false> {
+        using dim_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::dim_type_2;
+        using ratio_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::ratio_type_2;
+        using unit_type_1 = typename quantity_arithmetic_traits<Q1, Q2>::unit_type_1;
+        using rebind_type = quantity<double, dim_type_2, ratio_type_2, unit_type_1>;
+        using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiply::result_type;
+        inline result_type operator()(const Q1& q1, const Q2& q2) {
+            rebind_type temp{q2};
+            return result_type{q1.normalized().value * temp.normalized().value};
+        }
+    };
 }
 
 template<class To, class U, class Dim, class Ratio, class Traits>
