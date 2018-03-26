@@ -229,6 +229,15 @@ TEST(test_quantity, test_multiply) {
     kr::kilometer<double> km3 = kr::quantity_multiply(v2, h3);
     EXPECT_EQ(m3.value, 3600.0);
     EXPECT_EQ(km3.value, 3.6);
+
+	kr::ml_per_h<double> v4{ 1.0 };
+	kr::hour<double> h4{ 1.0 };
+	kr::mile<double> ml4 = kr::quantity_multiply(v4, h4);
+	EXPECT_EQ(ml4.value, 1.0);
+	kr::second<double> sec4{ 1.0 };
+	kr::feet<double> ft4 = kr::quantity_multiply(v4, sec4);
+	diff = std::abs(ft4.value - 1.47);
+	EXPECT_LT(diff, 0.01);
 }
 
 #endif /* test_quantity_h */
