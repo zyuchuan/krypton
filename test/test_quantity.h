@@ -13,6 +13,7 @@
 #include <gtest/gtest.h>
 #include "dimension.hpp"
 #include "quantity.hpp"
+#include "unit.hpp"
 
 void quantity_static_check() {
 
@@ -214,7 +215,7 @@ TEST(test_quantity, test_multiply) {
     EXPECT_EQ(m1.value, 5.0);
     double diff = std::abs(f1.value - 16.4042);
     EXPECT_LE(diff, 0.0001);
-    
+
     kr::kilometer<double> km1 = kr::quantity_multiply(v1, s1);
     EXPECT_EQ(km1.value, 0.005);
 
@@ -230,14 +231,14 @@ TEST(test_quantity, test_multiply) {
     EXPECT_EQ(m3.value, 3600.0);
     EXPECT_EQ(km3.value, 3.6);
 
-	kr::ml_per_h<double> v4{ 1.0 };
-	kr::hour<double> h4{ 1.0 };
-	kr::mile<double> ml4 = kr::quantity_multiply(v4, h4);
-	EXPECT_EQ(ml4.value, 1.0);
-	kr::second<double> sec4{ 1.0 };
-	kr::feet<double> ft4 = kr::quantity_multiply(v4, sec4);
-	diff = std::abs(ft4.value - 1.47);
-	EXPECT_LT(diff, 0.01);
+    kr::ml_per_h<double> v4{ 1.0 };
+    kr::hour<double> h4{ 1.0 };
+    kr::mile<double> ml4 = kr::quantity_multiply(v4, h4);
+    EXPECT_EQ(ml4.value, 1.0);
+    kr::second<double> sec4{ 1.0 };
+    kr::feet<double> ft4 = kr::quantity_multiply(v4, sec4);
+    diff = std::abs(ft4.value - 1.47);
+    EXPECT_LT(diff, 0.01);
 }
 
 #endif /* test_quantity_h */

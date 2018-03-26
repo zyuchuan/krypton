@@ -10,7 +10,7 @@
 #define utility_h
 
 #include <ratio>
-#include "krypton.hpp"
+#include "common.hpp"
 
 BEGIN_KR_NAMESPACE
 

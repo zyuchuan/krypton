@@ -9,7 +9,7 @@
 #ifndef sequence_h
 #define sequence_h
 
-#include "krypton.hpp"
+#include "common.hpp"
 
 BEGIN_KR_NAMESPACE
 

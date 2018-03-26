@@ -10,9 +10,9 @@
 #define traits_h
 
 #include <ratio>
-#include "krypton.hpp"
+#include "common.hpp"
 #include "utility.hpp"
-#include "unit.hpp"
+#include "system.hpp"
 
 BEGIN_KR_NAMESPACE
 

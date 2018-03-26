@@ -20,20 +20,20 @@ struct is_dimension : public std::false_type{};
 template<class... Args>
 struct is_dimension<sequence<Args...>> : public std::integral_constant<bool, sizeof...(Args)==7>{};
     
-// Basic dimensions
-using mass          = sequence<_1, _0, _0, _0, _0, _0, _0>;
-using length        = sequence<_0, _1, _0, _0, _0, _0, _0>;
+// base dimension
+using scalar        = sequence<_0, _0, _0, _0, _0, _0, _0>;
+using length        = sequence<_1, _0, _0, _0, _0, _0, _0>;
+using mass          = sequence<_0, _1, _0, _0, _0, _0, _0>;
 using time          = sequence<_0, _0, _1, _0, _0, _0, _0>;
-using charge        = sequence<_0, _0, _0, _1, _0, _0, _0>;
+using current       = sequence<_0, _0, _0, _1, _0, _0, _0>;
 using temperature   = sequence<_0, _0, _0, _0, _1, _0, _0>;
-using intensity     = sequence<_0, _0, _0, _0, _0, _1, _0>;
-
+using substance     = sequence<_0, _0, _0, _0, _0, _1, _0>;
+using intensity     = sequence<_0, _0, _0, _0, _0, _0, _1>;
 
 // Compound dimensions
-using velocity      = sequence<_0, _1, __1, _0, _0, _0, _0>;       // l/t
-using acceleration  = sequence<_0, _1, __2, _0, _0, _0, _0>;   // l/t^2
-using force         = sequence<_1, _1, __2, _0, _0, _0, _0>;          // ml/t^2
-
+using velocity      = sequence<_1, _0, __1, _0, _0, _0, _0>;   // l/t
+using acceleration  = sequence<_1, _0, __2, _0, _0, _0, _0>;   // l/t^2
+using force         = sequence<_1, _1, __2, _0, _0, _0, _0>;   // m * l/t^2
 
 END_KR_NAMESPACE
 #endif /* dimension_h */

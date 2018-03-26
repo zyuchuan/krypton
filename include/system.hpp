@@ -1,20 +1,20 @@
 //
-//  unit.hpp
+//  system.hpp
 //  krypton
 //
 //  Created by Jack Zou on 2018/3/11.
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#ifndef unit_h
-#define unit_h
+#ifndef system_h
+#define system_h
 
 #include <ratio>
-#include "krypton.hpp"
-#include "dimension.hpp"
+#include "common.hpp"
 
 BEGIN_KR_NAMESPACE
 
+// forward declaration
 template<class T>
 struct metric_system;
 
@@ -85,4 +85,4 @@ struct system_equals<british_system<Dim1>, british_system<Dim2>> : public std::t
 
 END_KR_NAMESPACE
 
-#endif /* unit_h */
+#endif /* system_h */
