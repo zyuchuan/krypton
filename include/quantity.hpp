@@ -122,12 +122,12 @@ namespace detail {
     
     template<class Q1, class Q2,
              bool SameSystem = system_equals<typename Q1::unit_type, typename Q2::unit_type>::value>
-    struct quantity_multiply_impl;
+    struct quantity_multiplication_impl;
     
     // quantity multiplication
     // same system
     template<class Q1, class Q2>
-    struct quantity_multiply_impl<Q1, Q2, true> {
+    struct quantity_multiplication_impl<Q1, Q2, true> {
         using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type;
         inline result_type operator()(const Q1& q1, const Q2& q2) {
             return result_type{q1.normalized().value * q2.normalized().value};
@@ -137,7 +137,7 @@ namespace detail {
     // quantity multiplication
     // different system
     template<class Q1, class Q2>
-    struct quantity_multiply_impl<Q1, Q2, false> {
+    struct quantity_multiplication_impl<Q1, Q2, false> {
         using dim_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::dim_type_2;
         using ratio_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::ratio_type_2;
         using unit_type_1 = typename quantity_arithmetic_traits<Q1, Q2>::unit_type_1;
@@ -148,6 +148,36 @@ namespace detail {
             return result_type{q1.normalized().value * temp.normalized().value};
         }
     };
+
+	// quantity division
+	template<class Q1, class Q2,
+		bool SameSystem = system_equals<typename Q1::unit_type, typename Q2::unit_type>::value>
+		struct quantity_division_impl;
+
+	// quantity division
+	// same system
+	template<class Q1, class Q2>
+	struct quantity_division_impl<Q1, Q2, true> {
+		using result_type = typename quantity_arithmetic_traits<Q1, Q2>::division::result_type;
+		inline result_type operator()(const Q1& q1, const Q2& q2) {
+			return result_type{ static_cast<double>(q1.normalized().value) / static_cast<double>(q2.normalized().value) };
+		}
+	};
+
+	// quantity division
+	// different system
+	template<class Q1, class Q2>
+	struct quantity_division_impl<Q1, Q2, false> {
+		using dim_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::dim_type_2;
+		using ratio_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::ratio_type_2;
+		using unit_type_1 = typename quantity_arithmetic_traits<Q1, Q2>::unit_type_1;
+		using rebind_type = quantity<double, dim_type_2, ratio_type_2, unit_type_1>;
+		using result_type = typename quantity_arithmetic_traits<Q1, Q2>::division::result_type;
+		inline result_type operator()(const Q1& q1, const Q2& q2) {
+			rebind_type temp{ q2 };
+			return result_type{ static_cast<double>(q1.normalized().value) / static_cast<double>(temp.normalized().value)};
+		}
+	};
 }
 
 template<class To, class U, class Dim, class Ratio, class Traits>
@@ -164,9 +194,16 @@ inline constexpr
 typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value,
                         typename quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type>::type
 quantity_multiply(const Q1& q1, const Q2& q2) {
-    return detail::quantity_multiply_impl<Q1, Q2>()(q1, q2);
+    return detail::quantity_multiplication_impl<Q1, Q2>()(q1, q2);
 }
 
+template<class Q1, class Q2>
+inline constexpr
+typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value,
+	typename quantity_arithmetic_traits<Q1, Q2>::division::result_type>::type
+	quantity_divide(const Q1& q1, const Q2& q2) {
+	return detail::quantity_division_impl<Q1, Q2>()(q1, q2);
+}
 
 template<class R1, class R2>
 struct no_overflow {
