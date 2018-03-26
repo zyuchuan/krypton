@@ -24,6 +24,7 @@
     <ClInclude Include="..\include\krypton.hpp" />
     <ClInclude Include="..\include\quantity.hpp" />
     <ClInclude Include="..\include\sequence.hpp" />
+    <ClInclude Include="..\include\traits.hpp" />
     <ClInclude Include="..\include\unit.hpp" />
     <ClInclude Include="..\include\utility.hpp" />
     <ClInclude Include="..\test\integer_static_check.h" />

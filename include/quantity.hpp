@@ -128,7 +128,7 @@ namespace detail {
     // same system
     template<class Q1, class Q2>
     struct quantity_multiply_impl<Q1, Q2, true> {
-        using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiply::result_type;
+        using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type;
         inline result_type operator()(const Q1& q1, const Q2& q2) {
             return result_type{q1.normalized().value * q2.normalized().value};
         }
@@ -142,7 +142,7 @@ namespace detail {
         using ratio_type_2 = typename quantity_arithmetic_traits<Q1, Q2>::ratio_type_2;
         using unit_type_1 = typename quantity_arithmetic_traits<Q1, Q2>::unit_type_1;
         using rebind_type = quantity<double, dim_type_2, ratio_type_2, unit_type_1>;
-        using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiply::result_type;
+        using result_type = typename quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type;
         inline result_type operator()(const Q1& q1, const Q2& q2) {
             rebind_type temp{q2};
             return result_type{q1.normalized().value * temp.normalized().value};
@@ -162,7 +162,7 @@ quantity_cast(const quantity<U, Dim, Ratio, Traits>& other) {
 template<class Q1, class Q2>
 inline constexpr
 typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value,
-                        typename quantity_arithmetic_traits<Q1, Q2>::multiply::result_type>::type
+                        typename quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type>::type
 quantity_multiply(const Q1& q1, const Q2& q2) {
     return detail::quantity_multiply_impl<Q1, Q2>()(q1, q2);
 }

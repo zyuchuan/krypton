@@ -60,7 +60,7 @@ struct quantity_arithmetic_traits {
     using normalized_type_1 = typename Q1::normalized_type;
     using normalized_type_2 = typename Q2::normalized_type;
     
-    struct multiply {
+    struct multiplication {
         using value_type = typename std::common_type<value_type_1, value_type_2>::type;
         using dim_type = typename plus<dim_type_1, dim_type_2>::type;
         using ratio_type = std::ratio<1>;

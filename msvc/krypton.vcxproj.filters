@@ -54,6 +54,9 @@
     <ClInclude Include="..\test\unit_static_check.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\traits.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test.cpp">
