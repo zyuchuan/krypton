@@ -10,7 +10,7 @@
 #define unit_h
 
 #include "common.hpp"
-#incldue "quantity.hpp"
+#include "quantity.hpp"
 
 BEGIN_KR_NAMESPACE
 
@@ -34,6 +34,10 @@ template<class T> using km_per_h = quantity<T, velocity, std::ratio<1000, 3600>>
 
 template<class T> using ft_per_s = quantity<T, velocity, std::ratio<1>, british_system<velocity>>;
 template<class T> using ml_per_h = quantity<T, velocity, std::ratio<5280, 3600>, british_system<velocity>>;
+
+// https://en.wikipedia.org/wiki/List_of_physical_quantities
+
+
 
 END_KR_NAMESPACE
 

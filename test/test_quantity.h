@@ -203,7 +203,7 @@ TEST(test_quantity, test_normalized) {
     EXPECT_EQ(normal.value, 1000);
 }
 
-TEST(test_quantity, test_multiply) {
+TEST(test_quantity, test_multiplication) {
     kr::m_per_s<double> v1{5.0};
     kr::second<int> s1{1};
     
@@ -239,6 +239,27 @@ TEST(test_quantity, test_multiply) {
     kr::feet<double> ft4 = kr::quantity_multiply(v4, sec4);
     diff = std::abs(ft4.value - 1.47);
     EXPECT_LT(diff, 0.01);
+}
+
+TEST(test_quantity, test_division) {
+    kr::meter<double> m1{1.0};
+    kr::second<double> sec1{1.0};
+    kr::m_per_s<double> v1 = kr::quantity_divide(m1, sec1);
+    EXPECT_EQ(v1.value, 1.0);
+    kr::ft_per_s<double> bv1 = kr::quantity_divide(m1, sec1);
+    double diff = std::abs(bv1.value - 3.2808);
+    EXPECT_LE(diff, 0.0001);
+    
+    // this should not compile
+    //kr::kilogram<double> kg1 = kr::quantity_divide(v1, sec1);
+    
+    kr::hour<int> h2{1};
+    kr::kilometer<double> km2{1.0};
+    kr::km_per_h<double> v2 = kr::quantity_divide(km2, h2);
+    kr::m_per_s<double> v21 = kr::quantity_divide(km2, h2);
+    diff = std::abs(v21.value - 0.28);
+    EXPECT_EQ(v2.value, 1.0);
+    EXPECT_LE(diff, 0.01);
 }
 
 #endif /* test_quantity_h */
