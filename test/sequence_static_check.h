@@ -1,18 +1,19 @@
 //
-//  sequence_static_check.h
+//  test_sequence.h
 //  krypton
 //
 //  Created by Jack Zou on 2018/3/5.
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#ifndef sequence_static_check_h
-#define sequence_static_check_h
+#ifndef test_sequence_h
+#define test_sequence_h
 
+//#include <gtest/gtest.h>
 #include "integer.hpp"
 #include "sequence.hpp"
 
-void test_sequence() {
+void sequence_static_check() {
     using seq0 = kr::sequence<int, int, int>;
     
     static_assert(kr::is_sequence<seq0>::value,"seq0 is a sequence");
@@ -32,6 +33,13 @@ void test_sequence() {
     
     using seq = kr::plus<seq1, seq2>::type;
     static_assert(kr::equals<seq, seq3>::value, "should be equal");
+    
+    using seq22 = kr::pow<seq1, 2>::type;
+    static_assert(kr::equals<seq2, seq22>::value, "should be equal");
+    
+    using seq33 = kr::pow<seq1, 3>::type;
+    static_assert(kr::equals<seq33, seq3>::value, "should be equal");
 }
 
-#endif // sequence_static_check_h
+
+#endif // test_sequence_h
