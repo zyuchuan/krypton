@@ -14,7 +14,7 @@
 #define BEGIN_KR_NAMESPACE namespace kr {
 #define END_KR_NAMESPACE }
 
-#define NUM_FUNDAMENTAL_DIM     7
+#define NUM_FUNDAMENTAL_DIM     8
 
 //********************************
 
