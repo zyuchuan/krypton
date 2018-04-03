@@ -61,6 +61,9 @@ using momentum                  = sequence<_1, _1, __1, _0, _0, _0, _0, _0>;   /
 using work                      = sequence<_2, _1, __2, _0, _0, _0, _0, _1>;   // ML^2T^-2
 using moment                    = sequence<_2, _1, __2, _0, _0, _0, _0, _0>;   // ML^2T^-2
 using angular_velocity          = sequence<_0, _0, __1, _0, _0, _0, _1, _0>;   // T^-1
-using angulare_acceleration     = sequence<_0, _0, __2, _0, _0, _0, _1, _0>;   // T^-2
+using angular_acceleration      = sequence<_0, _0, __2, _0, _0, _0, _1, _0>;   // T^-2
+using moment_of_inertia         = sequence<_2, _1,  _0, _0, _0, _0, _0, _0>;   // ML^2
+using density                   = sequence<__1,_1,  _0, _0, _0, _0, _0, _0>;   // ML^-1
+
 END_KR_NAMESPACE
 #endif /* dimension_h */

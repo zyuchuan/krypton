@@ -1,15 +1,14 @@
 //
-//  test_sequence.h
+//  sequence_static_check.h
 //  krypton
 //
 //  Created by Jack Zou on 2018/3/5.
 //  Copyright © 2018年 jack.zou. All rights reserved.
 //
 
-#ifndef test_sequence_h
-#define test_sequence_h
+#ifndef sequence_static_check_h
+#define sequence_static_check_h
 
-//#include <gtest/gtest.h>
 #include "integer.hpp"
 #include "sequence.hpp"
 
@@ -42,4 +41,4 @@ void sequence_static_check() {
 }
 
 
-#endif // test_sequence_h
+#endif // sequence_static_check_h

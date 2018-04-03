@@ -43,6 +43,31 @@ struct minus<sequence<Args1...>, sequence<Args2...>> {
     using type = sequence<typename minus<Args1, Args2>::type ...>;
 };
 
+namespace detail {
+    template<class Seq1, class Seq2, int N>
+    struct pow_impl {
+        using result_type = typename plus<Seq1, Seq2>::type;
+        using type = typename pow_impl<result_type, Seq2, N-1>::type;
+    };
+
+    template<class Seq1, class Seq2>
+    struct pow_impl<Seq1, Seq2, 0> {
+        using type = Seq1;
+    };
+}
+
+template<class S, int N>
+struct pow;
+
+template<class... Args, int N>
+struct pow<sequence<Args...>, N> {
+    using result_type = sequence<Args...>;
+    using Seq2 = result_type;
+    using type = typename detail::pow_impl<result_type, Seq2, N-1>::type;
+};
+
+
+
 
 END_KR_NAMESPACE
 

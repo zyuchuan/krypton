@@ -72,9 +72,9 @@
 			isa = PBXGroup;
 			children = (
 				04464BE62066391F00481CE3 /* integer_static_check.h */,
-				04464BE52066391F00481CE3 /* sequence_static_check.h */,
 				04464BE72066391F00481CE3 /* system_static_check.h */,
 				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
+				04464BE52066391F00481CE3 /* sequence_static_check.h */,
 				04C77F3420516826001C27F4 /* test_quantity.h */,
 				047FAB8420515C780077F24B /* test.cpp */,
 			);

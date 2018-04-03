@@ -239,8 +239,8 @@ public:
 
 template<class T, class Dim, class Ratio, class Unit>
 class quantity {
-    static_assert(!is_quantity<T>::value, "A quantity can not be value type of another quantity");
-    static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
+    //static_assert(!is_quantity<T>::value, "A quantity can not be value type of another quantity");
+    //static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
 
 #if defined(__clang__)
 	static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");

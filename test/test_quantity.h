@@ -203,63 +203,64 @@ TEST(test_quantity, test_normalized) {
     EXPECT_EQ(normal.value, 1000);
 }
 
-TEST(test_quantity, test_multiplication) {
-    kr::m_per_s<double> v1{5.0};
-    kr::second<int> s1{1};
-    
-    // this should not compile
-    //kr::kilogram<double> kg1 = kr::quantity_multiply(v1, s1);
-    
-    kr::meter<double> m1 = kr::quantity_multiply(v1, s1);
-    kr::feet<double> f1 = kr::quantity_multiply(v1, s1);
-    EXPECT_EQ(m1.value, 5.0);
-    double diff = std::abs(f1.value - 16.4042);
-    EXPECT_LE(diff, 0.0001);
+//TEST(test_quantity, test_multiplication) {
+//    kr::m_per_s<double> v1{5.0};
+//    kr::second<int> s1{1};
+//
+//    // this should not compile
+//    //kr::kilogram<double> kg1 = kr::quantity_multiply(v1, s1);
+//
+//    kr::meter<double> m1 = kr::quantity_multiply(v1, s1);
+//    kr::feet<double> f1 = kr::quantity_multiply(v1, s1);
+//    EXPECT_EQ(m1.value, 5.0);
+//    double diff = std::abs(f1.value - 16.4042);
+//    EXPECT_LE(diff, 0.0001);
+//
+//    kr::kilometer<double> km1 = kr::quantity_multiply(v1, s1);
+//    EXPECT_EQ(km1.value, 0.005);
+//
+//    kr::km_per_h<double> v2{3.6};
+//    kr::meter<double> m2 = kr::quantity_multiply(v2, s1);
+//    kr::kilometer<double> km2 = kr::quantity_multiply(v2, s1);
+//    EXPECT_EQ(m2.value, 1.0);
+//    EXPECT_EQ(km2.value, 0.001);
+//
+//    kr::hour<int> h3{1};
+//    kr::meter<double> m3 = kr::quantity_multiply(v2, h3);
+//    kr::kilometer<double> km3 = kr::quantity_multiply(v2, h3);
+//    EXPECT_EQ(m3.value, 3600.0);
+//    EXPECT_EQ(km3.value, 3.6);
+//
+//    kr::ml_per_h<double> v4{ 1.0 };
+//    kr::hour<double> h4{ 1.0 };
+//    kr::mile<double> ml4 = kr::quantity_multiply(v4, h4);
+//    EXPECT_EQ(ml4.value, 1.0);
+//    kr::second<double> sec4{ 1.0 };
+//    kr::feet<double> ft4 = kr::quantity_multiply(v4, sec4);
+//    diff = std::abs(ft4.value - 1.47);
+//    EXPECT_LT(diff, 0.01);
+//}
 
-    kr::kilometer<double> km1 = kr::quantity_multiply(v1, s1);
-    EXPECT_EQ(km1.value, 0.005);
 
-    kr::km_per_h<double> v2{3.6};
-    kr::meter<double> m2 = kr::quantity_multiply(v2, s1);
-    kr::kilometer<double> km2 = kr::quantity_multiply(v2, s1);
-    EXPECT_EQ(m2.value, 1.0);
-    EXPECT_EQ(km2.value, 0.001);
-
-    kr::hour<int> h3{1};
-    kr::meter<double> m3 = kr::quantity_multiply(v2, h3);
-    kr::kilometer<double> km3 = kr::quantity_multiply(v2, h3);
-    EXPECT_EQ(m3.value, 3600.0);
-    EXPECT_EQ(km3.value, 3.6);
-
-    kr::ml_per_h<double> v4{ 1.0 };
-    kr::hour<double> h4{ 1.0 };
-    kr::mile<double> ml4 = kr::quantity_multiply(v4, h4);
-    EXPECT_EQ(ml4.value, 1.0);
-    kr::second<double> sec4{ 1.0 };
-    kr::feet<double> ft4 = kr::quantity_multiply(v4, sec4);
-    diff = std::abs(ft4.value - 1.47);
-    EXPECT_LT(diff, 0.01);
-}
-
-TEST(test_quantity, test_division) {
-    kr::meter<double> m1{1.0};
-    kr::second<double> sec1{1.0};
-    kr::m_per_s<double> v1 = kr::quantity_divide(m1, sec1);
-    EXPECT_EQ(v1.value, 1.0);
-    kr::ft_per_s<double> bv1 = kr::quantity_divide(m1, sec1);
-    double diff = std::abs(bv1.value - 3.2808);
-    EXPECT_LE(diff, 0.0001);
-    
-    // this should not compile
-    //kr::kilogram<double> kg1 = kr::quantity_divide(v1, sec1);
-    
-    kr::hour<int> h2{1};
-    kr::kilometer<double> km2{1.0};
-    kr::km_per_h<double> v2 = kr::quantity_divide(km2, h2);
-    kr::m_per_s<double> v21 = kr::quantity_divide(km2, h2);
-    diff = std::abs(v21.value - 0.28);
-    EXPECT_EQ(v2.value, 1.0);
-    EXPECT_LE(diff, 0.01);
-}
+//TEST(test_quantity, test_division) {
+//    kr::meter<double> m1{1.0};
+//    kr::second<double> sec1{1.0};
+//    kr::m_per_s<double> v1 = kr::quantity_divide(m1, sec1);
+//    EXPECT_EQ(v1.value, 1.0);
+//    kr::ft_per_s<double> bv1 = kr::quantity_divide(m1, sec1);
+//    double diff = std::abs(bv1.value - 3.2808);
+//    EXPECT_LE(diff, 0.0001);
+//
+//    // this should not compile
+//    //kr::kilogram<double> kg1 = kr::quantity_divide(v1, sec1);
+//
+//    kr::hour<int> h2{1};
+//    kr::kilometer<double> km2{1.0};
+//    kr::km_per_h<double> v2 = kr::quantity_divide(km2, h2);
+//    kr::m_per_s<double> v21 = kr::quantity_divide(km2, h2);
+//    diff = std::abs(v21.value - 0.28);
+//    EXPECT_EQ(v2.value, 1.0);
+//    EXPECT_LE(diff, 0.01);
+//}
 
 #endif /* test_quantity_h */
