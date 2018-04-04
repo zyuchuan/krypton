@@ -26,10 +26,10 @@ using kr_int_t = int;
 
 // No defination here, leave it
 // to specific types
-template<class... T>
+template<class T1, class T2>
 struct plus;
 
-template<class... T>
+template<class T1, class T2>
 struct minus;
 
 template<class A, class B>

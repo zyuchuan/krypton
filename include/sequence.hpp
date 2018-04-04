@@ -45,28 +45,50 @@ struct minus<sequence<Args1...>, sequence<Args2...>> {
 
 namespace detail {
     template<class Seq1, class Seq2, int N>
-    struct pow_impl {
-        using result_type = typename plus<Seq1, Seq2>::type;
-        using type = typename pow_impl<result_type, Seq2, N-1>::type;
+    struct positive_pow_impl {
+        using init_type = typename plus<Seq1, Seq2>::type;
+        using type = typename positive_pow_impl<init_type, Seq2, N-1>::type;
     };
 
     template<class Seq1, class Seq2>
-    struct pow_impl<Seq1, Seq2, 0> {
+    struct positive_pow_impl<Seq1, Seq2, 0> {
         using type = Seq1;
     };
+
+	template<class Seq1, class Seq2, int N>
+	struct negative_pow_impl {
+		using init_type = typename minus<Seq1, Seq2>::type;
+		using type = typename negative_pow_impl<init_type, Seq2, N - 1>::type;
+	};
+
+	template<class Seq1, class Seq2>
+	struct negative_pow_impl<Seq1, Seq2, 0> {
+		using type = Seq1;
+	};
+
+	template<class Seq, int N>
+	struct positive_pow {
+		using init_type = Seq;
+		using Seq2 = init_type;
+		using type = typename detail::positive_pow_impl<init_type, Seq2, N - 1>::type;
+	};
+
+	template<class Seq, int N>
+	struct negative_pow {
+		using Seq2 = Seq;
+		using init_type = typename minus<Seq2, Seq2>::type;
+		using type = typename detail::negative_pow_impl<init_type, Seq2, N - 1>::type;
+	};
 }
 
-template<class S, int N>
+template<class T, int N>
 struct pow;
 
 template<class... Args, int N>
 struct pow<sequence<Args...>, N> {
-    using result_type = sequence<Args...>;
-    using Seq2 = result_type;
-    using type = typename detail::pow_impl<result_type, Seq2, N-1>::type;
+	using type = std::conditional_t<true, typename detail::positive_pow<sequence<Args...>, N>::type, 
+										  typename detail::negative_pow<sequence<Args...>, N>::type>;
 };
-
-
 
 
 END_KR_NAMESPACE

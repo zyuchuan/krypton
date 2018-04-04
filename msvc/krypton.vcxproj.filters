@@ -42,9 +42,6 @@
     <ClInclude Include="..\include\utility.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\unit.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\test\integer_static_check.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
@@ -55,6 +52,9 @@
       <Filter>Source Files\test</Filter>
     </ClInclude>
     <ClInclude Include="..\include\traits.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\common.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>
