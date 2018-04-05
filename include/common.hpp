@@ -32,6 +32,12 @@ struct plus;
 template<class T1, class T2>
 struct minus;
 
+template<class T1, class T2>
+struct multiply;
+
+template<class T1, class T2>
+struct divide;
+
 template<class A, class B>
 struct equals : public std::false_type {};
     

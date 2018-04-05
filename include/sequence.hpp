@@ -100,6 +100,16 @@ struct pow<sequence<Args...>, N> {
 										   typename detail::negative_pow<sequence<Args...>, N>::type>;
 };
 
+template<class... Args1, class... Args2>
+struct multiply<sequence<Args1...>, sequence<Args2...>> {
+    using type = typename plus<sequence<Args1...>, sequence<Args2...>>::type;
+};
+
+template<class... Args1, class... Args2>
+struct divide<sequence<Args1...>, sequence<Args2...>> {
+    using type = typename minus<sequence<Args1...>, sequence<Args2...>>::type;
+};
+
 
 END_KR_NAMESPACE
 
