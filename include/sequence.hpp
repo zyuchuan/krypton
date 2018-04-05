@@ -44,27 +44,37 @@ struct minus<sequence<Args1...>, sequence<Args2...>> {
 };
 
 namespace detail {
-    template<class Seq1, class Seq2, int N>
+    template<class Seq1, class Seq2, int N, bool Overflow = false>
     struct positive_pow_impl {
         using init_type = typename plus<Seq1, Seq2>::type;
-        using type = typename positive_pow_impl<init_type, Seq2, N-1>::type;
+        using type = typename positive_pow_impl<init_type, Seq2, N-1, ((N-1)<0)>::type;
     };
 
     template<class Seq1, class Seq2>
-    struct positive_pow_impl<Seq1, Seq2, 0> {
+    struct positive_pow_impl<Seq1, Seq2, 0, false> {
         using type = Seq1;
     };
-
-	template<class Seq1, class Seq2, int N>
-	struct negative_pow_impl {
-		using init_type = typename minus<Seq1, Seq2>::type;
-		using type = typename negative_pow_impl<init_type, Seq2, N - 1>::type;
-	};
+    
+    template<class Seq1, class Seq2, int N>
+    struct positive_pow_impl<Seq1, Seq2, N, true> {
+        using type = Seq1;
+    };
+    
+    template<class Seq1, class Seq2, int N, bool Overflow = false>
+    struct negative_pow_impl {
+        using init_type = typename minus<Seq1, Seq2>::type;
+        using type = typename negative_pow_impl<init_type, Seq2, N + 1, ((N+1)>0)>::type;
+    };
 
 	template<class Seq1, class Seq2>
-	struct negative_pow_impl<Seq1, Seq2, 0> {
+	struct negative_pow_impl<Seq1, Seq2, 0, false> {
 		using type = Seq1;
 	};
+    
+    template<class Seq1, class Seq2, int N>
+    struct negative_pow_impl<Seq1, Seq2, N, true> {
+        using type = Seq1;
+    };
 
 	template<class Seq, int N>
 	struct positive_pow {
@@ -77,7 +87,7 @@ namespace detail {
 	struct negative_pow {
 		using Seq2 = Seq;
 		using init_type = typename minus<Seq2, Seq2>::type;
-		using type = typename detail::negative_pow_impl<init_type, Seq2, N - 1>::type;
+        using type = typename detail::negative_pow_impl<init_type, Seq2, N, (N>0)>::type;
 	};
 }
 
@@ -86,8 +96,8 @@ struct pow;
 
 template<class... Args, int N>
 struct pow<sequence<Args...>, N> {
-	using type = std::conditional_t<true, typename detail::positive_pow<sequence<Args...>, N>::type, 
-										  typename detail::negative_pow<sequence<Args...>, N>::type>;
+	using type = std::conditional_t<(N>0), typename detail::positive_pow<sequence<Args...>, N>::type,
+										   typename detail::negative_pow<sequence<Args...>, N>::type>;
 };
 
 
