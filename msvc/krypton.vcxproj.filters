@@ -57,6 +57,9 @@
     <ClInclude Include="..\include\common.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\dimension_static_check.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test.cpp">

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\common.hpp" />
     <ClInclude Include="..\include\dimension.hpp" />
+    <ClInclude Include="..\include\dimension_static_check.h" />
     <ClInclude Include="..\include\integer.hpp" />
     <ClInclude Include="..\include\krypton.hpp" />
     <ClInclude Include="..\include\quantity.hpp" />
