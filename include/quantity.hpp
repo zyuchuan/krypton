@@ -344,6 +344,30 @@ public:
     //inline constexpr quantity& operator+=(const quantity& other) {value += other.value; return *this;}
 };
 
+template<class T>
+using meter = quantity<T, length, std::ratio<1>>;
+
+template<class T>
+using m = meter<T>;
+
+template<class T>
+using kilometer = quantity<T, length, std::kilo>;
+
+template<class T>
+using km = kilometer<T>;
+
+template<class T>
+using centimeter = quantity<T, length, std::centi>;
+
+template<class T>
+using cm = centimeter<T>;
+
+template<class T>
+using millimeter = quantity<T, length, std::milli>;
+
+template<class T>
+using mm = millimeter<T>;
+
 END_KR_NAMESPACE
 
 #if defined (_MSC_VER)

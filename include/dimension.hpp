@@ -61,10 +61,17 @@ using temperature   = sequence<_0, _0, _0, _0, _1, _0, _0, _0, _0>;
 using substance     = sequence<_0, _0, _0, _0, _0, _1, _0, _0, _0>;
 using intensity     = sequence<_0, _0, _0, _0, _0, _0, _1, _0, _0>;
 using angle         = sequence<_0, _0, _0, _0, _0, _0, _0, _1, _0>;
+using nothing		= sequence<_0, _0, _0, _0, _0, _0, _0, _0, _1>;
 
 using L = length;
 using T = time;
 using M = mass;
+using A = current;
+using K = temperature;
+using n = substance;
+using I = intensity;
+using R = angle;
+using N = nothing;
 
 // Compound dimensions
 //using velocity                  = sequence<_1, _0, __1, _0, _0, _0, _0, _0>;   // LT^-1
@@ -78,9 +85,16 @@ using M = mass;
 //using moment_of_inertia         = sequence<_2, _1,  _0, _0, _0, _0, _0, _0>;   // ML^2
 //using density                   = sequence<__1,_1,  _0, _0, _0, _0, _0, _0>;   // ML^-1
 
-using velocity = divide<L, T>::type;
-using acceleration = multiply<L, pow<T, -2>::type>::type;
-using force = multiply<multiply<M, L>::type, pow<T, -2>::type>::type;
+using velocity					= divide_t<L, T>;
+using acceleration				= multiply_t<L, pow_t<T, -2>>;
+using force						= multiply_t<multiply_t<M, L>, pow_t<T, -2>>;
+using momentum					= divide_t<multiply_t<M, L>, T>;
+using work						= multiply_t<multiply_t<multiply_t<M, pow_t<L, 2>>, pow_t<T, -2>>, N>;
+using moment					= multiply_t<multiply_t<M, pow_t<L, 2>>, pow_t<T, -2>>;
+using angular_velocity			= divide_t<R, T>;
+using angular_acceleration		= multiply_t<R, pow_t<T, -2>>;
+using moment_of_inertia			= multiply_t<M, pow_t<L, 2>>;
+using density					= divide_t<M, L>;
 
 END_KR_NAMESPACE
 #endif /* dimension_h */
