@@ -31,7 +31,6 @@
     <ClInclude Include="..\test\integer_static_check.h" />
     <ClInclude Include="..\test\sequence_static_check.h" />
     <ClInclude Include="..\test\test_quantity.h" />
-    <ClInclude Include="..\test\unit_static_check.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test.cpp" />
