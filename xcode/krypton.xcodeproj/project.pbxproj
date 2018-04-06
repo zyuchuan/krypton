@@ -27,6 +27,9 @@
 		04464BE62066391F00481CE3 /* integer_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = integer_static_check.h; path = ../test/integer_static_check.h; sourceTree = "<group>"; };
 		04464BE72066391F00481CE3 /* system_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = system_static_check.h; path = ../test/system_static_check.h; sourceTree = "<group>"; };
 		04464BE82066545F00481CE3 /* traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = traits.hpp; path = ../include/traits.hpp; sourceTree = "<group>"; };
+		0479921B20779E5D0003CA3B /* unit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = unit.hpp; path = ../include/unit.hpp; sourceTree = "<group>"; };
+		0479921C20779E7D0003CA3B /* dimension_static_check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dimension_static_check.h; path = ../test/dimension_static_check.h; sourceTree = "<group>"; };
+		0479921D20779E8D0003CA3B /* utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = utility.hpp; path = ../include/utility.hpp; sourceTree = "<group>"; };
 		047FAB7820515C590077F24B /* quantity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = quantity.hpp; path = ../include/quantity.hpp; sourceTree = "<group>"; };
 		047FAB7A20515C590077F24B /* sequence.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = sequence.hpp; path = ../include/sequence.hpp; sourceTree = "<group>"; };
 		047FAB7B20515C590077F24B /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = common.hpp; path = ../include/common.hpp; sourceTree = "<group>"; };
@@ -39,7 +42,6 @@
 		04C38EFD205567CF0082E262 /* system.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = system.hpp; path = ../include/system.hpp; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
 		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
-		04E85A9F206924ED0061DFA0 /* unit.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = unit.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,13 +59,14 @@
 			isa = PBXGroup;
 			children = (
 				047FAB7B20515C590077F24B /* common.hpp */,
-				047FAB7D20515C590077F24B /* integer.hpp */,
-				047FAB7A20515C590077F24B /* sequence.hpp */,
 				047FAB7C20515C590077F24B /* dimension.hpp */,
+				047FAB7D20515C590077F24B /* integer.hpp */,
+				047FAB7820515C590077F24B /* quantity.hpp */,
+				047FAB7A20515C590077F24B /* sequence.hpp */,
 				04C38EFD205567CF0082E262 /* system.hpp */,
 				04464BE82066545F00481CE3 /* traits.hpp */,
-				047FAB7820515C590077F24B /* quantity.hpp */,
-				04E85A9F206924ED0061DFA0 /* unit.hpp */,
+				0479921B20779E5D0003CA3B /* unit.hpp */,
+				0479921D20779E8D0003CA3B /* utility.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -71,10 +74,11 @@
 		047FAB7E20515C640077F24B /* test */ = {
 			isa = PBXGroup;
 			children = (
+				0479921C20779E7D0003CA3B /* dimension_static_check.h */,
 				04464BE62066391F00481CE3 /* integer_static_check.h */,
-				04464BE72066391F00481CE3 /* system_static_check.h */,
 				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
 				04464BE52066391F00481CE3 /* sequence_static_check.h */,
+				04464BE72066391F00481CE3 /* system_static_check.h */,
 				04C77F3420516826001C27F4 /* test_quantity.h */,
 				047FAB8420515C780077F24B /* test.cpp */,
 			);
@@ -284,6 +288,7 @@
 		04965CFC204B979600604F28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5597W4KY69;
 				HEADER_SEARCH_PATHS = (
@@ -299,6 +304,7 @@
 		04965CFD204B979600604F28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5597W4KY69;
 				HEADER_SEARCH_PATHS = (

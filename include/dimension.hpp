@@ -85,16 +85,16 @@ using N = nothing;
 //using moment_of_inertia         = sequence<_2, _1,  _0, _0, _0, _0, _0, _0>;   // ML^2
 //using density                   = sequence<__1,_1,  _0, _0, _0, _0, _0, _0>;   // ML^-1
 
-using velocity					= divide_t<L, T>;
-using acceleration				= multiply_t<L, pow_t<T, -2>>;
-using force						= multiply_t<multiply_t<M, L>, pow_t<T, -2>>;
-using momentum					= divide_t<multiply_t<M, L>, T>;
-using work						= multiply_t<multiply_t<multiply_t<M, pow_t<L, 2>>, pow_t<T, -2>>, N>;
-using moment					= multiply_t<multiply_t<M, pow_t<L, 2>>, pow_t<T, -2>>;
-using angular_velocity			= divide_t<R, T>;
-using angular_acceleration		= multiply_t<R, pow_t<T, -2>>;
-using moment_of_inertia			= multiply_t<M, pow_t<L, 2>>;
-using density					= divide_t<M, L>;
+using velocity					= divide<L, T>::type;
+using acceleration				= multiply<L, pow<T, -2>::type>::type;
+using force						= multiply<multiply<M, L>::type, pow<T, -2>::type>;
+using momentum					= divide<multiply<M, L>::type, T>::type;
+using work						= multiply<multiply<multiply<M, pow<L, 2>::type>::type, pow<T, -2>::type>::type, N>::type;
+using moment					= multiply<multiply<M, pow<L, 2>::type>::type, pow<T, -2>::type>::type;
+using angular_velocity			= divide<R, T>::type;
+using angular_acceleration		= multiply<R, pow<T, -2>::type>::type;
+using moment_of_inertia			= multiply<M, pow<L, 2>::type>::type;
+using density					= divide<M, L>::type;
 
 END_KR_NAMESPACE
 #endif /* dimension_h */
