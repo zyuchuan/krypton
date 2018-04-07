@@ -85,6 +85,7 @@ using N = nothing;
 //using moment_of_inertia         = sequence<_2, _1,  _0, _0, _0, _0, _0, _0>;   // ML^2
 //using density                   = sequence<__1,_1,  _0, _0, _0, _0, _0, _0>;   // ML^-1
 
+using area                      = pow<L, 2>::type;
 using velocity					= divide<L, T>::type;
 using acceleration				= multiply<L, pow<T, -2>::type>::type;
 using force						= multiply<multiply<M, L>::type, pow<T, -2>::type>;
