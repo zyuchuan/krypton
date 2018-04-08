@@ -43,6 +43,10 @@
 		04C38EFC20555DF40082E262 /* ratio_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ratio_static_check.h; path = ../test/ratio_static_check.h; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
 		04C77F3420516826001C27F4 /* test_quantity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = test_quantity.h; path = ../test/test_quantity.h; sourceTree = "<group>"; };
+		04E6136B2078D36D004AD0D9 /* volume.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = volume.hpp; path = ../include/volume.hpp; sourceTree = "<group>"; };
+		04E6136C2078D50C004AD0D9 /* time.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = time.hpp; path = ../include/time.hpp; sourceTree = "<group>"; };
+		04E6136D2078D532004AD0D9 /* mass.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = mass.hpp; path = ../include/mass.hpp; sourceTree = "<group>"; };
+		04E6136E2078D548004AD0D9 /* velocity.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = velocity.hpp; path = ../include/velocity.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +79,12 @@
 			isa = PBXGroup;
 			children = (
 				047D03B420786F8800B25386 /* core */,
-				0479921B20779E5D0003CA3B /* length.hpp */,
 				047D03B220786B9C00B25386 /* area.hpp */,
+				0479921B20779E5D0003CA3B /* length.hpp */,
+				04E6136B2078D36D004AD0D9 /* volume.hpp */,
+				04E6136C2078D50C004AD0D9 /* time.hpp */,
+				04E6136D2078D532004AD0D9 /* mass.hpp */,
+				04E6136E2078D548004AD0D9 /* velocity.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
