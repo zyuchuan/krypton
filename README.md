@@ -6,9 +6,9 @@ In C++ programming world, when you define a variable, you define its type and it
 int i = 0;  // type of i is integer, value is 0
 ```
 
-However, in real world, every quantity comes with four properties: `type`, `value`, `dimension` and `unit`. Such as, when we say: "*the length of the wall is 5.3 meters*", we literally define a quantity with **value** equals `5.3`, we also specify its **type** is `float point value`, its **dimension** is `length`, and this dimension is described by **unit** `meter`.
+However, in real world, every quantity comes with four properties: `type`, `value`, `dimension` and `unit`. Such as, when we say: "*the length of the wall is 5.3 meters*", we literally define a quantity with **value** equals `5.3`, we also specify its **type** is `float point value`, its **dimension** is `length`, and this dimension is described by **unit** `meter`.
 
-Ideally when we define a varable in programming world, we would have wanted to defined it with four properties determined, as we do in real world. Unfortunatelly computer, in essence, is just a numerical computing device, it's difficult to make it understand complex concepts, like **Dimension** or **Unit**.
+Ideally when we define a varable in programming world, we would have wanted to defined it with four properties determined, as we do in real world. Unfortunatelly computer, in essence, is just a numerical computing device, it's difficult to make it understand complex concepts, like **Dimension** or **Unit**.
 
 The goal of krypton is to fill the gap between programming world and real world.
 
