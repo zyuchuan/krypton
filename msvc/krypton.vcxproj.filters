@@ -19,42 +19,69 @@
     <Filter Include="Source Files\test">
       <UniqueIdentifier>{c95f358d-f9a7-43fa-8c78-31569b277b5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\core">
+      <UniqueIdentifier>{f7f7e4bb-3749-4208-a06d-e7ad757441d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\krypton.hpp">
+    <ClInclude Include="..\include\core\common.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\dimension.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\integer.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\quantity.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\sequence.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\system.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\traits.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\core\utility.hpp">
+      <Filter>Header Files\include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\area.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\quantity.hpp">
+    <ClInclude Include="..\include\length.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\sequence.hpp">
+    <ClInclude Include="..\include\mass.hpp">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\test\test_quantity.h">
+    <ClInclude Include="..\include\time.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\velocity.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\volume.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test\dimension_static_check.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\dimension.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\integer.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\utility.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\test\integer_static_check.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\test\ratio_static_check.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
     <ClInclude Include="..\test\sequence_static_check.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\traits.hpp">
-      <Filter>Header Files\include</Filter>
+    <ClInclude Include="..\test\system_static_check.h">
+      <Filter>Source Files\test</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\common.hpp">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\dimension_static_check.h">
+    <ClInclude Include="..\test\test_quantity.h">
       <Filter>Source Files\test</Filter>
     </ClInclude>
   </ItemGroup>

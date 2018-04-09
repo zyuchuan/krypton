@@ -19,17 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\common.hpp" />
-    <ClInclude Include="..\include\dimension.hpp" />
-    <ClInclude Include="..\include\dimension_static_check.h" />
-    <ClInclude Include="..\include\integer.hpp" />
-    <ClInclude Include="..\include\krypton.hpp" />
-    <ClInclude Include="..\include\quantity.hpp" />
-    <ClInclude Include="..\include\sequence.hpp" />
-    <ClInclude Include="..\include\traits.hpp" />
-    <ClInclude Include="..\include\utility.hpp" />
+    <ClInclude Include="..\include\area.hpp" />
+    <ClInclude Include="..\include\core\common.hpp" />
+    <ClInclude Include="..\include\core\dimension.hpp" />
+    <ClInclude Include="..\include\core\integer.hpp" />
+    <ClInclude Include="..\include\core\quantity.hpp" />
+    <ClInclude Include="..\include\core\sequence.hpp" />
+    <ClInclude Include="..\include\core\system.hpp" />
+    <ClInclude Include="..\include\core\traits.hpp" />
+    <ClInclude Include="..\include\core\utility.hpp" />
+    <ClInclude Include="..\include\length.hpp" />
+    <ClInclude Include="..\include\mass.hpp" />
+    <ClInclude Include="..\include\time.hpp" />
+    <ClInclude Include="..\include\velocity.hpp" />
+    <ClInclude Include="..\include\volume.hpp" />
+    <ClInclude Include="..\test\dimension_static_check.h" />
     <ClInclude Include="..\test\integer_static_check.h" />
+    <ClInclude Include="..\test\ratio_static_check.h" />
     <ClInclude Include="..\test\sequence_static_check.h" />
+    <ClInclude Include="..\test\system_static_check.h" />
     <ClInclude Include="..\test\test_quantity.h" />
   </ItemGroup>
   <ItemGroup>

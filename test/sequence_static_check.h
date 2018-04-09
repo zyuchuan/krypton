@@ -9,8 +9,8 @@
 #ifndef sequence_static_check_h
 #define sequence_static_check_h
 
-#include "integer.hpp"
-#include "sequence.hpp"
+#include "core/integer.hpp"
+#include "core/sequence.hpp"
 
 void sequence_static_check() {
     using seq0 = kr::sequence<int, int, int>;

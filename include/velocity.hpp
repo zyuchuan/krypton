@@ -9,8 +9,8 @@
 #ifndef velocity_h
 #define velocity_h
 
-#include "common.hpp"
-#include "quantity.hpp"
+#include "core/common.hpp"
+#include "core/quantity.hpp"
 
 BEGIN_KR_NAMESPACE
 

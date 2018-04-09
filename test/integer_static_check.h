@@ -9,7 +9,7 @@
 #ifndef integer_static_check_h
 #define integer_static_check_h
 
-#include "integer.hpp"
+#include "core/integer.hpp"
 
 void test_integers() {
     static_assert(kr::__8::value == -8, "kr::__8 must represent value -8");

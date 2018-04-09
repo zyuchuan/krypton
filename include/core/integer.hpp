@@ -9,7 +9,7 @@
 #ifndef integer_h
 #define integer_h
 
-#include "core/common.hpp"
+#include "common.hpp"
 
 BEGIN_KR_NAMESPACE
     

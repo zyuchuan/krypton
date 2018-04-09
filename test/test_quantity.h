@@ -11,8 +11,8 @@
 
 #include <cmath>
 #include <gtest/gtest.h>
-#include "dimension.hpp"
-#include "quantity.hpp"
+#include "core/dimension.hpp"
+#include "core/quantity.hpp"
 
 void quantity_static_check() {
 

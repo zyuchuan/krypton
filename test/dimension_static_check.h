@@ -9,8 +9,8 @@
 #ifndef dimension_static_check_h
 #define dimension_static_check_h
 
-#include "sequence.hpp"
-#include "dimension.hpp"
+#include "core/sequence.hpp"
+#include "core/dimension.hpp"
 
 void dimension_static_check() {
 	static_assert(kr::equals<kr::velocity, kr::sequence<kr::_1, kr::_0, kr::__1, kr::_0, kr::_0, kr::_0, kr::_0, kr::_0, kr::_0>>::value, "they are equal");

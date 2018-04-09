@@ -9,8 +9,8 @@
 #ifndef area_h
 #define area_h
 
-#include "common.hpp"
-#include "quantity.hpp"
+#include "core/common.hpp"
+#include "core/quantity.hpp"
 
 BEGIN_KR_NAMESPACE
 
