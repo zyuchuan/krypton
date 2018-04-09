@@ -10,9 +10,19 @@ However, in real world, every quantity comes with four properties: `type`, `valu
 
 Ideally when we define a varable in programming world, we would have wanted to defined it with four properties determined, as we do in real world. Unfortunatelly computer, in essence, is just a numerical computing device, it's difficult to make it understand complex concepts, like **Dimension** or **Unit**.
 
-The goal of krypton is to fill the gap between programming world and real world.
+This is why **krypton** is created. **Krypton** is a C++ dimension calculation library designed to solve the dilemma described above.
 
-Krypton is a C++ dimension calculation library inspired by [chrono](en.cppreference.com/w/cpp/header/chrono).
+**krypton** is inspired by [chrono](en.cppreference.com/w/cpp/header/chrono).
+
+## How crypton works
+
+In krypton, every varaible is a quantity, every quantity is born with four attributes: `type`, `value`, `dimension` and `unit`:
+
+```C++
+template<class T, class Dim, class Ratio, class Unit>
+struct quantity {
+    // ...
+};
 
 In krypton, you should be able to do this:
 
