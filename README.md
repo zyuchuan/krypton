@@ -19,7 +19,7 @@ This is why **krypton** is created. **Krypton** is a C++ dimension calculation l
 
 **krypton** is inspired by [chrono](en.cppreference.com/w/cpp/header/chrono).
 
-## How krypton works
+## 1. How krypton works
 
 In krypton, every varaible is a quantity and every quantity is born with four attributes: `type`, `value`, `dimension` and `unit`:
 
@@ -37,11 +37,11 @@ where
 - `Ratio` specifies the magnitude of quantity's value, denoted by `std::ratio`, we'll talk more about this later.
 - `Unit` specify quanity's unit (metric system, british system or others).
 
-### What is dimension
+### 1.1 What is dimension
 
 In krypton, *dimension* is not what we know as *3D* or *2D* graphic thing, instead it's a physical term that describes the basic attributes of physical quantities, such as `length`, `mass` or `electric charge`, etc. [Click here](https://en.wikipedia.org/wiki/Dimensional_analysis) to know more about Dimension and Dimensional Analysis.
 
-### How dimension is represented in krypton
+### 1.1.1 How dimension is represented in krypton
 
 The good news about physical dimension is that our world is entirly built upon [seven base dimensions](https://en.wikipedia.org/wiki/International_System_of_Quantities): 
 
@@ -76,12 +76,20 @@ using substance = sequence<_0, _0, _0, _0, _0, _1, _0>;
 using intensity = sequence<_0, _0, _0, _0, _0, _0, _1>;
 ```
 
-So we can define derived dimension like this
+So we can define derived dimensions like this
 
 ```c++
 using area      = pow<length, 2>::type;         // area = length * length
 using velocity  = divide<length, time>::type;   // velocity = length / time
 ```
+
+### 1.2 What is quantity's ratio
+
+### 1.3 What is `Unit`
+
+### 1.4 Summary
+
+## 2. What can we do with krypton
 
 
 In krypton, you should be able to do this:
