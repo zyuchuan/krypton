@@ -24,8 +24,12 @@ This is why **krypton** is created. **Krypton** is a C++ dimension calculation l
 In krypton, every varaible is a quantity and every quantity is born with four attributes: `type`, `value`, `dimension` and `unit`:
 
 ```c++
-template<class T, class Dim, class Ratio, class Unit>
+template<class T, 
+         class Dim, 
+         class Ratio = std::ratio<1>,
+         class Unit = metric_system<Dim>>
 struct quantity {
+    const T value;
     // ...
 };
 ```
@@ -85,9 +89,35 @@ using velocity  = divide<length, time>::type;   // velocity = length / time
 
 ### 1.2 What is quantity's ratio
 
+A quantity's ratio denotes the magnitude of it's value. such as when you write
+
+```c++
+template<T>
+using type1 = quantity<T, length, std::ratio<1>, metric_system<length>>;
+```
+
+you defines a `quantity` type whose dimension is `meter`. If you change above code a little bit, like this
+
+```c++
+template<T>
+using type2 = quantity<T, length, std::ratio<1000, 1>, metric_system<length>>;
+```
+
+you actually defines a `quantity` type whose dimension is `kilometer`, because its value's magnitude is `std::<1000, 1>`, which means `1000 times`.
+
 ### 1.3 What is `Unit`
 
-### 1.4 Summary
+The template parameter `Unit` is a placeholder which indicates what unit (metric or british) the variable is. Currently krypton supports two types of unit: metric and british, declared as following:
+
+```c++
+template<class T> struct metric_system;
+
+template<class T> struct british_system;
+```
+
+### 1.4 Quantity runtime performance
+
+The good thing of `quantity` is although it comes with a couple of attributes, these attributes exist only in compile time, at run time a quantity is as simple as a plain value type, so we don't need worry about its runtime performance.
 
 ## 2. What can we do with krypton
 
