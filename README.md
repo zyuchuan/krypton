@@ -121,25 +121,40 @@ The good thing of `quantity` is although it comes with a couple of attributes, t
 
 ## 2. What can we do with krypton
 
+### 2.1 Type check
 
-In krypton, you should be able to do this:
+In krypton, a quantity's "type" is determined by its `dimension`, if two quantity has different `dimensions`, they are treated as different types.
 
 ```c++
-velocity<double> v{5.0}   // v's type is double, vlaue is 5.0, and dimension is velocity, metric is "merter/second"
-second<int> t{5}          // t's type is int, value is 5, dimension is time, metric is second
+velocity<double> v{5.0};        // v's dimension is velocity
+second<int> t1{v};              // this won't compilem, because t's dimension is time, it can't be
+                                // initialized by a "velocity"    
+second<int> t{5};               // t's dimension is time
 
-kilogram<double> kilo = v * t        // this won't compile, because k's dimension is kilogram,
-                                     // but dimension of v * t is meter (velocity * time = distance)
+kilogram<double> kilo = v * t;  // this won't compile, because kilo's dimension is mass,
+                                // but dimension of v * t is length (velocity * time = distance)
                           
-meter<double> m = v * t          // this is OK becasue distance = velocity * time                           
-feet<double> f = v * t           // this is OK because feet and meter share are actually in same dimension
-kilometer<double> km = v * t     // automatically convert meter to kilometer
+meter<double> m = v * t;        // OK, distance = velocity * time                         
+
+feet<double> f = v * t;         // OK, feet's dimension is also length
+
+kilometer<double> km = v * t;   // OK
 ```
 
-This is what I call it "dimension calculation".
+### 2.2 Automatic ratio conversion
 
-This is possible, because there are only **seven** dimensions in this world: *meter*, *kilogram*, *second*, *ampere*, *kelvins*...
+```c++
+meter<double> m{5000.0};
 
-Dimension calculation should be done at compile time so it won't impact the run time performance.
-     
+kilometer<double> km{m};        // km.value = 5.0
 
+millimeter<double> mm{m};       // mm.value = 5000000.0
+```
+
+### 2.3 Automatic unit conversion
+
+```c++
+meter<double> m{.50};
+
+feet<double> ft{m};             // OK
+```
