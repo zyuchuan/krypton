@@ -63,8 +63,8 @@ BEGIN_KR_NAMESPACE
  *****************************************************/
 
 // metric system, we define meter as ratio 1
-template<class T> using yoctometer = quantity<T, length, std::yocto>;
-template<class T> using zeptometer = quantity<T, length, std::zepto>;
+//template<class T> using yoctometer = quantity<T, length, std::yocto>;
+//template<class T> using zeptometer = quantity<T, length, std::zepto>;
 template<class T> using attometer = quantity<T, length, std::atto>;
 template<class T> using femtometer = quantity<T, length, std::femto>;
 template<class T> using picometer = quantity<T, length, std::pico>;

@@ -11,13 +11,14 @@
 
 #include "core/common.hpp"
 #include "core/quantity.hpp"
+#include "core/system.hpp"
 
 BEGIN_KR_NAMESPACE
 
 template<class T> using m_per_s     = quantity<T, velocity>;
 template<class T> using km_per_h    = quantity<T, velocity, std::ratio<1000, 3600>>;
 
-template<class T> using f_per_s     = quantity<T, velocity, std::ratio<1>, birtish_system<velocity>>;
+template<class T> using f_per_s     = quantity<T, velocity, std::ratio<1>, british_system<velocity>>;
 
 END_KR_NAMESPACE
 
