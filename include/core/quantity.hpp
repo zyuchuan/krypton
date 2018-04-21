@@ -328,21 +328,35 @@ public:
 		return quantity(this->value - temp.value);
 	}
     
-  //  template<class Multipiler>
-  //  inline void multiply(const Multipiler& other) {
-		//detail::quantity_multiply<this_type, Multipiler>()(*this, other);
-  //  }
+    template<class Q>
+    typename std::enable_if<is_quantity<Q>::value,
+            typename quantity_arithmetic_traits<quantity, Q>::multiplication::result_type>::type
+    multiply(const Q& other) {
+        return quantity_multiply(*this, other);
+    }
+    
+    template<class Q>
+    typename std::enable_if<is_quantity<Q>::value,
+    typename quantity_arithmetic_traits<quantity, Q>::division::result_type>::type
+    divide(const Q& other) {
+        return quantity_divide(*this, other);
+    }
     
     // arithmetic
-    inline constexpr quantity  operator+() const {return *this;}
-    inline constexpr quantity  operator-() const {return quantity(-value);}
-    inline constexpr quantity& operator++()      {++value; return *this;}
-    inline constexpr quantity  operator++(int)   {return quantity(value++);}
-    inline constexpr quantity& operator--()      {--value; return *this;}
-    inline constexpr quantity  operator--(int)   {return quantity(value--);}
+    //inline constexpr quantity  operator+() const {return *this;}
+    //inline constexpr quantity  operator-() const {return quantity(-value);}
+    //inline constexpr quantity& operator++()      {++value; return *this;}
+    //inline constexpr quantity  operator++(int)   {return quantity(value++);}
+    //inline constexpr quantity& operator--()      {--value; return *this;}
+    //inline constexpr quantity  operator--(int)   {return quantity(value--);}
     
     //inline constexpr quantity& operator+=(const quantity& other) {value += other.value; return *this;}
 };
+
+//template<class T, class Dim, class Ratio, class Unit>
+//inline constexpr quantity<T, Dim, Ratio, Unit> operator+(const quantity& lhs, const quantity& rhs) {
+//
+//}
 
 END_KR_NAMESPACE
 

@@ -217,6 +217,13 @@ TEST(test_quantity, test_multiplication) {
     EXPECT_EQ(m1.value, 5.0);
     double diff = std::abs(f1.value - 16.4042);
     EXPECT_LE(diff, 0.0001);
+    
+    kr::meter<double> m11{v1.multiply(s1)};
+    EXPECT_EQ(m11.value, 5.0);
+    
+    kr::foot<double> f11{v1.multiply(s1)};
+    diff = std::abs(f11.value - 16.4042);
+    EXPECT_LE(diff, 0.0001);
 
     kr::kilometer<double> km1 = kr::quantity_multiply(v1, s1);
     EXPECT_EQ(km1.value, 0.005);
@@ -249,6 +256,10 @@ TEST(test_quantity, test_division) {
     kr::second<double> sec1{1.0};
     kr::m_per_s<double> v1 = kr::quantity_divide(m1, sec1);
     EXPECT_EQ(v1.value, 1.0);
+    
+    kr::m_per_s<double> v11{m1.divide(sec1)};
+    EXPECT_EQ(v11.value, 1.0);
+    
     kr::f_per_s<double> bv1 = kr::quantity_divide(m1, sec1);
     double diff = std::abs(bv1.value - 3.2808);
     EXPECT_LE(diff, 0.0001);
