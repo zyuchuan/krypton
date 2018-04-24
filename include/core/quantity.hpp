@@ -317,13 +317,13 @@ public:
     }
 
 	template<class U, class Ratio2, class Unit2>
-	inline quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) {
+	inline constexpr quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) const {
 		quantity temp{ other};
 		return quantity(this->value + temp.value);
 	}
 
 	template<class U, class Ratio2, class Unit2>
-	inline quantity sub(const quantity<U, Dim, Ratio2, Unit2>& other) {
+	inline constexpr quantity sub(const quantity<U, Dim, Ratio2, Unit2>& other) const {
 		quantity temp{ other };
 		return quantity(this->value - temp.value);
 	}
@@ -331,14 +331,14 @@ public:
     template<class Q>
     typename std::enable_if<is_quantity<Q>::value,
             typename quantity_arithmetic_traits<quantity, Q>::multiplication::result_type>::type
-    multiply(const Q& other) {
+    multiply(const Q& other) const{
         return quantity_multiply(*this, other);
     }
     
     template<class Q>
     typename std::enable_if<is_quantity<Q>::value,
     typename quantity_arithmetic_traits<quantity, Q>::division::result_type>::type
-    divide(const Q& other) {
+    divide(const Q& other) const {
         return quantity_divide(*this, other);
     }
     
@@ -355,12 +355,15 @@ public:
 
 END_KR_NAMESPACE
 
-template<class T1, class T2, class Dim, class Ratio, class Unit>
-inline kr::quantity<std::common_type_t<T1, T2>, Dim, Ratio, Unit> operator+(kr::quantity<T1, Dim, Ratio, Unit>& lhs, kr::quantity<T2, Dim, Ratio, Unit>& rhs) {
+template<class T1, class T2, class Dim, class Ratio1, class Ratio2, class Unit>
+inline constexpr kr::quantity<std::common_type_t<T1, T2>, Dim, Ratio1, Unit>
+operator+(const kr::quantity<T1, Dim, Ratio1, Unit>& lhs, const kr::quantity<T2, Dim, Ratio2, Unit>& rhs) {
 	using value_type = std::common_type_t<T1, T2>;
-	using result_type = kr::quantity<value_type, Dim, Ratio, Unit>;
-	result_type temp{ (lhs.add(rhs)).value };
-	return temp;
+	using result_type = kr::quantity<value_type, Dim, Ratio1, Unit>;
+    
+	result_type temp1{lhs};
+    result_type temp2{rhs};
+    return result_type{temp1.value + temp2.value};
 }
 
 #if defined (_MSC_VER)

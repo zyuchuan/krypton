@@ -202,11 +202,13 @@ TEST(test_quantity, test_operator_add) {
 	kr::meter<int> m1{ 1 };
 	kr::meter<double> m2{ 2.0 };
 	auto m3 = m1 + m2;
-	EXPECT_EQ(m3.value, 3);
+	EXPECT_EQ(m3.value, 3.0);
 
-	//kr::kilometer<int> m4{ 1 };
-	//kr::meter<int> m5 = m1.add(m4);
-	//EXPECT_EQ(m5.value, 1001);
+    kr::kilometer<double> m4{ 1.0 };
+    auto m5 = m1 + m4;
+    EXPECT_EQ(m5.value, 1001);
+    auto m6 = m4 + m1;
+    EXPECT_EQ(m6.value, 1.001);
 
 	//kr::centimeter<double> cm5{ 1.0 };
 	//kr::kilometer<double> km6{ 1.0 };
