@@ -353,12 +353,15 @@ public:
     //inline constexpr quantity& operator+=(const quantity& other) {value += other.value; return *this;}
 };
 
-//template<class T, class Dim, class Ratio, class Unit>
-//inline constexpr quantity<T, Dim, Ratio, Unit> operator+(const quantity& lhs, const quantity& rhs) {
-//
-//}
-
 END_KR_NAMESPACE
+
+template<class T1, class T2, class Dim, class Ratio, class Unit>
+inline kr::quantity<std::common_type_t<T1, T2>, Dim, Ratio, Unit> operator+(kr::quantity<T1, Dim, Ratio, Unit>& lhs, kr::quantity<T2, Dim, Ratio, Unit>& rhs) {
+	using value_type = std::common_type_t<T1, T2>;
+	using result_type = kr::quantity<value_type, Dim, Ratio, Unit>;
+	result_type temp{ (lhs.add(rhs)).value };
+	return temp;
+}
 
 #if defined (_MSC_VER)
 #pragma warning(pop)
