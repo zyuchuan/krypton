@@ -210,24 +210,40 @@ TEST(test_quantity, test_operator_add) {
     auto m6 = m4 + m1;
     EXPECT_EQ(m6.value, 1.001);
 
-	//kr::centimeter<double> cm5{ 1.0 };
-	//kr::kilometer<double> km6{ 1.0 };
-	//EXPECT_EQ(cm5.add(km6).value, 100001);
-
-	//kr::meter<double> m7{ 1.0 };
-	//kr::foot<double> foot8{ 1.0 };
-	//double diff = std::abs(m7.add(foot8).value - 1.3048);
-	//EXPECT_LE(diff, 0.00001);
-
-	//kr::centimeter<double> cm8{ 1.0 };
-	//kr::inch<double> inch9{ 1.0 };
-	//diff = std::abs(inch9.add(cm8).value - 1.3937);
-	//EXPECT_LE(diff, 0.00001);
+    kr::meter<double> m7{ 1.0 };
+    kr::foot<double> foot8{ 1.0 };
+    auto res = m7 + foot8;
+    double diff = std::abs(res.value - 1.3048);
+    EXPECT_LE(diff, 0.00001);
+    auto res2 = foot8 + m7;
+    diff = std::abs(res2.value - 4.2808);
+    EXPECT_LE(diff, 0.0001);
 
 	// this should not compile
-	//kr::meter<int> m10{ 10 };
-	//kr::second<int> s10{ 10 };
-	//m10.add(s10);
+    //3 + m2;
+    //m2 + 3
+}
+
+TEST(test_quantity, test_operator_sub) {
+    kr::meter<int> m1{ 1 };
+    kr::meter<double> m2{ 2.0 };
+    auto m3 = m1 - m2;
+    EXPECT_EQ(m3.value, -1.0);
+    
+    kr::kilometer<double> m4{ 1.0 };
+    auto m5 = m1 - m4;
+    EXPECT_EQ(m5.value, -999.0);
+    auto m6 = m4 - m1;
+    EXPECT_EQ(m6.value, 0.999);
+
+    kr::meter<double> m7{ 1.0 };
+    kr::foot<double> foot8{ 1.0 };
+    auto res = m7 - foot8;
+    double diff = std::abs(res.value - 0.6952);
+    EXPECT_LE(diff, 0.00001);
+    auto res2 = foot8 - m7;
+    diff = std::abs(res2.value + 2.2808);
+    EXPECT_LE(diff, 0.0001);
 }
 
 //TEST(test_quantity, test_normalized) {

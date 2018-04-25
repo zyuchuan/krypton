@@ -323,7 +323,7 @@ public:
 	}
 
 	template<class U, class Ratio2, class Unit2>
-	inline constexpr quantity sub(const quantity<U, Dim, Ratio2, Unit2>& other) const {
+	inline constexpr quantity substract(const quantity<U, Dim, Ratio2, Unit2>& other) const {
 		quantity temp{ other };
 		return quantity(this->value - temp.value);
 	}
@@ -341,29 +341,42 @@ public:
     divide(const Q& other) const {
         return quantity_divide(*this, other);
     }
-    
-    // arithmetic
-    //inline constexpr quantity  operator+() const {return *this;}
-    //inline constexpr quantity  operator-() const {return quantity(-value);}
-    //inline constexpr quantity& operator++()      {++value; return *this;}
-    //inline constexpr quantity  operator++(int)   {return quantity(value++);}
-    //inline constexpr quantity& operator--()      {--value; return *this;}
-    //inline constexpr quantity  operator--(int)   {return quantity(value--);}
-    
-    //inline constexpr quantity& operator+=(const quantity& other) {value += other.value; return *this;}
 };
 
 END_KR_NAMESPACE
 
-template<class T1, class T2, class Dim, class Ratio1, class Ratio2, class Unit>
-inline constexpr kr::quantity<std::common_type_t<T1, T2>, Dim, Ratio1, Unit>
-operator+(const kr::quantity<T1, Dim, Ratio1, Unit>& lhs, const kr::quantity<T2, Dim, Ratio2, Unit>& rhs) {
+template<class T1, class T2, class Dim, class Ratio1, class Ratio2, class Unit1, class Unit2>
+inline constexpr kr::quantity<std::common_type_t<T1, T2>, Dim, Ratio1, Unit1>
+operator+(const kr::quantity<T1, Dim, Ratio1, Unit1>& lhs, const kr::quantity<T2, Dim, Ratio2, Unit2>& rhs) {
 	using value_type = std::common_type_t<T1, T2>;
-	using result_type = kr::quantity<value_type, Dim, Ratio1, Unit>;
-    
-	result_type temp1{lhs};
-    result_type temp2{rhs};
-    return result_type{temp1.value + temp2.value};
+	using result_type = kr::quantity<value_type, Dim, Ratio1, Unit1>;
+	result_type temp{lhs};
+    return temp.add(rhs);
+}
+
+template<class T1, class T2, class Dim, class Ratio1, class Ratio2, class Unit1, class Unit2>
+inline constexpr kr::quantity<std::common_type_t<T1, T2>, Dim, Ratio1, Unit1>
+operator-(const kr::quantity<T1, Dim, Ratio1, Unit1>& lhs, const kr::quantity<T2, Dim, Ratio2, Unit2>& rhs) {
+    using value_type = std::common_type_t<T1, T2>;
+    using result_type = kr::quantity<value_type, Dim, Ratio1, Unit1>;
+    result_type temp{lhs};
+    return temp.substract(rhs);
+}
+
+template<class Q1, class Q2>
+inline constexpr
+typename std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value,
+typename kr::quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type>::type
+operator *(const Q1& lhs, const Q2& rhs) {
+    return lhs.multiply(rhs);
+}
+
+template<class Q1, class Q2>
+inline constexpr
+typename std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value,
+typename kr::quantity_arithmetic_traits<Q1, Q2>::division::result_type>::type
+operator /(const Q1& lhs, const Q2& rhs) {
+    return lhs.divide(rhs);
 }
 
 #if defined (_MSC_VER)
