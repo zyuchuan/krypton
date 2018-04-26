@@ -324,4 +324,59 @@ TEST(test_quantity, test_division) {
     EXPECT_LE(diff, 0.01);
 }
 
+TEST(test_quantity, test_operator_multiplication) {
+	kr::m_per_s<double> v1{ 5.0 };
+	kr::second<int> s1{ 1 };
+
+	kr::meter<double> m1 = v1 * s1;
+	EXPECT_EQ(m1.value, 5.0);
+	kr::foot<double> f1 = v1 * s1;
+	double diff = std::abs(f1.value - 16.4042);
+	EXPECT_LE(diff, 0.0001);
+
+	kr::meter<double> m11{ s1 * v1 };
+	EXPECT_EQ(m11.value, 5.0);
+
+	kr::foot<double> f11{ v1 * s1 };
+	diff = std::abs(f11.value - 16.4042);
+	EXPECT_LE(diff, 0.0001);
+
+	kr::kilometer<double> km1 = s1 * v1;
+	EXPECT_EQ(km1.value, 0.005);
+
+	kr::km_per_h<double> v2{ 3.6 };
+	kr::meter<double> m2 = v2 * s1;
+	kr::kilometer<double> km2 = s1 * v2;
+	EXPECT_EQ(m2.value, 1.0);
+	EXPECT_EQ(km2.value, 0.001);
+
+	kr::hour<int> h3{ 1 };
+	kr::meter<double> m3 = v2 * h3;
+	kr::kilometer<double> km3 = v2 * h3;
+	EXPECT_EQ(m3.value, 3600.0);
+	EXPECT_EQ(km3.value, 3.6);
+}
+
+TEST(test_quantity, test_operator_division) {
+	kr::meter<double> m1{ 1.0 };
+	kr::second<double> sec1{ 1.0 };
+	kr::m_per_s<double> v1 = m1 / sec1;
+	EXPECT_EQ(v1.value, 1.0);
+
+	kr::m_per_s<double> v11{ m1 / sec1 };
+	EXPECT_EQ(v11.value, 1.0);
+
+	kr::f_per_s<double> bv1 = m1 / sec1;
+	double diff = std::abs(bv1.value - 3.2808);
+	EXPECT_LE(diff, 0.0001);
+
+	kr::hour<int> h2{ 1 };
+	kr::kilometer<double> km2{ 1.0 };
+	kr::km_per_h<double> v2 = km2 / h2;
+	kr::m_per_s<double> v21 = km2 / h2;
+	diff = std::abs(v21.value - 0.28);
+	EXPECT_EQ(v2.value, 1.0);
+	EXPECT_LE(diff, 0.01);
+}
+
 #endif /* test_quantity_h */

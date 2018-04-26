@@ -366,7 +366,7 @@ operator-(const kr::quantity<T1, Dim, Ratio1, Unit1>& lhs, const kr::quantity<T2
 template<class Q1, class Q2>
 inline constexpr
 typename std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value,
-typename kr::quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type>::type
+typename kr::quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type>
 operator *(const Q1& lhs, const Q2& rhs) {
     return lhs.multiply(rhs);
 }
@@ -374,7 +374,7 @@ operator *(const Q1& lhs, const Q2& rhs) {
 template<class Q1, class Q2>
 inline constexpr
 typename std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value,
-typename kr::quantity_arithmetic_traits<Q1, Q2>::division::result_type>::type
+typename kr::quantity_arithmetic_traits<Q1, Q2>::division::result_type>
 operator /(const Q1& lhs, const Q2& rhs) {
     return lhs.divide(rhs);
 }
