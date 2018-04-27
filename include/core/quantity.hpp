@@ -239,7 +239,7 @@ public:
 
 template<class T, class Dim, class Ratio, class Unit>
 class quantity {
-    //static_assert(!is_quantity<T>::value, "A quantity can not be value type of another quantity");
+    static_assert(std::is_arithmetic_v<T>, "Template parameter T must be integer or floating point type");
     //static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
 
 #if defined(__clang__)
@@ -300,6 +300,8 @@ public:
         return normalized_type{*this};
     }
     
+    explicit quantity(T t) : value(t){}
+    
     // construct with a scalar value
     template<class U>
     explicit quantity(U&& u,
@@ -338,12 +340,13 @@ public:
 	template<class S>
 	inline constexpr
 	std::enable_if_t<std::is_arithmetic_v<S>, /*typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type*/ quantity<double, Dim, Ratio, Unit>>
-	multiply(const S s) const {
+	multiply(S s) const {
 		//using value_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::value_type;
 		using value_type = double;
 		//using result_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type;
 		//return result_type{static_cast<value_type>(value) * static_cast<value_type>(s)};
-		return quantity<double, Dim, Ratio, Unit>{(double)value * (double)s};
+		//return quantity<double, Dim, Ratio, Unit>{(double)value * (double)s};
+        return quantity<double, Dim, Ratio, Unit>{(double)value * (double)s};
 	}
     
     template<class Q>
