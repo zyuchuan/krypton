@@ -329,11 +329,22 @@ public:
 	}
     
     template<class Q>
-    typename std::enable_if<is_quantity<Q>::value,
-            typename quantity_arithmetic_traits<quantity, Q>::multiplication::result_type>::type
-    multiply(const Q& other) const{
+	inline constexpr
+	std::enable_if_t<is_quantity<Q>::value, typename quantity_arithmetic_traits<quantity, Q>::multiplication::result_type>
+    multiply(const Q& other) const {
         return quantity_multiply(*this, other);
     }
+
+	template<class S>
+	inline constexpr
+	std::enable_if_t<std::is_arithmetic_v<S>, /*typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type*/ quantity<double, Dim, Ratio, Unit>>
+	multiply(const S s) const {
+		//using value_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::value_type;
+		using value_type = double;
+		//using result_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type;
+		//return result_type{static_cast<value_type>(value) * static_cast<value_type>(s)};
+		return quantity<double, Dim, Ratio, Unit>{(double)value * (double)s};
+	}
     
     template<class Q>
     typename std::enable_if<is_quantity<Q>::value,
@@ -370,6 +381,20 @@ typename kr::quantity_arithmetic_traits<Q1, Q2>::multiplication::result_type>
 operator *(const Q1& lhs, const Q2& rhs) {
     return lhs.multiply(rhs);
 }
+
+template<class T, class Q>
+inline constexpr
+std::enable_if_t<std::is_arithmetic_v<T> && kr::is_quantity<Q>::value, Q>
+operator *(T t, const Q& rhs) {
+	return rhs.multiply(t);
+}
+
+//template<class Q, class T>
+//inline
+//std::enable_if_t<std::is_arithmetic_v<T> && kr::is_quantity<Q>::value, Q>
+//operator *(const Q& lhs, T t) {
+//	return lhs.multiply(t);
+//}
 
 template<class Q1, class Q2>
 inline constexpr

@@ -328,6 +328,9 @@ TEST(test_quantity, test_operator_multiplication) {
 	kr::m_per_s<double> v1{ 5.0 };
 	kr::second<int> s1{ 1 };
 
+	kr::second<double> hs{0.7 * s1 };
+	EXPECT_EQ(hs.value, 0.7);
+
 	kr::meter<double> m1 = v1 * s1;
 	EXPECT_EQ(m1.value, 5.0);
 	kr::foot<double> f1 = v1 * s1;
