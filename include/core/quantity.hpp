@@ -240,7 +240,7 @@ public:
 template<class T, class Dim, class Ratio, class Unit>
 class quantity {
     static_assert(std::is_arithmetic_v<T>, "Template parameter T must be integer or floating point type");
-    //static_assert(is_dimension<Dim>::value, "Second template parameter of quantity must be a kr::dimension");
+    static_assert(is_dimension<Dim>::value, "Template parameter Dim must be a kr::dimension");
 
 #if defined(__clang__)
 	static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
@@ -248,7 +248,7 @@ class quantity {
 	static_assert(std::_Is_ratio_v<Ratio>, "Third template parameter of quantity must be a std::ratio");
 #endif // defined(__clang__)
 
-    
+/*
     static_assert(Ratio::num > 0, "Quantity ratio must be positive");
 
     template<class R1, class R2>
@@ -282,7 +282,8 @@ class quantity {
         static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
         using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
     };
-
+*/
+    
 public:
     using value_type = T;
     using dim_type = Dim;
@@ -300,7 +301,7 @@ public:
         return normalized_type{*this};
     }
     
-    explicit quantity(T t) : value(t){}
+    //explicit quantity(T t) : value(t){}
     
     // construct with a scalar value
     template<class U>
@@ -387,17 +388,19 @@ operator *(const Q1& lhs, const Q2& rhs) {
 
 template<class T, class Q>
 inline constexpr
-std::enable_if_t<std::is_arithmetic_v<T> && kr::is_quantity<Q>::value, Q>
+std::enable_if_t<std::is_arithmetic_v<T> && kr::is_quantity<Q>::value,
+    typename kr::quantity_arithmetic_traits<T, Q>::multiplication::result_type>
 operator *(T t, const Q& rhs) {
 	return rhs.multiply(t);
 }
 
-//template<class Q, class T>
-//inline
-//std::enable_if_t<std::is_arithmetic_v<T> && kr::is_quantity<Q>::value, Q>
-//operator *(const Q& lhs, T t) {
-//	return lhs.multiply(t);
-//}
+template<class Q, class T>
+inline constexpr
+std::enable_if_t<std::is_arithmetic_v<T> && kr::is_quantity<Q>::value,
+    typename kr::quantity_arithmetic_traits<Q, T>::multiplication::result_type>
+operator *(const Q& lhs, T t) {
+    return lhs.multiply(t);
+}
 
 template<class Q1, class Q2>
 inline constexpr
