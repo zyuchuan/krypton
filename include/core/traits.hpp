@@ -99,7 +99,7 @@ struct quantity_arithmetic_traits<Q1, Q2, false, true, true, false> {
 	using normalized_type = typename Q2::normalized_type;
 
 	struct multiplication {	
-		//using value_type = typename std::common_type_t<value_type_1, value_type_2>;
+		using value_type = typename std::common_type_t<value_type_1, value_type_2>;
 		using result_type = quantity<double, dim_type, ratio_type, unit_type>;
 	};
 
@@ -119,13 +119,14 @@ struct quantity_arithmetic_traits<Q1, Q2, true, false, false, true> {
 	using ratio_type = typename Q1::ratio_type;
 	using unit_type = typename Q1::unit_type;
 	using normalized_type = typename Q1::normalized_type;
-	using value_type = typename std::common_type_t<value_type_1, value_type_2>;
 
 	struct multiplication {
+		using value_type = typename std::common_type_t<value_type_1, value_type_2>;
 		using result_type = quantity<value_type, dim_type, ratio_type, unit_type>;
 	};
 
 	struct division {
+		using value_type = typename std::common_type_t<value_type_1, value_type_2>;
 		using result_type = quantity<value_type, dim_type, ratio_type, unit_type>;
 	};
 };

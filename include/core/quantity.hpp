@@ -340,14 +340,11 @@ public:
 
 	template<class S>
 	inline constexpr
-	std::enable_if_t<std::is_arithmetic_v<S>, /*typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type*/ quantity<double, Dim, Ratio, Unit>>
+	std::enable_if_t<std::is_arithmetic_v<S>, typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type>
 	multiply(S s) const {
-		//using value_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::value_type;
-		using value_type = double;
-		//using result_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type;
-		//return result_type{static_cast<value_type>(value) * static_cast<value_type>(s)};
-		//return quantity<double, Dim, Ratio, Unit>{(double)value * (double)s};
-        return quantity<double, Dim, Ratio, Unit>{(double)value * (double)s};
+		using value_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::value_type;
+		using result_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type;
+		return result_type{static_cast<value_type>(value) * static_cast<value_type>(s)};
 	}
     
     template<class Q>
@@ -356,6 +353,15 @@ public:
     divide(const Q& other) const {
         return quantity_divide(*this, other);
     }
+
+	template<class S>
+	inline constexpr
+	std::enable_if_t<std::is_arithmetic_v<S>, typename quantity_arithmetic_traits<quantity, S>::division::result_type>
+	divide(S s) const {
+		using value_type = typename quantity_arithmetic_traits<quantity, S>::division::value_type;
+		using result_type = typename quantity_arithmetic_traits<quantity, S>::division::result_type;
+		return result_type{static_cast<value_type>(value) / static_cast<value_type>(s)};
+	}
 };
 
 END_KR_NAMESPACE
@@ -408,6 +414,14 @@ typename std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::val
 typename kr::quantity_arithmetic_traits<Q1, Q2>::division::result_type>
 operator /(const Q1& lhs, const Q2& rhs) {
     return lhs.divide(rhs);
+}
+
+template<class Q, class T>
+inline constexpr
+std::enable_if_t<kr::is_quantity<Q>::value && std::is_arithmetic_v<T>,
+	typename kr::quantity_arithmetic_traits<Q, T>::division::result_type>
+operator /(const Q& lhs, T t) {
+	return lhs.divide(t);
 }
 
 #if defined (_MSC_VER)

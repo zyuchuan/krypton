@@ -368,6 +368,9 @@ TEST(test_quantity, test_operator_division) {
 	kr::m_per_s<double> v1 = m1 / sec1;
 	EXPECT_EQ(v1.value, 1.0);
 
+	kr::meter<double> m11 = m1 / 2;
+	EXPECT_EQ(m11.value, 0.5);
+
 	kr::m_per_s<double> v11{ m1 / sec1 };
 	EXPECT_EQ(v11.value, 1.0);
 
