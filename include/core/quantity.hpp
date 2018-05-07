@@ -239,8 +239,8 @@ public:
 
 template<class T, class Dim, class Ratio, class Unit>
 class quantity {
-    static_assert(std::is_arithmetic_v<T>, "Template parameter T must be integer or floating point type");
-    static_assert(is_dimension<Dim>::value, "Template parameter Dim must be a kr::dimension");
+	static_assert(std::is_arithmetic_v<T>, "Template parameter T must be integer or floating point type");
+	static_assert(is_dimension<Dim>::value, "Template parameter Dim must be a kr::dimension");
 
 #if defined(__clang__)
 	static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
@@ -248,80 +248,80 @@ class quantity {
 	static_assert(std::_Is_ratio_v<Ratio>, "Third template parameter of quantity must be a std::ratio");
 #endif // defined(__clang__)
 
-/*
-    static_assert(Ratio::num > 0, "Quantity ratio must be positive");
+	/*
+		static_assert(Ratio::num > 0, "Quantity ratio must be positive");
 
-    template<class R1, class R2>
-    struct no_overflow {
-    private:
-#if defined(__clang__)
-		static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
-		static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
-#elif defined(_MSC_VER)
-		static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
-		static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
-#endif // defined(__clang__)
+		template<class R1, class R2>
+		struct no_overflow {
+		private:
+	#if defined(__clang__)
+			static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
+			static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
+	#elif defined(_MSC_VER)
+			static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
+			static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
+	#endif // defined(__clang__)
 
-        static const constexpr intmax_t n1 = R1::num / gcd_n1_n2;
-        static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
-        static const constexpr intmax_t n2 = R2::num / gcd_n1_n2;
-        static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
-        static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
+			static const constexpr intmax_t n1 = R1::num / gcd_n1_n2;
+			static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
+			static const constexpr intmax_t n2 = R2::num / gcd_n1_n2;
+			static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
+			static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
 
-        template<intmax_t X, intmax_t Y, bool overflow>
-        struct mul {
-            static const constexpr intmax_t value = X * Y;
-        };
+			template<intmax_t X, intmax_t Y, bool overflow>
+			struct mul {
+				static const constexpr intmax_t value = X * Y;
+			};
 
-        template<intmax_t X, intmax_t Y>
-        struct mul<X, Y, true> {
-            static const constexpr intmax_t value = 1;
-        };
+			template<intmax_t X, intmax_t Y>
+			struct mul<X, Y, true> {
+				static const constexpr intmax_t value = 1;
+			};
 
-    public:
-        static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
-        using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
-    };
-*/
-    
+		public:
+			static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
+			using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
+		};
+	*/
+
 public:
-    using value_type = T;
-    using dim_type = Dim;
-    using ratio_type = Ratio;
-    using unit_type = Unit;
+	using value_type = T;
+	using dim_type = Dim;
+	using ratio_type = Ratio;
+	using unit_type = Unit;
 	using this_type = quantity;
 	using normalized_type = quantity<T, Dim, std::ratio<1>, Unit>;
 
-//    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
-//    using reference = quantity&;
+	//    using normalized_type = quantity<T, Dim, std::ratio<1>, Traits>;
+	//    using reference = quantity&;
 
-    const value_type  value;
+	const value_type  value;
 
-    inline normalized_type normalized() const {
-        return normalized_type{*this};
-    }
-    
-    //explicit quantity(T t) : value(t){}
-    
-    // construct with a scalar value
-    template<class U>
-    explicit quantity(U&& u,
-                      typename std::enable_if
-                      <
-                        std::is_convertible<U, T>::value &&
-                       (std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0)
-        : value(std::forward<U>(u)){}
+	inline normalized_type normalized() const {
+		return normalized_type{ *this };
+	}
 
-    // you can construct a quantity from another quantity, as long as
-    // two quantities share common dimension
-    template<class U, class Ratio2, class Unit2>
-    quantity(const quantity<U, Dim, Ratio2, Unit2>& other) :
-        value(quantity_cast<quantity>(other).value) {
-    }
+	//explicit quantity(T t) : value(t){}
+
+	// construct with a scalar value
+	template<class U>
+	explicit quantity(U&& u,
+		typename std::enable_if
+		<
+		std::is_convertible<U, T>::value &&
+		(std::is_floating_point<T>::value || !std::is_floating_point<U>::value)>::type* = 0)
+		: value(std::forward<U>(u)) {}
+
+	// you can construct a quantity from another quantity, as long as
+	// two quantities share common dimension
+	template<class U, class Ratio2, class Unit2>
+	quantity(const quantity<U, Dim, Ratio2, Unit2>& other) :
+		value(quantity_cast<quantity>(other).value) {
+	}
 
 	template<class U, class Ratio2, class Unit2>
 	inline constexpr quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) const {
-		quantity temp{ other};
+		quantity temp{ other };
 		return quantity(this->value + temp.value);
 	}
 
@@ -330,38 +330,76 @@ public:
 		quantity temp{ other };
 		return quantity(this->value - temp.value);
 	}
-    
-    template<class Q>
+
+	template<class Q>
 	inline constexpr
-	std::enable_if_t<is_quantity<Q>::value, typename quantity_arithmetic_traits<quantity, Q>::multiplication::result_type>
-    multiply(const Q& other) const {
-        return quantity_multiply(*this, other);
-    }
+		std::enable_if_t<is_quantity<Q>::value, typename quantity_arithmetic_traits<quantity, Q>::multiplication::result_type>
+		multiply(const Q& other) const {
+		return quantity_multiply(*this, other);
+	}
 
 	template<class S>
 	inline constexpr
-	std::enable_if_t<std::is_arithmetic_v<S>, typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type>
-	multiply(S s) const {
+		std::enable_if_t<std::is_arithmetic_v<S>, typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type>
+		multiply(S s) const {
 		using value_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::value_type;
 		using result_type = typename quantity_arithmetic_traits<quantity, S>::multiplication::result_type;
-		return result_type{static_cast<value_type>(value) * static_cast<value_type>(s)};
+		return result_type{ static_cast<value_type>(value) * static_cast<value_type>(s) };
 	}
-    
-    template<class Q>
-    typename std::enable_if<is_quantity<Q>::value,
-    typename quantity_arithmetic_traits<quantity, Q>::division::result_type>::type
-    divide(const Q& other) const {
-        return quantity_divide(*this, other);
-    }
+
+	template<class Q>
+	typename std::enable_if<is_quantity<Q>::value,
+		typename quantity_arithmetic_traits<quantity, Q>::division::result_type>::type
+		divide(const Q& other) const {
+		return quantity_divide(*this, other);
+	}
 
 	template<class S>
 	inline constexpr
-	std::enable_if_t<std::is_arithmetic_v<S>, typename quantity_arithmetic_traits<quantity, S>::division::result_type>
-	divide(S s) const {
+		std::enable_if_t<std::is_arithmetic_v<S>, typename quantity_arithmetic_traits<quantity, S>::division::result_type>
+		divide(S s) const {
 		using value_type = typename quantity_arithmetic_traits<quantity, S>::division::value_type;
 		using result_type = typename quantity_arithmetic_traits<quantity, S>::division::result_type;
-		return result_type{static_cast<value_type>(value) / static_cast<value_type>(s)};
+		return result_type{ static_cast<value_type>(value) / static_cast<value_type>(s) };
 	}
+
+	// we want quantity to work with STL containers
+
+	template<class T2 class Dim2, class Ratio2, class Unit2, bool dim_equal = equals<Dim, Dim2>::value>
+	struct static_equal;
+
+	template<>
+	struct static_equal<quantity<T2, Dim2, Ratio2, Unit2>, false> : std::false_type {};
+
+	template<>
+	struct static_equal<quantity<T2, Dim2, Ratio2, Unit2>, true> : std::true_type {};
+
+	template<class Q>
+	bool equals_impl(const Q& other, std::false_type not_static_equal) const {
+		return false;
+	}
+
+	template<class Q>
+	bool equals_impl(const Q& other, std::true_type static_equal) const {
+		quantity temp{ other };
+		return (value == temp.value);
+	}
+
+	template<class Q>
+	inline constexpr
+	std::enable_if_t<is_quantity<Q>::value && equals<dim_type, typename Q::dim_type>::value, bool>
+	equals(const Q& other) const {
+		return equals_impl(other, static_equal<Q>::value);
+	}
+
+
+	//template<class Q>
+	//inline constexpr
+	//std::enable_if_t<is_quantity<Q>::value && equals<dim_type, typename Q::dim_type>::value, bool>
+	//less(const Q& other) const {
+	//	quantity temp{ other };
+	//	return (value < temp.value);
+	//}
 };
 
 END_KR_NAMESPACE
@@ -423,6 +461,20 @@ std::enable_if_t<kr::is_quantity<Q>::value && std::is_arithmetic_v<T>,
 operator /(const Q& lhs, T t) {
 	return lhs.divide(t);
 }
+
+template<class Q1, class Q2>
+inline constexpr
+std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value>, bool>
+operator == (cosnt Q1& lhs, const Q2& rhs) {
+	return lhs.equals(rhs);
+}
+
+//template<class Q1, class Q2>
+//inline constexpr
+//std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value, bool>
+//operator !=(const Q1& lhs, const rhs) {
+//	return !(lhs == rhs);
+//}
 
 #if defined (_MSC_VER)
 #pragma warning(pop)
