@@ -387,4 +387,14 @@ TEST(test_quantity, test_operator_division) {
 	EXPECT_LE(diff, 0.01);
 }
 
+TEST(test_quantity, test_equity) {
+    kr::meter<double> m1{ 1.0 };
+    kr::meter<int> m2{1};
+    static_assert(kr::quantity::static_equal<m1, m2>, "They are static equal");
+    
+    kr::second<double> sec1{ 1.0 };
+    EXPECT_FALSE(m1.equals(sec1));
+    EXPECT_FALSE(sec1.equals(m1));
+}
+
 #endif /* test_quantity_h */

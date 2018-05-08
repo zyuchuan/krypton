@@ -178,6 +178,12 @@ namespace detail {
 			return result_type{ static_cast<double>(q1.normalized().value) / static_cast<double>(temp.normalized().value)};
 		}
 	};
+    
+    template<class Q1, class Q2, bool dim_equal = equals<typename Q1::dim_type, typename Q2::dim_type>::value>
+    struct static_equal : std::true_type {};
+    
+    template<class Q1, class Q2>
+    struct static_equal<Q1, Q2, false> : std::false_type {};
 }
 
 template<class To, class U, class Dim, class Ratio, class Traits>
@@ -365,31 +371,23 @@ public:
 
 	// we want quantity to work with STL containers
 
-	template<class T2 class Dim2, class Ratio2, class Unit2, bool dim_equal = equals<Dim, Dim2>::value>
-	struct static_equal;
-
-	template<>
-	struct static_equal<quantity<T2, Dim2, Ratio2, Unit2>, false> : std::false_type {};
-
-	template<>
-	struct static_equal<quantity<T2, Dim2, Ratio2, Unit2>, true> : std::true_type {};
-
 	template<class Q>
-	bool equals_impl(const Q& other, std::false_type not_static_equal) const {
-		return false;
+	bool equals_impl(const Q& other, std::true_type) const {
+		//quantity temp{ other };
+		//return (value == temp.value);
+        return true;
 	}
-
-	template<class Q>
-	bool equals_impl(const Q& other, std::true_type static_equal) const {
-		quantity temp{ other };
-		return (value == temp.value);
-	}
+    
+    template<class Q>
+    bool equals_impl(const Q& other, std::false_type) const {
+        return false;
+    }
 
 	template<class Q>
 	inline constexpr
-	std::enable_if_t<is_quantity<Q>::value && equals<dim_type, typename Q::dim_type>::value, bool>
+	std::enable_if_t<is_quantity<Q>::value, bool>
 	equals(const Q& other) const {
-		return equals_impl(other, static_equal<Q>::value);
+		return equals_impl(other, static_equal<quantity, Q>());
 	}
 
 
@@ -462,12 +460,12 @@ operator /(const Q& lhs, T t) {
 	return lhs.divide(t);
 }
 
-template<class Q1, class Q2>
-inline constexpr
-std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value>, bool>
-operator == (cosnt Q1& lhs, const Q2& rhs) {
-	return lhs.equals(rhs);
-}
+//template<class Q1, class Q2>
+//inline constexpr
+//std::enable_if_t<kr::is_quantity<Q1>::value && kr::is_quantity<Q2>::value>, bool>
+//operator == (cosnt Q1& lhs, const Q2& rhs) {
+//    return lhs.equals(rhs);
+//}
 
 //template<class Q1, class Q2>
 //inline constexpr

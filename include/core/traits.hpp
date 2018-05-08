@@ -47,6 +47,14 @@ struct common_type<quantity<T1, Dim, Ratio1, Unit>, quantity<T2, Dim, Ratio2, Un
     Unit>;
 };
 
+template<class Q>
+struct quantity_traits {
+    using value_type        = typename Q::value_type;
+    using dim_type          = typename Q::dim_type;
+    using ratio_type        = typename Q::ratio_type;
+    using unit_type         = typename Q::unit_type;
+};
+
 template<class Q1,
 		class Q2,
 		bool q1_is_quantity = kr::is_quantity<Q1>::value,
