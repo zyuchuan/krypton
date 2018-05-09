@@ -39,6 +39,7 @@
 		047D03BC20786FED00B25386 /* utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = utility.hpp; path = ../include/core/utility.hpp; sourceTree = "<group>"; };
 		047FAB8420515C780077F24B /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test.cpp; path = ../test/test.cpp; sourceTree = "<group>"; };
 		047FAB8A20515E3B0077F24B /* gtest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gtest.framework; path = ../../googletest/googletest/lib/gtest.framework; sourceTree = "<group>"; };
+		048C9B7820A30C510039F32B /* quantity_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = quantity_static_check.h; path = ../test/quantity_static_check.h; sourceTree = "<group>"; };
 		04965CF4204B979600604F28 /* krypton */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = krypton; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C38EFC20555DF40082E262 /* ratio_static_check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ratio_static_check.h; path = ../test/ratio_static_check.h; sourceTree = "<group>"; };
 		04C77F30205164A4001C27F4 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../googletest/googletest/lib/libgtest.a; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 				0479921C20779E7D0003CA3B /* dimension_static_check.h */,
 				04464BE62066391F00481CE3 /* integer_static_check.h */,
 				04C38EFC20555DF40082E262 /* ratio_static_check.h */,
+				048C9B7820A30C510039F32B /* quantity_static_check.h */,
 				04464BE52066391F00481CE3 /* sequence_static_check.h */,
 				04464BE72066391F00481CE3 /* system_static_check.h */,
 				04C77F3420516826001C27F4 /* test_quantity.h */,

@@ -11,6 +11,7 @@
 #include "ratio_static_check.h"
 #include "system_static_check.h"
 #include "sequence_static_check.h"
+#include "quantity_static_check.h"
 
 int main(int argc, char* argv[]) {
     

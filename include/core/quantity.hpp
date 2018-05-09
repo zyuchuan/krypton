@@ -179,11 +179,15 @@ namespace detail {
 		}
 	};
     
-    template<class Q1, class Q2, bool dim_equal = equals<typename Q1::dim_type, typename Q2::dim_type>::value>
-    struct static_equal : std::true_type {};
+    template<class Q1,
+             class Q2,
+             class traits1 = quantity_traits<Q1>,
+             class traits2 = quantity_traits<Q2>,
+             bool dim_equal = equals<typename traits1::dim_type, typename traits2::dim_type>::value>
+    struct dimension_equal : std::true_type {};
     
     template<class Q1, class Q2>
-    struct static_equal<Q1, Q2, false> : std::false_type {};
+    struct dimension_equal<Q1, Q2, quantity_traits<Q1>, quantity_traits<Q2>, false> : std::false_type {};
 }
 
 template<class To, class U, class Dim, class Ratio, class Traits>
@@ -387,7 +391,8 @@ public:
 	inline constexpr
 	std::enable_if_t<is_quantity<Q>::value, bool>
 	equals(const Q& other) const {
-		return equals_impl(other, static_equal<quantity, Q>());
+        //return equals_impl(other, detail::static_equal<quantity, Q>());
+        return true;
 	}
 
 
