@@ -352,7 +352,6 @@ TEST(test_quantity, test_equity) {
     kr::meter<double> m1{ 1.0 };
     kr::meter<int> m2{1};
     
-    
     kr::second<double> sec1{ 1.0 };
     EXPECT_FALSE(m1.equals(sec1));
     EXPECT_FALSE(sec1.equals(m1));

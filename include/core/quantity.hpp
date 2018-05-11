@@ -188,7 +188,8 @@ namespace detail {
     
     template<class Q1, class Q2>
     struct dimension_equal<Q1, Q2, quantity_traits<Q1>, quantity_traits<Q2>, false> : std::false_type {};
-}
+
+} // end of namespace detail
 
 template<class To, class U, class Dim, class Ratio, class Traits>
 inline constexpr typename std::enable_if
@@ -215,84 +216,17 @@ typename std::enable_if<is_quantity<Q1>::value && is_quantity<Q2>::value,
 	return detail::quantity_division_impl<Q1, Q2>()(q1, q2);
 }
 
-template<class R1, class R2>
-struct no_overflow {
-private:
-#if defined(__clang__)
-    static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
-    static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
-#elif defined(_MSC_VER)
-    static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
-    static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
-#endif // defined(__clang__)
-    
-    static const constexpr intmax_t n1 = R1::num / gcd_d1_d2;
-    static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
-    static const constexpr intmax_t n2 = R2::num / gcd_d1_d2;
-    static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
-    static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
-    
-    template<intmax_t X, intmax_t Y, bool overflow>
-    struct mul {
-        static const constexpr intmax_t value = X * Y;
-    };
-    
-    template<intmax_t X, intmax_t Y>
-    struct mul<X, Y, true> {
-        static const constexpr intmax_t value = 1;
-    };
-    
-public:
-    static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
-    using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
-};
-
 template<class T, class Dim, class Ratio, class Unit>
 class quantity {
 	static_assert(std::is_arithmetic_v<T>, "Template parameter T must be integer or floating point type");
 	static_assert(is_dimension<Dim>::value, "Template parameter Dim must be a kr::dimension");
+	static_assert(Ratio::num > 0, "Quantity ratio must be positive");
 
 #if defined(__clang__)
 	static_assert(std::__is_ratio<Ratio>::value, "Third template parameter of quantity must be a std::ratio");
 #elif defined(_MSC_VER)
 	static_assert(std::_Is_ratio_v<Ratio>, "Third template parameter of quantity must be a std::ratio");
 #endif // defined(__clang__)
-
-	/*
-		static_assert(Ratio::num > 0, "Quantity ratio must be positive");
-
-		template<class R1, class R2>
-		struct no_overflow {
-		private:
-	#if defined(__clang__)
-			static const constexpr intmax_t gcd_n1_n2 = std::__static_gcd<R1::num, R2::num>::value;
-			static const constexpr intmax_t gcd_d1_d2 = std::__static_gcd<R1::den, R2::den>::value;
-	#elif defined(_MSC_VER)
-			static const constexpr intmax_t gcd_n1_n2 = std::_Gcd<R1::num, R2::num>::value;
-			static const constexpr intmax_t gcd_d1_d2 = std::_Gcd<R1::den, R2::den>::value;
-	#endif // defined(__clang__)
-
-			static const constexpr intmax_t n1 = R1::num / gcd_n1_n2;
-			static const constexpr intmax_t d1 = R1::den / gcd_d1_d2;
-			static const constexpr intmax_t n2 = R2::num / gcd_n1_n2;
-			static const constexpr intmax_t d2 = R2::den / gcd_d1_d2;
-			static const constexpr intmax_t max = -((intmax_t(1) << (sizeof(intmax_t) * 8 - 1)) + 1);
-
-			template<intmax_t X, intmax_t Y, bool overflow>
-			struct mul {
-				static const constexpr intmax_t value = X * Y;
-			};
-
-			template<intmax_t X, intmax_t Y>
-			struct mul<X, Y, true> {
-				static const constexpr intmax_t value = 1;
-			};
-
-		public:
-			static const constexpr bool value = (n1 <= max / d2) && (n2 <= max / d1);
-			using type = std::ratio<mul<n1, d2, !value>::value, mul<n2, d1, !value>::value>;
-		};
-	*/
 
 public:
 	using value_type = T;
@@ -311,8 +245,6 @@ public:
 		return normalized_type{ *this };
 	}
 
-	//explicit quantity(T t) : value(t){}
-
 	// construct with a scalar value
 	template<class U>
 	explicit quantity(U&& u,
@@ -327,6 +259,7 @@ public:
 	template<class U, class Ratio2, class Unit2>
 	quantity(const quantity<U, Dim, Ratio2, Unit2>& other) :
 		value(quantity_cast<quantity>(other).value) {
+
 	}
 
 	template<class U, class Ratio2, class Unit2>

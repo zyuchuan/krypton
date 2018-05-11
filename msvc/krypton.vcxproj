@@ -35,6 +35,7 @@
     <ClInclude Include="..\include\volume.hpp" />
     <ClInclude Include="..\test\dimension_static_check.h" />
     <ClInclude Include="..\test\integer_static_check.h" />
+    <ClInclude Include="..\test\quantity_static_check.h" />
     <ClInclude Include="..\test\ratio_static_check.h" />
     <ClInclude Include="..\test\sequence_static_check.h" />
     <ClInclude Include="..\test\system_static_check.h" />
