@@ -262,6 +262,16 @@ public:
 
 	}
 
+	inline constexpr quantity add(const quantity &other) const {
+		return quantity(value + other.value);
+	}
+
+	template<class U>
+	inline constexpr quantity<std::common_type_t<T, U>, Dim, Ratio, Unit> add(const quantity<U, Dim, Ratio, Unit>& other) const {
+		using result_type = quantity<std::common_type_t<T, U>, Dim, Ratio, Unit>;
+		return result_type(value + other.value);
+	}
+
 	template<class U, class Ratio2, class Unit2>
 	inline constexpr quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) const {
 		quantity temp{ other };
@@ -327,7 +337,6 @@ public:
         //return equals_impl(other, detail::static_equal<quantity, Q>());
         return true;
 	}
-
 
 	//template<class Q>
 	//inline constexpr
