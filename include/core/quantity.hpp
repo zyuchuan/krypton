@@ -262,21 +262,20 @@ public:
 
 	}
 
-	inline constexpr quantity add(const quantity &other) const {
-		return quantity(value + other.value);
-	}
+//    template<class U>
+//    inline constexpr quantity<std::common_type_t<T, U>, Dim, Ratio, Unit> add(const quantity<U, Dim, Ratio, Unit>& other) const {
+//        using value_type = std::common_type_t<T, U>;
+//        using result_type = quantity<value_type, Dim, Ratio, Unit>;
+//        return result_type(static_cast<value_type>(value) + static_cast<value_type>(other.value));
+//    }
 
-	template<class U>
-	inline constexpr quantity<std::common_type_t<T, U>, Dim, Ratio, Unit> add(const quantity<U, Dim, Ratio, Unit>& other) const {
-		using result_type = quantity<std::common_type_t<T, U>, Dim, Ratio, Unit>;
-		return result_type(value + other.value);
-	}
-
-	template<class U, class Ratio2, class Unit2>
-	inline constexpr quantity add(const quantity<U, Dim, Ratio2, Unit2>& other) const {
-		quantity temp{ other };
-		return quantity(this->value + temp.value);
-	}
+    template<class U, class Ratio2, class Unit2>
+    inline constexpr quantity<std::common_type_t<T, U>, Dim, Ratio, Unit> add(const quantity<U, Dim, Ratio2, Unit2>& other) const {
+        using value_type = std::common_type_t<T, U>;
+        using result_type = quantity<value_type, Dim, Ratio, Unit>;
+        result_type temp{other};
+        return result_type(static_cast<value_type>(value) + temp.value);
+    }
 
 	template<class U, class Ratio2, class Unit2>
 	inline constexpr quantity substract(const quantity<U, Dim, Ratio2, Unit2>& other) const {
