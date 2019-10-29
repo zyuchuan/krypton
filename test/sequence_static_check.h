@@ -11,6 +11,7 @@
 
 #include "core/integer.hpp"
 #include "core/sequence.hpp"
+#include "core/common.hpp"
 
 void sequence_static_check() {
     using seq0 = kr::sequence<int, int, int>;
@@ -31,7 +32,7 @@ void sequence_static_check() {
     
     static_assert(std::is_same<kr::plus<seq1, seq2>::type, seq3>::value, "is same type");
     
-    //static_assert(kr::equals<seq1, seq2>::value, "they are not equal");
+    // static_assert(kr::equals<seq1, seq2>::value, "they are not equal");
     
     using seq = kr::plus<seq1, seq2>::type;
     static_assert(kr::equals<seq, seq3>::value, "should be equal");

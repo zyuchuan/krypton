@@ -40,7 +40,29 @@ struct divide;
 
 template<class A, class B>
 struct equals : public std::false_type {};
+
+template<typename... Args>
+constexpr bool all(Args... args) {
+	return (... && args);
+}
+
+template<typename... Args>
+constexpr bool any(Args... args) {
+	return (... || args);
+}
     
+
+template<typename V, size_t N>
+struct accumulate {
+	constexpr static int value = V::value + accumulate<V, N - 1>::value;
+};
+
+template<typename V>
+struct accumulate<V, 1> {
+	constexpr static int value = V::value;
+};
+
+
 END_KR_NAMESPACE
 
 #endif /* krypton_h */
